@@ -8,8 +8,8 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.Property(o => o.Title).IsRequired(true);
-            builder.Property(o => o.Description).IsRequired(true);
+            builder.Property(o => o.Title).IsRequired();
+            builder.Property(o => o.Description).IsRequired();
 
             builder
                 .HasMany(o => o.Proposals)

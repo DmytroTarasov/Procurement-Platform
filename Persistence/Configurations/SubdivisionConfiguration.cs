@@ -8,10 +8,10 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Subdivision> builder)
         {
-            builder.Property(s => s.Title).IsRequired(true);
-            builder.Property(s => s.City).IsRequired(true);
-            builder.Property(s => s.Street).IsRequired(true);
-            builder.Property(s => s.ZipCode).IsRequired(true);
+            builder.Property(s => s.Title).IsRequired();
+            builder.Property(s => s.City).IsRequired();
+            builder.Property(s => s.Street).IsRequired();
+            builder.Property(s => s.ZipCode).IsRequired();
             builder.Property(s => s.Apartment).IsRequired(false);
 
             builder

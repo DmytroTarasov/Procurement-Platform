@@ -8,7 +8,7 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.Property(c => c.Title).IsRequired(true);
+            builder.Property(c => c.Title).IsRequired();
             
             builder 
                 .HasMany(c => c.Goods)

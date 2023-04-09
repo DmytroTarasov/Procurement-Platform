@@ -8,6 +8,8 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Property(u => u.SubdivisionId).IsRequired(false);
+            
             builder
                 .HasMany(u => u.UserRoles)
                 .WithOne(ur => ur.User)

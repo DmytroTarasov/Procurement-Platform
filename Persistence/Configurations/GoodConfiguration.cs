@@ -8,7 +8,7 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Good> builder)
         {
-            builder.Property(g => g.Title).IsRequired(true);
+            builder.Property(g => g.Title).IsRequired();
         }
     }
 }
