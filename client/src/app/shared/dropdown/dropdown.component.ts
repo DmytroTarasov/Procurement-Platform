@@ -10,7 +10,13 @@ export class DropdownComponent {
   @Input() control: FormControl;
   @Input() label: string;
   @Input() items: any[];
-  @Input() props: string[];
+  @Input() displayProps: string[];
   @Input() displayLabel = true;
   @Input() errorMessage: string;
+  @Input() optionValueProp = 'id';
+
+  getErrorMessage() {
+    if (this.control?.errors?.required && this.control?.touched)
+    return this.errorMessage ? this.errorMessage : (this.label + ' має бути обрана');
+  }
 }

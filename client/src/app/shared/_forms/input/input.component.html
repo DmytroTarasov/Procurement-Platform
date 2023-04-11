@@ -1,4 +1,4 @@
-<div class="mb-3">
+<div class="mb-2">
 
   <label for={{label}}>{{label}} <span class="text-red-600">{{required ? '*' : ''}}</span></label>
 
@@ -21,12 +21,11 @@
     [ngModel]="model">
 
   <div
-    class="text-sm mt-1 text-red-600"
-    *ngIf="control?.errors?.required && control?.touched">
-    Дане поле має бути заповнене
+    class="h-[20px] text-sm mt-1 text-red-600">
+    {{getErrorMessage()}}
   </div>
 
-  <div
+  <!-- <div
     class="text-sm mt-1 text-red-600"
     *ngIf="control?.errors?.pattern && control?.touched && type !== 'password'">
     Формат введених даних є неправильним
@@ -48,7 +47,7 @@
     class="text-sm mt-1 text-red-600"
     *ngIf="control?.errors?.maxlength && control?.touched">
     {{label}} має бути максимум {{control?.errors?.maxlength['requiredLength']}} символів у довжину
-  </div>
+  </div> -->
 
 </div>
 

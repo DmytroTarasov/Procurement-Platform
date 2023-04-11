@@ -1,13 +1,12 @@
-<div class="mb-3">
+<div class="mb-2 relative">
   <p *ngIf="displayLabel" class="block">{{label}} <span class="text-red-600">*</span></p>
   <mat-form-field appearance="fill">
     <mat-select [formControl]="control">
-      <mat-option *ngFor="let item of items" [value]="item.id">
-        {{props.length > 1 ? (item[props[0]] + ' (' + item[props[1]] + ')') : item[props[0]]}}
+      <mat-option *ngFor="let item of items" [value]="item[optionValueProp]">
+        {{displayProps.length > 1 ? (item[displayProps[0]] + ' (' + item[displayProps[1]] + ')') : item[displayProps[0]]}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-error *ngIf="control.errors?.required && control.touched">
-    {{ errorMessage ? errorMessage : (label + ' має бути обрана')}}
-  </mat-error>
+  <mat-error>{{getErrorMessage()}}</mat-error>
+  <ng-content></ng-content>
 </div>

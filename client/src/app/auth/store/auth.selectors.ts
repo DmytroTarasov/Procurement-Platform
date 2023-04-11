@@ -17,3 +17,8 @@ export const selectCompanySubdivisions = createSelector(
   selectAuthState,
   (state: State) => state.selectedCompany ? state.selectedCompany.subdivisions : []
 )
+
+export const selectError = createSelector(
+  selectAuthState,
+  (state: State) => state.error
+)

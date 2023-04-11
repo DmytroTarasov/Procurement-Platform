@@ -13,3 +13,7 @@ body {
   margin: 0;
   background-color: #F2F4F8;
 }
+
+app-button:focus-visible {
+  outline: none;
+}

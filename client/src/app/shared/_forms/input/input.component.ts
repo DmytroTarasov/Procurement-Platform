@@ -27,6 +27,6 @@ export class InputComponent {
       return `${this.label} має бути мінімум ${this.control?.errors?.minlength['requiredLength']} символів у довжину`
     else if (this.control?.errors?.maxlength && this.control?.touched)
       return `${this.label} має бути максимум ${this.control?.errors?.maxlength['requiredLength']} символів у довжину`
-    else return 'Дане поле не проходить валідацію'
+    // else return 'Дане поле не проходить валідацію'
   }
 }

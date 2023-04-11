@@ -1,22 +1,32 @@
 <div class="h-full flex flex-col items-center justify-center">
   <div class="w-[60%]">
     <h1 class="text-2xl text-center font-medium">Реєстрація</h1>
-    <form class="w-full mt-5 grid grid-cols-2 gap-6" [formGroup]="userForm">
-      <div>
-        <app-input label="Прізвище" [control]="getFormControl('lastName')"></app-input>
-        <app-input label="Ім'я" [control]="getFormControl('firstName')"></app-input>
-        <app-input label="По-батькові" [control]="getFormControl('middleName')"></app-input>
-        <app-input label="Пошта" [control]="getFormControl('email')"></app-input>
-        <app-dropdown label="Роль" [control]="getFormControl('role')" [props]="['name']" [items]="(roles$ | async)"></app-dropdown>
-      </div>
-      <div>
-        <app-dropdown label="Компанія" [control]="getFormControl('company')" [props]="['title']" [items]="(companies$ | async)"></app-dropdown>
-        <!-- <p>Не знайшли свою компанію? <span>Створіть її зараз</span></p> -->
-        <app-dropdown label="Підрозділ" [control]="getFormControl('subdivision')" [props]="['title','city']" [items]="(subdivisions$ | async)" errorMessage="Підрозділ має бути обраний"></app-dropdown>
-        <app-input label="Пароль" type="password" [control]="getFormControl('password')" [classList]="['mt-4']"></app-input>
+    <form class="w-full mt-5" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="grid grid-cols-2 gap-x-6">
+        <div>
+          <app-input label="Прізвище" [control]="getFormControl('lastName')"></app-input>
+          <app-input label="Ім'я" [control]="getFormControl('firstName')"></app-input>
+          <app-input label="По-батькові" [control]="getFormControl('middleName')"></app-input>
+          <app-input label="Пошта" [control]="getFormControl('email')"></app-input>
+          <app-dropdown label="Роль" [control]="getFormControl('role')" [displayProps]="['name']" [items]="(roles$ | async)" [optionValueProp]="'name'"></app-dropdown>
+        </div>
+        <div class="flex flex-col justify-between">
+          <app-dropdown label="Компанія" [control]="getFormControl('companyId')" [displayProps]="['title']" [items]="(companies$ | async)">
+            <p class="absolute -bottom-5 text-sm italic">Не знайшли свою компанію? <span class="underline text-[#2CA9D5]">Зареєструйте її зараз</span></p>
+          </app-dropdown>
+          <app-dropdown label="Підрозділ" [control]="getFormControl('subdivisionId')" [displayProps]="['title','city']" [items]="(subdivisions$ | async)" errorMessage="Підрозділ має бути обраний">
+            <p class="absolute -bottom-5 text-sm italic">Не знайшли свій підрозділ? <span class="underline text-[#2CA9D5]">Зареєструйте його зараз</span></p>
+          </app-dropdown>
+          <app-input label="Пароль" type="password" [control]="getFormControl('password')"></app-input>
+        </div>
       </div>
       <!-- <app-input label="Компанія" [placeholder]="'Почніть вводити назву компанії'" [model]="search"></app-input> -->
-      <p><span class="text-red-600">*</span> позначені обов'язкові поля</p>
+      <p class="text-center italic"><span class="text-red-600">*</span> позначені обов'язкові поля</p>
+      <p class="mt-2 text-center text-red-600 h-[20px]">{{(registrationError$ | async) ? (registrationError$ | async) : ''  }}</p>
+      <div class="flex justify-center">
+        <app-button text="Зареєструватись" [disabled]="!userForm.valid" type="submit"
+          [classList]="['mt-3', 'bg-[#5FCFF7]', 'text-white', 'h-[45px]', 'w-[152px]']"></app-button>
+      </div>
     </form>
   </div>
 </div>

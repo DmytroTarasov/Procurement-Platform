@@ -65,12 +65,11 @@ namespace Application.Users
             if (!roleResult.Succeeded) 
                 return Result<UserDto>.Failure("Виникла помилка під час призначення ролі. Спробуйте, будь ласка, пізніше");
 
-            return Result<UserDto>.Success(new UserDto {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                MiddleName = user.MiddleName,
-                Token = await _tokenService.CreateTokenAsync(user)
-            });
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Role = request.User.Role;
+            userDto.Token = await _tokenService.CreateTokenAsync(user);
+
+            return Result<UserDto>.Success(userDto);
         }
     }
 }

@@ -1,0 +1,9 @@
+img {
+  width: 82px;
+  height: 82px;
+}
+
+::ng-deep .mat-dialog-actions {
+  padding: 0;
+  min-height: auto;
+}

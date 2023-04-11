@@ -10,7 +10,7 @@ import { RoleService } from 'src/app/_services/role.service';
 
 import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../store/auth.actions';
-import { selectRoles, selectCompanies, selectCompanySubdivisions } from '../store/auth.selectors';
+import { selectRoles, selectCompanies, selectCompanySubdivisions, selectError } from '../store/auth.selectors';
 
 @Component({
   selector: 'app-registration',
@@ -23,6 +23,7 @@ export class RegistrationComponent implements OnInit {
   companies$: Observable<Company[]>;
   subdivisions$: Observable<Subdivision[]>;
   search: string;
+  registrationError$: Observable<string>;
 
   constructor(
     private roleService: RoleService,
@@ -42,8 +43,8 @@ export class RegistrationComponent implements OnInit {
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9]+\\.[a-z]{2,4}$')
       ]),
       role: new FormControl('', Validators.required),
-      company: new FormControl('', Validators.required),
-      subdivision: new FormControl('', Validators.required),
+      companyId: new FormControl('', Validators.required),
+      subdivisionId: new FormControl('', Validators.required),
       password: new FormControl('', [
         Validators.required,
         Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
@@ -53,12 +54,15 @@ export class RegistrationComponent implements OnInit {
     this.roles$ = this.store.pipe(select(selectRoles));
     this.companies$ = this.store.pipe(select(selectCompanies));
     this.subdivisions$ = this.store.pipe(select(selectCompanySubdivisions));
+    this.registrationError$ = this.store.pipe(select(selectError));
 
-    this.getFormControl('company').valueChanges.subscribe(id => {
+    this.getFormControl('companyId').valueChanges.subscribe(id => {
       this.store.dispatch(AuthActions.setSelectedCompany({ id }));
     });
     // this.roleService.getAllRoles().subscribe(roles => this.roles = roles);
     // this.companyService.getAllCompanies().subscribe(companies => this.companies = companies);
+
+    this.store.dispatch(AuthActions.openModal());
   }
 
   getFormControl(controlName: string): FormControl {
@@ -70,6 +74,13 @@ export class RegistrationComponent implements OnInit {
     //   ? this.companies.find(c => c.id === this.getFormControl('company').value).subdivisions
     //   : [];
     return [];
+  }
+
+  onSubmit() {
+    if (!this.userForm.valid) return;
+
+    const { companyId, ...user } = this.userForm.value;
+    this.store.dispatch(AuthActions.register({ user }));
   }
 
   // getFilteredCompanies() {
