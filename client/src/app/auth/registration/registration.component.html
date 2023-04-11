@@ -1,0 +1,22 @@
+<div class="h-full flex flex-col items-center justify-center">
+  <div class="w-[60%]">
+    <h1 class="text-2xl text-center font-medium">Реєстрація</h1>
+    <form class="w-full mt-5 grid grid-cols-2 gap-6" [formGroup]="userForm">
+      <div>
+        <app-input label="Прізвище" [control]="getFormControl('lastName')"></app-input>
+        <app-input label="Ім'я" [control]="getFormControl('firstName')"></app-input>
+        <app-input label="По-батькові" [control]="getFormControl('middleName')"></app-input>
+        <app-input label="Пошта" [control]="getFormControl('email')"></app-input>
+        <app-dropdown label="Роль" [control]="getFormControl('role')" [props]="['name']" [items]="(roles$ | async)"></app-dropdown>
+      </div>
+      <div>
+        <app-dropdown label="Компанія" [control]="getFormControl('company')" [props]="['title']" [items]="(companies$ | async)"></app-dropdown>
+        <!-- <p>Не знайшли свою компанію? <span>Створіть її зараз</span></p> -->
+        <app-dropdown label="Підрозділ" [control]="getFormControl('subdivision')" [props]="['title','city']" [items]="(subdivisions$ | async)" errorMessage="Підрозділ має бути обраний"></app-dropdown>
+        <app-input label="Пароль" type="password" [control]="getFormControl('password')" [classList]="['mt-4']"></app-input>
+      </div>
+      <!-- <app-input label="Компанія" [placeholder]="'Почніть вводити назву компанії'" [model]="search"></app-input> -->
+      <p><span class="text-red-600">*</span> позначені обов'язкові поля</p>
+    </form>
+  </div>
+</div>

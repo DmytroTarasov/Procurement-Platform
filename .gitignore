@@ -457,3 +457,6 @@ $RECYCLE.BIN/
 
 *.db*
 
+.angular/
+ssl/
+

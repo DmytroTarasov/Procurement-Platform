@@ -11,10 +11,10 @@ namespace Persistence
             if (!await roleManager.Roles.AnyAsync()) {
                 var roles = new List<Role>
                 {
-                    new Role { Name = "Admin" },
-                    new Role { Name = "Buyer" },
-                    new Role { Name = "Supplier" },
-                    new Role { Name = "Transporter" }
+                    new Role { Name = "Адмін" },
+                    new Role { Name = "Покупець" },
+                    new Role { Name = "Постачальник" },
+                    new Role { Name = "Перевізник" }
                 };
 
                 foreach (var role in roles)
@@ -33,7 +33,7 @@ namespace Persistence
                 };
 
                 await userManager.CreateAsync(user, "Pa$$w0rd");
-                await userManager.AddToRoleAsync(user, "Admin");
+                await userManager.AddToRoleAsync(user, "Адмін");
             }
 
             if (!await context.Companies.AnyAsync()) {

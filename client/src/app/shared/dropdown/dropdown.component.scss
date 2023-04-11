@@ -1,0 +1,36 @@
+::ng-deep .mat-form-field {
+  margin-top: 8px;
+  height: 45px;
+  width: 100%;
+}
+
+::ng-deep .mat-form-field-wrapper, ::ng-deep .mat-form-field-flex {
+  height: 100%;
+  padding: 0;
+}
+
+::ng-deep .mat-form-field-flex {
+  padding-top: 10px !important;
+  background-color: #FFFFFF !important;
+}
+
+::ng-deep .mat-form-field-infix {
+  height: 100%;
+  border: none;
+}
+
+::ng-deep .mat-error {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #DC2626;
+  // #F44336
+}
+
+::ng-deep .mat-select-arrow-wrapper {
+  margin-top: 10px;
+}
+
+::ng-deep .mat-form-field-underline {
+  bottom: 0;
+  display: none;
+}
