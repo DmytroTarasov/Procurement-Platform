@@ -26,7 +26,7 @@ export const authReducer = createReducer(
   on(AuthActions.setCompanies, (state, { companies }) => ({ ...state, companies: [...companies] })),
   // on(AuthActions.setSelectedCompany, (state, { id }) =>
     // ({ ...state, selectedCompany: {...state.companies.find(c => c.id === id)}})),
-  on(AuthActions.registerSuccess, (state, { user }) => ({ ...state, user: {...user}, error: null })),
+  on(AuthActions.registerSuccess, AuthActions.loginSuccess, (state, { user }) => ({ ...state, user: {...user}, error: null })),
   on(AuthActions.failure, (state, { error }) => ({ ...state, error })),
   // on(AuthActions.createCompanyFailure, (state, { error }) => ({ ...state, error })),
 );

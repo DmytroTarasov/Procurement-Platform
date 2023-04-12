@@ -2,23 +2,30 @@
 
   <label for={{label}}>{{label}} <span class="text-red-600">{{required ? '*' : ''}}</span></label>
 
-  <input
+  <div class="relative">
+    <input
     *ngIf="control"
     [ngClass]="classList.concat(['w-full', 'h-10', 'p-2', 'mt-2', 'rounded'])"
     [class.is-invalid]="control?.touched && control?.invalid"
     type={{type}}
     name={{label}}
     placeholder={{placeholder}}
-    [formControl]="control">
+    [formControl]="control"
+    #inputEl>
 
-    <input
+  <input
     *ngIf="!control"
     [ngClass]="classList.concat(['w-full', 'h-10', 'p-2', 'mt-2', 'rounded'])"
     [class.is-invalid]="control?.touched && control?.invalid"
     type={{type}}
     name={{label}}
     placeholder={{placeholder}}
-    [ngModel]="model">
+    [ngModel]="model"
+    #inputEl>
+
+    <mat-icon *ngIf="type === 'password' && !visible" (click)="toggleVisibility($event)">visibility</mat-icon>
+    <mat-icon *ngIf="type === 'password' && visible" (click)="toggleVisibility($event)">visibility_off</mat-icon>
+  </div>
 
   <div
     class="h-[20px] text-sm mt-1 text-red-600">

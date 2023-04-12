@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -15,6 +15,8 @@ export class InputComponent {
   @Input() disabled = false;
   @Input() required = true;
   @Input() classList: string[] = [];
+  @ViewChild('inputEl') input?: ElementRef;
+  visible = false;
 
   getErrorMessage() {
     if (this.control?.errors?.required && this.control?.touched)
@@ -28,5 +30,11 @@ export class InputComponent {
     else if (this.control?.errors?.maxlength && this.control?.touched)
       return `${this.label} має бути максимум ${this.control?.errors?.maxlength['requiredLength']} символів у довжину`
     // else return 'Дане поле не проходить валідацію'
+  }
+
+  toggleVisibility($event: any) {
+    this.visible = !this.visible;
+    const native = this.input?.nativeElement as HTMLInputElement;
+    native.type = (native.type == 'text' ? 'password' : 'text');
   }
 }

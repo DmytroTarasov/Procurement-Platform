@@ -9,7 +9,10 @@ import { RoleService } from 'src/app/_services/role.service';
 import { CompanyService } from 'src/app/_services/company.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalRedirectComponent, ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
+import {
+  ModalRedirectComponent,
+  ModalRedirectData,
+} from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
 
 @Injectable()
@@ -29,7 +32,11 @@ export class AuthEffects {
 
   getCompanies$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.getCompanies, AuthActions.createCompanySuccess, AuthActions.createSubdivisionSuccess),
+      ofType(
+        AuthActions.getCompanies,
+        AuthActions.createCompanySuccess,
+        AuthActions.createSubdivisionSuccess
+      ),
       switchMap((action) => {
         return this.companyService.getAllCompanies().pipe(
           map((companies) => {
@@ -50,7 +57,7 @@ export class AuthEffects {
             localStorage.setItem('token', user.token);
             return AuthActions.registerSuccess({ user });
           }),
-          catchError(errorRes => {
+          catchError((errorRes) => {
             return of(AuthActions.failure({ error: errorRes?.error }));
           })
         );
@@ -63,7 +70,7 @@ export class AuthEffects {
       ofType(AuthActions.createCompany),
       switchMap((action) => {
         return this.companyService.createCompany(action.company).pipe(
-          map(_ => {
+          map((_) => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
               text: 'Компанія успішно створена. Адміністратор верифікує її протягом 24 годин.',
@@ -71,7 +78,7 @@ export class AuthEffects {
                 text: 'Ок',
                 route: 'auth/register',
               },
-              successfull: true
+              successfull: true,
             };
             return AuthActions.createCompanySuccess({ data });
             // const data: ModalRedirectData = {
@@ -85,7 +92,7 @@ export class AuthEffects {
             // };
             // return DialogActions.openRedirectDialog({ data });
           }),
-          catchError(errorRes => {
+          catchError((errorRes) => {
             return of(AuthActions.failure({ error: errorRes?.error }));
           })
         );
@@ -97,30 +104,50 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.createSubdivision),
       switchMap((action) => {
-        return this.companyService.createCompanySubdivision(action.companyId, action.subdivision).pipe(
-          map(_ => {
-            const data: ModalRedirectData = {
-              title: 'Успішно!',
-              text: 'Підрозділ компанії успішно створений.',
-              primaryBtn: {
-                text: 'Ок',
-                route: 'auth/register',
-              },
-              successfull: true
-            };
-            return AuthActions.createSubdivisionSuccess({ data });
-            // const data: ModalRedirectData = {
-            //   title: 'Успішно!',
-            //   text: 'Підрозділ компанії успішно створений.',
-            //   primaryBtn: {
-            //     text: 'Ок',
-            //     route: 'auth/register',
-            //   },
-            //   successfull: true
-            // };
-            // return DialogActions.openRedirectDialog({ data });
+        return this.companyService
+          .createCompanySubdivision(action.companyId, action.subdivision)
+          .pipe(
+            map((_) => {
+              const data: ModalRedirectData = {
+                title: 'Успішно!',
+                text: 'Підрозділ компанії успішно створений.',
+                primaryBtn: {
+                  text: 'Ок',
+                  route: 'auth/register',
+                },
+                successfull: true,
+              };
+              return AuthActions.createSubdivisionSuccess({ data });
+              // const data: ModalRedirectData = {
+              //   title: 'Успішно!',
+              //   text: 'Підрозділ компанії успішно створений.',
+              //   primaryBtn: {
+              //     text: 'Ок',
+              //     route: 'auth/register',
+              //   },
+              //   successfull: true
+              // };
+              // return DialogActions.openRedirectDialog({ data });
+            }),
+            catchError((errorRes) => {
+              return of(AuthActions.failure({ error: errorRes?.error }));
+            })
+          );
+      })
+    )
+  );
+
+  login$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.login),
+      switchMap((action) => {
+        return this.authService.login(action.login).pipe(
+          map((user) => {
+            console.log(user);
+            localStorage.setItem('token', user.token);
+            return AuthActions.loginSuccess({ user });
           }),
-          catchError(errorRes => {
+          catchError((errorRes) => {
             return of(AuthActions.failure({ error: errorRes?.error }));
           })
         );

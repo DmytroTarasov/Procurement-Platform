@@ -1,5 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { Company } from "src/app/_models/company.model";
+import { Login } from "src/app/_models/login.model";
 import { Role } from "src/app/_models/role.model";
 import { Subdivision } from "src/app/_models/subdivision.model";
 import { User } from "src/app/_models/user.model";
@@ -19,5 +20,7 @@ export const createCompanySuccess = createAction('[Auth] Create Company Success'
 export const createSubdivision = createAction('[Auth] Create Subdivision', props<{ subdivision: Subdivision, companyId: number }>());
 export const createSubdivisionSuccess = createAction('[Auth] Create Subdivision Success', props<{ data: ModalRedirectData }>());
 // export const createSubdivisionFailure = createAction('[Auth] Create Subdivision Failure', props<{ error: string }>());
+export const login = createAction('[Auth] Login', props<{ login: Login }>());
+export const loginSuccess = createAction('[Auth] Login Success', props<{ user: User }>());
 export const failure = createAction('[Auth] Failure', props<{ error: string }>());
 
