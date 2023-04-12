@@ -1,7 +1,9 @@
 import { createAction, props } from "@ngrx/store";
 import { Company } from "src/app/_models/company.model";
 import { Role } from "src/app/_models/role.model";
+import { Subdivision } from "src/app/_models/subdivision.model";
 import { User } from "src/app/_models/user.model";
+import { ModalRedirectData } from "src/app/shared/_modals/modal-redirect/modal-redirect.component";
 
 export const getRoles = createAction('[Auth] Get Roles');
 export const getCompanies = createAction('[Auth] Get Companies');
@@ -10,6 +12,12 @@ export const setCompanies = createAction('[Auth] Set Companies', props<{ compani
 export const setSelectedCompany = createAction('[Auth] Set Selected Company', props<{ id: number }>());
 export const register = createAction('[Auth] Register', props<{ user: any }>());
 export const registerSuccess = createAction('[Auth] Register Success', props<{ user: User }>());
-export const registerFailure = createAction('[Auth] Register Failure', props<{ error: string }>());
+// export const registerFailure = createAction('[Auth] Register Failure', props<{ error: string }>());
+export const createCompany = createAction('[Auth] Create Company', props<{ company: Company }>());
+export const createCompanySuccess = createAction('[Auth] Create Company Success', props<{ data: ModalRedirectData }>());
+// export const createCompanyFailure = createAction('[Auth] Create Company Failure', props<{ error: string }>());
+export const createSubdivision = createAction('[Auth] Create Subdivision', props<{ subdivision: Subdivision, companyId: number }>());
+export const createSubdivisionSuccess = createAction('[Auth] Create Subdivision Success', props<{ data: ModalRedirectData }>());
+// export const createSubdivisionFailure = createAction('[Auth] Create Subdivision Failure', props<{ error: string }>());
+export const failure = createAction('[Auth] Failure', props<{ error: string }>());
 
-export const openModal = createAction('[Auth] Open Modal');

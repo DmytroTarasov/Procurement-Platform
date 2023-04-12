@@ -10,6 +10,7 @@ import { CompanyService } from 'src/app/_services/company.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalRedirectComponent, ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
+import * as DialogActions from 'src/app/store/actions/dialog.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -28,7 +29,7 @@ export class AuthEffects {
 
   getCompanies$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.getCompanies),
+      ofType(AuthActions.getCompanies, AuthActions.createCompanySuccess, AuthActions.createSubdivisionSuccess),
       switchMap((action) => {
         return this.companyService.getAllCompanies().pipe(
           map((companies) => {
@@ -50,36 +51,81 @@ export class AuthEffects {
             return AuthActions.registerSuccess({ user });
           }),
           catchError(errorRes => {
-            return of(AuthActions.registerFailure({ error: errorRes?.error }));
+            return of(AuthActions.failure({ error: errorRes?.error }));
           })
         );
       })
     )
   );
 
-  openRegistrationSuccessDialog$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(AuthActions.registerSuccess, AuthActions.openModal),
-        map(() => {
-          this.dialog.closeAll();
-          const data: ModalRedirectData = {
-            title: 'Success!',
-            text: 'Вітаємо! Ви успішно зареєструвались.',
-            primaryBtn: {
-              text: 'На головну',
-              route: '/',
-            },
-            successfull: true
-          };
-          this.dialog.open(ModalRedirectComponent, {
-            disableClose: true,
-            data
-          });
-        })
-      );
-    },
-    { dispatch: false }
+  createCompany$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.createCompany),
+      switchMap((action) => {
+        return this.companyService.createCompany(action.company).pipe(
+          map(_ => {
+            const data: ModalRedirectData = {
+              title: 'Успішно!',
+              text: 'Компанія успішно створена. Адміністратор верифікує її протягом 24 годин.',
+              primaryBtn: {
+                text: 'Ок',
+                route: 'auth/register',
+              },
+              successfull: true
+            };
+            return AuthActions.createCompanySuccess({ data });
+            // const data: ModalRedirectData = {
+            //   title: 'Успішно!',
+            //   text: 'Компанія успішно створена. Адміністратор верифікує її протягом 24 годин.',
+            //   primaryBtn: {
+            //     text: 'Ок',
+            //     route: 'auth/register',
+            //   },
+            //   successfull: true
+            // };
+            // return DialogActions.openRedirectDialog({ data });
+          }),
+          catchError(errorRes => {
+            return of(AuthActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
+  );
+
+  createSubdivision$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.createSubdivision),
+      switchMap((action) => {
+        return this.companyService.createCompanySubdivision(action.companyId, action.subdivision).pipe(
+          map(_ => {
+            const data: ModalRedirectData = {
+              title: 'Успішно!',
+              text: 'Підрозділ компанії успішно створений.',
+              primaryBtn: {
+                text: 'Ок',
+                route: 'auth/register',
+              },
+              successfull: true
+            };
+            return AuthActions.createSubdivisionSuccess({ data });
+            // const data: ModalRedirectData = {
+            //   title: 'Успішно!',
+            //   text: 'Підрозділ компанії успішно створений.',
+            //   primaryBtn: {
+            //     text: 'Ок',
+            //     route: 'auth/register',
+            //   },
+            //   successfull: true
+            // };
+            // return DialogActions.openRedirectDialog({ data });
+          }),
+          catchError(errorRes => {
+            return of(AuthActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
   );
 
   constructor(

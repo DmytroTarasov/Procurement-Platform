@@ -8,7 +8,7 @@ namespace Application.Common.Mapping
     {
         public MappingProfiles()
         {
-            CreateMap<RegisterUserDto, User>();
+            CreateMap<RegisterDto, User>();
             CreateMap<CompanyDto, Company>().ReverseMap();
             CreateMap<SubdivisionDto, Subdivision>().ReverseMap();
             CreateMap<User, UserDto>();

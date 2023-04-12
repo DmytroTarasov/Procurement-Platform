@@ -5,5 +5,5 @@ export interface Subdivision {
   street: string;
   apartment?: string;
   zipCode: string;
-  companyId?: number;
+  // companyId?: number;
 }

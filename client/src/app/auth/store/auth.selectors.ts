@@ -13,9 +13,14 @@ export const selectCompanies = createSelector(
   (state: State) => state.companies
 )
 
-export const selectCompanySubdivisions = createSelector(
+// export const selectCompanySubdivisions = createSelector(
+//   selectAuthState,
+//   (state: State) => state.selectedCompany ? state.selectedCompany.subdivisions : []
+// )
+
+export const selectCompanySubdivisions = (id: number) => createSelector(
   selectAuthState,
-  (state: State) => state.selectedCompany ? state.selectedCompany.subdivisions : []
+  (state: State) => state.companies ? state.companies.find(c => c.id === id).subdivisions : []
 )
 
 export const selectError = createSelector(

@@ -1,9 +1,9 @@
-using System.Reflection;
 using Application.Common.Mapping;
-using Application.Common.Services;
+using Application.Common.Services.Implementations;
+using Application.Common.Services.Interfaces;
+using Application.Companies;
 using Application.Users;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -20,9 +20,11 @@ namespace API.Extensions
                 opt.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddScoped<TokenService>();
+            services.AddHttpContextAccessor();
+            services.AddScoped(typeof(ITokenService), typeof(TokenService));
+            services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-            services.AddMediatR(typeof(RegisterUserCommandHandler).Assembly);
+            services.AddMediatR(typeof(CreateCompanyCommandHandler).Assembly);
 
             services.AddValidatorsFromAssembly(typeof(RegisterUserDtoValidator).Assembly);
 

@@ -17,3 +17,17 @@ body {
 app-button:focus-visible {
   outline: none;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #C6C8CB;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #B7B9BC\;
+}

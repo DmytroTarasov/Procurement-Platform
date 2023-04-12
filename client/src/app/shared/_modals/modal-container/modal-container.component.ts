@@ -11,7 +11,7 @@ import * as DialogActions from 'src/app/store/actions/dialog.actions';
 })
 export class ModalContainerComponent {
   @Input() width = '300px';
-  @Input() height = '200px';
+  @Input() height = 'auto';
   @Input() showClose = true;
   @Input() title?: string;
 

@@ -8,6 +8,5 @@ namespace Application.Dtos
         public string Street { get; set; }
         public string Apartment { get; set; }
         public string ZipCode { get; set; }
-        public int CompanyId { get; set; }
     }
 }

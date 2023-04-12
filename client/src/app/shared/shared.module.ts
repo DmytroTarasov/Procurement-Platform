@@ -8,8 +8,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from './button/button.component';
 import { ModalContainerComponent } from './_modals/modal-container/modal-container.component';
-import { ModalActionsContainerComponent } from './_modals/modal-actions-container/modal-actions-container.component';
-import { ModalResultComponent } from './_modals/modal-result/modal-result.component';
 import { ModalRedirectComponent } from './_modals/modal-redirect/modal-redirect.component';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -20,8 +18,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     DropdownComponent,
     ButtonComponent,
     ModalContainerComponent,
-    ModalActionsContainerComponent,
-    ModalResultComponent,
     ModalRedirectComponent
   ],
   imports: [
@@ -39,8 +35,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     DropdownComponent,
     ButtonComponent,
     ModalContainerComponent,
-    ModalActionsContainerComponent,
-    ModalResultComponent,
     ModalRedirectComponent,
     FormsModule,
     ReactiveFormsModule,

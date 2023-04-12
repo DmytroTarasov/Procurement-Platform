@@ -1,12 +1,10 @@
-<app-modal-container [width]="data.width ?? '450px'" [height]="data.height ?? 'auto'" [showClose]="true">
-  <!-- <app-modal-result [title]="data.title ?? 'Success!'" [text]="data.text" [successful]="data.successfull">
-  </app-modal-result> -->
+<app-modal-container [width]="data.width ?? '450px'" [height]="data.height ?? 'auto'" [showClose]="false">
   <div>
     <div class="flex justify-center mb-2">
       <img src="assets/images/success.svg" alt="success" *ngIf="data.successfull" />
       <img src="assets/images/failure.svg" alt="failure" *ngIf="!data.successfull" />
     </div>
-    <h1 mat-dialog-title class="font-medium text-2xl text-center">{{ data.title ?? 'Success!'}}</h1>
+    <h1 mat-dialog-title class="font-medium text-2xl text-center">{{ data.title ?? 'Успішно!'}}</h1>
     <div mat-dialog-content class="mt-3 text-[#70757E] text-center">
       <p>{{ data.text }}</p>
     </div>
@@ -18,11 +16,4 @@
     <app-button *ngIf="data.primaryBtn" [text]="data.primaryBtn.text" [mat-dialog-close]
       [routerLink]="data.primaryBtn.route" [classList]="['w-[180px]']"></app-button>
   </div>
-
-  <!-- <app-modal-actions-container>
-    <app-button *ngIf="data.secondaryButton" [text]="data.secondaryButton.text" [mat-dialog-close]
-      [routerLink]="data.secondaryButton.route"></app-button>
-    <app-button *ngIf="data.primaryButton" [text]="data.primaryButton.text" [mat-dialog-close]
-      [routerLink]="data.primaryButton.route"></app-button>
-  </app-modal-actions-container> -->
 </app-modal-container>

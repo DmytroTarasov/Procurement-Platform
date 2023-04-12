@@ -1,0 +1,19 @@
+<app-modal-container [width]="'450px'" [title]="'Створення підрозділу компанії'" [showClose]="true">
+  <div mat-dialog-content>
+    <form class="w-full mt-3" [formGroup]="subdivisionForm" (ngSubmit)="onSubmit()">
+      <app-input label="Назва" [control]="getFormControl('title')"></app-input>
+      <app-input label="Місто" [control]="getFormControl('city')"></app-input>
+      <app-input label="Вулиця" [control]="getFormControl('street')"></app-input>
+      <app-input label="Приміщення" [control]="getFormControl('apartment')" [required]="false"></app-input>
+      <app-input label="Поштовий індекс" [control]="getFormControl('zipCode')"></app-input>
+      <p class="text-center italic"><span class="text-red-600">*</span> позначені обов'язкові поля</p>
+      <p class="mt-2 text-center text-red-600 h-[20px]">{{(error$ | async) ?? ''}}</p>
+      <div class="flex justify-center">
+        <app-button text="Створити" [disabled]="!subdivisionForm.valid" type="submit"
+          [classList]="['mt-3', 'h-[45px]', 'w-[152px]']"></app-button>
+      </div>
+    </form>
+  </div>
+</app-modal-container>
+
+

@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Subdivisions
@@ -11,6 +12,7 @@ namespace Application.Subdivisions
     public class CreateSubdivisionCommand : IRequest<Result<int>>
     {
         public SubdivisionDto Subdivision { get; set; }
+        public int CompanyId { get; set; }
     }
     public class CreateSubdivisionCommandHandler : IRequestHandler<CreateSubdivisionCommand, Result<int>>
     {
@@ -31,9 +33,15 @@ namespace Application.Subdivisions
                 return Result<int>.ValidationFailure(validationResult.ToDictionary());
             }
 
+            var company = await _context.Companies.Include(c => c.Subdivisions).FirstOrDefaultAsync(c => c.Id == request.CompanyId);
+
+            if (company == null) return Result<int>.Failure("Вказаної компанії не зареєстровано, тому підрозділ створити не вдалось.");
+
             var subdivision = _mapper.Map<Subdivision>(request.Subdivision);
 
-            _context.Subdivisions.Add(subdivision);
+            company.Subdivisions.Add(subdivision);
+
+            // _context.Subdivisions.Add(subdivision);
 
             var result = await _context.SaveChangesAsync() > 0;
 

@@ -1,31 +1,33 @@
-using Application.Common.Models;
-using Application.Companies;
+using Application.Common.Services.Interfaces;
 using Application.Dtos;
-using Application.Subdivisions;
-using Application.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     public class AccountController : BaseApiController
-    {  
+    {
+        private readonly IAuthService _authService;
+
+        public AccountController(IAuthService authService)
+        {
+            _authService = authService;
+        }
+
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto) {
-            // Result<int> result;
-            // if (registerDto.Company != null) {
-            //     result = await Mediator.Send(new CreateCompanyCommand { Company = registerDto.Company });
-            //     if (result.ValidationErrors != null) return BadRequest(result.ValidationErrors);
-            //     if (result.Error != null) return BadRequest(result.Error);
-            //     registerDto.Subdivision.CompanyId = result.Value;
-            // }
-            // if (registerDto.Subdivision != null) {
-            //     result = await Mediator.Send(new CreateSubdivisionCommand { Subdivision = registerDto.Subdivision });
-            //     if (result.ValidationErrors != null) return BadRequest(result.ValidationErrors);
-            //     if (result.Error != null) return BadRequest(result.Error);
-            //     registerDto.User.SubdivisionId = result.Value;
-            // }
-            
-            return HandleResult(await Mediator.Send(new RegisterUserCommand { User = registerUserDto }));
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) {
+            return HandleResult(await _authService.RegisterAsync(registerDto));
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto) {
+            return HandleResult(await _authService.LoginAsync(loginDto));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetCurrentUser() {
+            return HandleResult(await _authService.GetCurrentUserAsync());
         }
     }
 }

@@ -10,6 +10,7 @@ import { RoleService } from 'src/app/_services/role.service';
 
 import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../store/auth.actions';
+import * as DialogActions from 'src/app/store/actions/dialog.actions';
 import { selectRoles, selectCompanies, selectCompanySubdivisions, selectError } from '../store/auth.selectors';
 
 @Component({
@@ -53,27 +54,20 @@ export class RegistrationComponent implements OnInit {
 
     this.roles$ = this.store.pipe(select(selectRoles));
     this.companies$ = this.store.pipe(select(selectCompanies));
-    this.subdivisions$ = this.store.pipe(select(selectCompanySubdivisions));
+    // this.subdivisions$ = this.store.pipe(select(selectCompanySubdivisions));
+    // this.subdivisions$ = this.store.pipe(select(selectCompanySubdivisions(this.getFormControl('companyId').value)));
     this.registrationError$ = this.store.pipe(select(selectError));
 
     this.getFormControl('companyId').valueChanges.subscribe(id => {
-      this.store.dispatch(AuthActions.setSelectedCompany({ id }));
+      this.subdivisions$ = this.store.pipe(select(selectCompanySubdivisions(id)));
+      // this.store.dispatch(AuthActions.setSelectedCompany({ id }));
     });
     // this.roleService.getAllRoles().subscribe(roles => this.roles = roles);
     // this.companyService.getAllCompanies().subscribe(companies => this.companies = companies);
-
-    this.store.dispatch(AuthActions.openModal());
   }
 
   getFormControl(controlName: string): FormControl {
     return this.userForm.get(controlName) as FormControl;
-  }
-
-  getSelectedCompanySubdivisions(): Subdivision[] {
-    // return this.getFormControl('company').value
-    //   ? this.companies.find(c => c.id === this.getFormControl('company').value).subdivisions
-    //   : [];
-    return [];
   }
 
   onSubmit() {
@@ -81,6 +75,19 @@ export class RegistrationComponent implements OnInit {
 
     const { companyId, ...user } = this.userForm.value;
     this.store.dispatch(AuthActions.register({ user }));
+  }
+
+  openCreateCompanyDialog() {
+    this.store.dispatch(DialogActions.openCreateCompanyDialog());
+  }
+
+  openCreateSubdivisionDialog() {
+    const companyIdControl = this.getFormControl('companyId');
+    companyIdControl.markAsTouched();
+
+    if (companyIdControl.valid) {
+      this.store.dispatch(DialogActions.openCreateSubdivisionDialog({ companyId: companyIdControl.value }));
+    }
   }
 
   // getFilteredCompanies() {
