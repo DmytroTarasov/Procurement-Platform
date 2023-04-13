@@ -1,12 +1,28 @@
-<app-modal-container [width]="'450px'" [title]="'Створення запиту'" [showClose]="true">
+<app-modal-container [width]="'450px'" [title]="'Створення заявки'" [showClose]="true">
   <div mat-dialog-content>
     <form class="w-full mt-3" [formGroup]="requestForm" (ngSubmit)="onSubmit()">
       <app-textarea label="Опис" [control]="getFormControl('description')"></app-textarea>
+      <app-dropdown *ngIf="goodExists"  label="Товар" [control]="getFormControl('goodId')" [displayProps]="['title']" [items]="(goods$ | async)"
+        errorMessage="Товар має бути обраний">
+        <p class="text-sm italic">Не знайшли товар у списку? <span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleGoodExistence()">Натисність,</span> щоб створити новий</p>
+      </app-dropdown>
+      <div *ngIf="!goodExists">
+        <app-input label="Назва" [control]="getFormControl('title')"></app-input>
+        <app-dropdown label="Категорія" [control]="getFormControl('categoryId')" [displayProps]="['title']" [items]="(categories$ | async)"
+        errorMessage="Категорія має бути обрана">
+        <p class="text-sm italic"><span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleGoodExistence()">Натисність,</span> щоб обрати товар зі списку</p>
+      </app-dropdown>
+      </div>
+      <app-input label="Кількість" [control]="getFormControl('quantity')"></app-input>
+
+      <app-dropdown label="Одиниці вимірювання" [control]="getFormControl('measurementUnit')" [displayProps]="['value']" [items]="measurementUnits" [optionValueProp]="'key'" errorMessage="Одиниця вимірювання має бути обрана">
+      </app-dropdown>
+
       <app-input label="Бюджет (грн.)" [control]="getFormControl('budget')"></app-input>
       <p class="text-center italic"><span class="text-red-600">*</span> позначені обов'язкові поля</p>
       <p class="mt-2 text-center text-red-600 h-[20px]">{{(error$ | async) ?? ''}}</p>
       <div class="flex justify-center">
-        <app-button text="Створити" [disabled]="!requestForm.valid" type="submit"
+        <app-button text="Створити" [disabled]="false" type="submit"
           [classList]="['mt-3', 'h-[45px]', 'w-[152px]']"></app-button>
       </div>
     </form>

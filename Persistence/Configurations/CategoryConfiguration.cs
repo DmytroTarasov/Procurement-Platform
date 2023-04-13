@@ -13,8 +13,7 @@ namespace Persistence.Configurations
             builder 
                 .HasMany(c => c.Goods)
                 .WithOne(g => g.Category)
-                .HasForeignKey(g => g.CategoryId)
-                .IsRequired();
+                .HasForeignKey(g => g.CategoryId);
         }
     }
 }

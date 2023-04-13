@@ -11,10 +11,11 @@ namespace Application.Common.Mapping
             CreateMap<RegisterDto, User>();
             CreateMap<CompanyDto, Company>().ReverseMap();
             CreateMap<SubdivisionDto, Subdivision>().ReverseMap();
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Role, RoleDto>();
-            CreateMap<Good, GoodDto>();
+            CreateMap<Good, GoodDto>().ReverseMap();
             CreateMap<Category, CategoryDto>();
+            CreateMap<Request, RequestDto>().ReverseMap();
         }
     }
 }

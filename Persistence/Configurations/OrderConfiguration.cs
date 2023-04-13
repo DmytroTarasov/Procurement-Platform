@@ -14,14 +14,12 @@ namespace Persistence.Configurations
             builder
                 .HasMany(o => o.Proposals)
                 .WithOne(p => p.Order)
-                .HasForeignKey(p => p.OrderId)
-                .IsRequired();
+                .HasForeignKey(p => p.OrderId);
             
             builder
                 .HasMany(o => o.Requests)
                 .WithOne(r => r.Order)
-                .HasForeignKey(r => r.OrderId)
-                .IsRequired(false);
+                .HasForeignKey(r => r.OrderId);
         }
     }
 }

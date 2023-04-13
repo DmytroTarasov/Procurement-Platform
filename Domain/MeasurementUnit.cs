@@ -2,14 +2,14 @@ namespace Domain
 {
     public enum MeasurementUnit
     {
-        Piece,
-        Meter,
-        Centimeter,
-        SquareMeter,
-        Tonne,
-        Kilogram,
-        Gram,
-        Liter,
-        Milliliter
+        Pieces,
+        Meters,
+        Centimeters,
+        SquareMeters,
+        Tonnes,
+        Kilograms,
+        Grams,
+        Liters,
+        Milliliters
     }
 }

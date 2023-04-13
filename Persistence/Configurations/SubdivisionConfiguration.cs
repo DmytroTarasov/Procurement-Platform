@@ -17,14 +17,12 @@ namespace Persistence.Configurations
             builder
                 .HasMany(s => s.Users)
                 .WithOne(u => u.Subdivision)
-                .HasForeignKey(u => u.SubdivisionId)
-                .IsRequired();
+                .HasForeignKey(u => u.SubdivisionId);
 
             builder
                 .HasMany(s => s.Requests)
                 .WithOne(r => r.Subdivision)
-                .HasForeignKey(r => r.SubdivisionId)
-                .IsRequired();
+                .HasForeignKey(r => r.SubdivisionId);
         }
     }
 }

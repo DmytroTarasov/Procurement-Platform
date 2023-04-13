@@ -17,6 +17,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { DialogEffects } from './store/effects/dialog.effects';
 import { RouteEffects } from './store/effects/route.effects';
+import { RequestsEffects } from './requests/store/requests.effects';
 import { DashboardComponent } from './core/dashboard/dashboard.component';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 
@@ -32,7 +33,7 @@ import { AuthInterceptor } from './_interceptors/auth.interceptor';
     BrowserAnimationsModule,
     SharedModule,
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects, DialogEffects, RouteEffects]),
+    EffectsModule.forRoot([AuthEffects, DialogEffects, RouteEffects, RequestsEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production })
   ],
   providers: [

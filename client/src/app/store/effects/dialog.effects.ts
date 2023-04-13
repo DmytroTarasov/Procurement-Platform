@@ -9,6 +9,7 @@ import { CreateCompanyModalComponent } from 'src/app/auth/create-company-modal/c
 import { CreateSubdivisionModalComponent } from 'src/app/auth/create-subdivision-modal/create-subdivision-modal.component';
 
 import * as AuthActions from 'src/app/auth/store/auth.actions';
+import * as RequestsActions from 'src/app/requests/store/requests.actions';
 import {
   ModalRedirectData,
   ModalRedirectComponent,
@@ -76,7 +77,7 @@ export class DialogEffects {
   openRedirectDialog$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(AuthActions.createCompanySuccess, AuthActions.createSubdivisionSuccess),
+        ofType(AuthActions.createCompanySuccess, AuthActions.createSubdivisionSuccess, RequestsActions.createRequestSuccess),
         map((action) => {
           this.dialog.closeAll();
           this.dialog.open(ModalRedirectComponent, {

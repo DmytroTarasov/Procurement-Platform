@@ -18,8 +18,7 @@ namespace Persistence.Configurations
             builder
                 .HasMany(c => c.Subdivisions)
                 .WithOne(d => d.Company)
-                .HasForeignKey(d => d.CompanyId)
-                .IsRequired();
+                .HasForeignKey(d => d.CompanyId);
         }
     }
 }

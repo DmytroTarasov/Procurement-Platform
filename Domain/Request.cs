@@ -11,8 +11,8 @@ namespace Domain
         public int Quantity { get; set; }
         public MeasurementUnit MeasurementUnit { get; set; }
         public decimal Budget { get; set; }
-        public RequestStatus RequestStatus { get; set; } = RequestStatus.Active;
-        public int OrderId { get; set; }
+        public RequestStatus Status { get; set; } = RequestStatus.Active;
+        public int? OrderId { get; set; }
         public Order Order { get; set; }
     }
 }
