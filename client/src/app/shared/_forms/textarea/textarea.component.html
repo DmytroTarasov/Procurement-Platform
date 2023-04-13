@@ -1,0 +1,20 @@
+<div class="mb-2">
+  <label for={{label}}>{{label}} <span class="text-red-600">{{required ? '*' : ''}}</span></label>
+
+  <textarea
+    [ngClass]="classList.concat(['w-full', 'resize-none', 'p-2', 'mt-2', 'rounded'])"
+    [class.is-invalid]="control?.touched && control?.invalid"
+    name={{label}}
+    placeholder={{placeholder}}
+    [formControl]="control"
+    [rows]="rows">
+  </textarea>
+
+  <div
+    class="h-[20px] text-sm mt-1 text-red-600">
+    {{(control?.errors?.required && control?.touched) ? 'Дане поле має бути заповнене' : ''}}
+  </div>
+</div>
+
+
+

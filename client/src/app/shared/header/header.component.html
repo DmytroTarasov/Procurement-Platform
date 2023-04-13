@@ -1,0 +1,19 @@
+<div class="h-14 bg-[#5FCFF7] text-white text-base flex justify-between items-center px-8 font-medium">
+  <div class="w-[25%]">
+
+  </div>
+  <div class="w-[30%] flex justify-between">
+    <a [routerLink]="['requests']" class="cursor-pointer">Запити</a>
+    <a [routerLink]="['auth/login']" class="cursor-pointer">Замовлення</a>
+    <a [routerLink]="['auth/login']" class="cursor-pointer">Контракти</a>
+  </div>
+  <div class="w-[25%] grid grid-cols-[80%_20%] items-center">
+    <div class="flex justify-center">
+      <p class="cursor-default" *ngIf="(user$ | async) as user; else spinner">{{user.lastName}} {{user.firstName}} {{user.middleName}}</p>
+      <ng-template #spinner>
+        <mat-spinner diameter="30"></mat-spinner>
+      </ng-template>
+    </div>
+    <a [routerLink]="['auth/login']" class="cursor-pointer">Вийти</a>
+  </div>
+</div>
