@@ -13,6 +13,7 @@ import {
   ModalRedirectData,
   ModalRedirectComponent,
 } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
+import { CreateRequestModalComponent } from 'src/app/requests/create-request-modal/create-request-modal.component';
 
 @Injectable()
 export class DialogEffects {
@@ -33,6 +34,20 @@ export class DialogEffects {
         ofType(DialogActions.openCreateCompanyDialog),
         map((action) => {
           const dialogRef = this.dialog.open(CreateCompanyModalComponent, {
+            disableClose: true,
+          });
+          return dialogRef.afterClosed();
+        })
+      ),
+    { dispatch: false }
+  );
+
+  openCreateRequestDialog$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(DialogActions.openCreateRequestDialog),
+        map((action) => {
+          const dialogRef = this.dialog.open(CreateRequestModalComponent, {
             disableClose: true,
           });
           return dialogRef.afterClosed();

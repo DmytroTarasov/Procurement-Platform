@@ -18,4 +18,8 @@ export class AuthService {
   login(data: Login) {
     return this.http.post<User>(`${environment.serverUrl}/account/login`, data);
   }
+
+  getCurrentUser() {
+    return this.http.get<User>(`${environment.serverUrl}/account`);
+  }
 }

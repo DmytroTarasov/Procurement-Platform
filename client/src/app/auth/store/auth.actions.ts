@@ -21,6 +21,7 @@ export const createSubdivision = createAction('[Auth] Create Subdivision', props
 export const createSubdivisionSuccess = createAction('[Auth] Create Subdivision Success', props<{ data: ModalRedirectData }>());
 // export const createSubdivisionFailure = createAction('[Auth] Create Subdivision Failure', props<{ error: string }>());
 export const login = createAction('[Auth] Login', props<{ login: Login }>());
-export const loginSuccess = createAction('[Auth] Login Success', props<{ user: User }>());
+export const loginSuccess = createAction('[Auth] Login Success', props<{ user: User, redirect?: boolean }>());
+export const autoLogin = createAction('[Auth] Auto Login');
 export const failure = createAction('[Auth] Failure', props<{ error: string }>());
 

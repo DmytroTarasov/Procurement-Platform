@@ -16,10 +16,14 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { DialogEffects } from './store/effects/dialog.effects';
+import { RouteEffects } from './store/effects/route.effects';
+import { DashboardComponent } from './core/dashboard/dashboard.component';
+import { AuthInterceptor } from './_interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -28,11 +32,12 @@ import { DialogEffects } from './store/effects/dialog.effects';
     BrowserAnimationsModule,
     SharedModule,
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects, DialogEffects]),
+    EffectsModule.forRoot([AuthEffects, DialogEffects, RouteEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

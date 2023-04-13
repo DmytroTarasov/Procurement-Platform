@@ -11,6 +11,8 @@ import { ModalContainerComponent } from './_modals/modal-container/modal-contain
 import { ModalRedirectComponent } from './_modals/modal-redirect/modal-redirect.component';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HeaderComponent } from './header/header.component';
+import { TextareaComponent } from './_forms/textarea/textarea.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     DropdownComponent,
     ButtonComponent,
     ModalContainerComponent,
-    ModalRedirectComponent
+    ModalRedirectComponent,
+    HeaderComponent,
+    TextareaComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +40,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ButtonComponent,
     ModalContainerComponent,
     ModalRedirectComponent,
+    HeaderComponent,
+    TextareaComponent,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,

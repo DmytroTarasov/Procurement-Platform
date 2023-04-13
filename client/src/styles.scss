@@ -11,7 +11,8 @@ html, body {
 body {
   font-family: 'Inter', sans-serif;
   margin: 0;
-  background-color: #F2F4F8;
+  // background-color: #F2F4F8;
+  background-color: #E9F5DE;
 }
 
 app-button:focus-visible {
@@ -29,5 +30,6 @@ app-button:focus-visible {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #B7B9BC\;
+  background-color: #B7B9BC;
 }
+

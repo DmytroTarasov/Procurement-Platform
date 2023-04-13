@@ -64,6 +64,81 @@ namespace Persistence
                 await context.Companies.AddAsync(company);
                 await context.SaveChangesAsync();
             }
+
+            if (!await context.Categories.AnyAsync()) {
+                var categories = new List<Category> {
+                    new Category {
+                        Title = "Комп'ютерне обладнання",
+                        Goods = new List<Good> {
+                            new Good {
+                                Title = "Принтер"
+                            }, 
+                            new Good {
+                                Title = "Клавіатура"
+                            }, 
+                            new Good {
+                                Title = "Флеш-накопичувач"
+                            }, 
+                            new Good {
+                                Title = "Жорсткий диск"
+                            }
+                        }
+                    },
+                    new Category {
+                        Title = "Фармацевтична продукція",
+                        Goods = new List<Good> {
+                            new Good {
+                                Title = "Розчин глюкози"
+                            }, 
+                            new Good {
+                                Title = "Інсулін"
+                            }, 
+                            new Good {
+                                Title = "Сульфат магнію"
+                            }, 
+                        }
+                    },
+                    new Category {
+                        Title = "Офісне устаткування", 
+                        Goods = new List<Good> {
+                            new Good {
+                                Title = "Папір форматний"
+                            }, 
+                            new Good {
+                                Title = "Файл для документів"
+                            }, 
+                            new Good {
+                                Title = "Папка-планшет"
+                            }, 
+                        }
+                    },
+                    new Category {
+                        Title = "Протипожежне та рятувальне обладнання",
+                        Goods = new List<Good> {
+                            new Good {
+                                Title = "Вогнегасник"
+                            }
+                        }
+                    },
+                    new Category {
+                        Title = "Освітлювальна апаратура",
+                        Goods = new List<Good> {
+                            new Good {
+                                Title = "Світильник світодіодний"
+                            },
+                            new Good {
+                                Title = "Прожектор світодіодний"
+                            },
+                            new Good {
+                                Title = "Ліхтарик"
+                            }
+                        }
+                    }
+                };
+
+                await context.Categories.AddRangeAsync(categories);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

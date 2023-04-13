@@ -145,7 +145,25 @@ export class AuthEffects {
           map((user) => {
             console.log(user);
             localStorage.setItem('token', user.token);
-            return AuthActions.loginSuccess({ user });
+            return AuthActions.loginSuccess({ user, redirect: true });
+          }),
+          catchError((errorRes) => {
+            return of(AuthActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
+  );
+
+  autoLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.autoLogin),
+      switchMap(() => {
+        return this.authService.getCurrentUser().pipe(
+          map((user) => {
+            console.log(user);
+            // localStorage.setItem('token', user.token);
+            return AuthActions.loginSuccess({ user, redirect: false });
           }),
           catchError((errorRes) => {
             return of(AuthActions.failure({ error: errorRes?.error }));
