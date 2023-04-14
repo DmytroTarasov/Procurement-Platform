@@ -4,11 +4,14 @@
       <h3 class="font-semibold text-xl text-[#2FCB80]">{{request.good.title}} ({{request.quantity}} {{getShortenMeasurementUnit(request.measurementUnit)}})</h3>
       <p class="mt-2">{{request.subdivision.title}} ({{subdivisionAddress}})</p>
       <p class="mt-3 italic text-[#A9A9A9]">{{request.description}}</p>
-      <p class="mt-3 font-semibold text-[#E67E22]">Бюджет: {{request.budget}} (грн.)</p>
+      <p class="mt-3">Бюджет: {{request.budget}} (грн.)</p>
     </div>
     <span [ngClass]="['h-fit', 'text-center', requestStatusesColors[request.status]]">{{requestStatuses[request.status]}}</span>
     <div>
       <p class="text-right italic text-[#A9A9A9] text-sm">Створена {{request.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA'}}</p>
+      <div class="flex justify-center" *ngIf="(user$ | async)?.subdivisionId === request?.subdivision?.id">
+        <app-button text="Редагувати" type="button" [classList]="['mt-2', 'h-[45px]', 'w-[152px]']" (click)="openEditRequestDialog()"></app-button>
+      </div>
     </div>
   </div>
 </div>

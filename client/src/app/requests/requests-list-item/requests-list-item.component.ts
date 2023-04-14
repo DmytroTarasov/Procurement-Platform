@@ -1,7 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { RequestModel } from 'src/app/_models/request.model';
 import { measurementUnits, getShortenMeasurementUnit } from 'src/app/_models/resources/measurement-units';
 import { requestStatuses, requestStatusesColors } from 'src/app/_models/resources/request-statuses';
+import { User } from 'src/app/_models/user.model';
+import { selectUser } from 'src/app/auth/store/auth.selectors';
+import * as fromApp from 'src/app/store/app.reducer';
+import * as DialogActions from 'src/app/store/actions/dialog.actions';
 
 @Component({
   selector: 'app-requests-list-item',
@@ -14,13 +20,19 @@ export class RequestsListItemComponent implements OnInit {
   requestStatuses = requestStatuses;
   requestStatusesColors = requestStatusesColors;
   getShortenMeasurementUnit = getShortenMeasurementUnit;
+  user$: Observable<User>;
 
-  constructor() { }
+  constructor(private store: Store<fromApp.AppState>) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.user$ = this.store.pipe(select(selectUser));
   }
 
   get subdivisionAddress() {
     return `${this.request.subdivision.street}, ${this.request.subdivision.city}`;
+  }
+
+  openEditRequestDialog() {
+    this.store.dispatch(DialogActions.openEditRequestDialog({ request: this.request }));
   }
 }

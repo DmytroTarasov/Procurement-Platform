@@ -16,5 +16,10 @@ namespace API.Controllers
         public async Task<IActionResult> GetCompanyRequests() {
             return HandleResult(await Mediator.Send(new GetCompanyRequestsQuery()));
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditRequest([FromBody] EditRequestCommand command) {
+            return HandleResult(await Mediator.Send(command));
+        }
     }
 }

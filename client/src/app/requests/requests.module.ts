@@ -6,13 +6,15 @@ import { RequestsContainerComponent } from './requests-container/requests-contai
 import { RequestsListComponent } from './requests-list/requests-list.component';
 import { CreateRequestModalComponent } from './create-request-modal/create-request-modal.component';
 import { RequestsListItemComponent } from './requests-list-item/requests-list-item.component';
+import { EditRequestModalComponent } from './edit-request-modal/edit-request-modal.component';
 
 @NgModule({
   declarations: [
     RequestsContainerComponent,
     RequestsListComponent,
     CreateRequestModalComponent,
-    RequestsListItemComponent
+    RequestsListItemComponent,
+    EditRequestModalComponent
   ],
   imports: [
     SharedModule,

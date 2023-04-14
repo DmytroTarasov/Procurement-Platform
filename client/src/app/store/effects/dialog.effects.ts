@@ -15,6 +15,7 @@ import {
   ModalRedirectComponent,
 } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 import { CreateRequestModalComponent } from 'src/app/requests/create-request-modal/create-request-modal.component';
+import { EditRequestModalComponent } from 'src/app/requests/edit-request-modal/edit-request-modal.component';
 
 @Injectable()
 export class DialogEffects {
@@ -58,6 +59,20 @@ export class DialogEffects {
     { dispatch: false }
   );
 
+  openEditRequestDialog$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(DialogActions.openEditRequestDialog),
+        map((action) => {
+          this.dialog.open(EditRequestModalComponent, {
+            disableClose: true,
+            data: action.request
+          });
+        })
+      ),
+    { dispatch: false }
+  );
+
   openCreateSubdivisionDialog$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -78,7 +93,8 @@ export class DialogEffects {
   openRedirectDialog$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(AuthActions.createCompanySuccess, AuthActions.createSubdivisionSuccess, RequestsActions.createRequestSuccess),
+        ofType(AuthActions.createCompanySuccess, AuthActions.createSubdivisionSuccess,
+          RequestsActions.createRequestSuccess, RequestsActions.editRequestSuccess),
         map((action) => {
           this.dialog.closeAll();
           this.dialog.open(ModalRedirectComponent, {

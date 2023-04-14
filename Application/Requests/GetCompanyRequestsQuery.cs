@@ -34,6 +34,7 @@ namespace Application.Requests
                 .ThenInclude(s => s.Company)
                 .Include(c => c.Good)
                 .Where(r => r.Subdivision.CompanyId == companyId)
+                .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();
             return Result<List<RequestDto>>.Success(_mapper.Map<List<RequestDto>>(companyRequests));
         }
