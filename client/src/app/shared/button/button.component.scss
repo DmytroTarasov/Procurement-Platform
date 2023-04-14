@@ -1,8 +1,17 @@
-::ng-deep .mat-progress-spinner {
+// ::ng-deep .mat-progress-spinner {
+//   margin: 0 auto;
+// }
+
+// ::ng-deep .mat-progress-spinner circle, ::ng-deep .mat-spinner circle {
+//   stroke: #FFF;
+// }
+
+
+.mat-progress-spinner {
   margin: 0 auto;
 }
 
-::ng-deep .mat-progress-spinner circle, ::ng-deep .mat-spinner circle {
+.mat-progress-spinner circle, .mat-spinner circle {
   stroke: #FFF;
 }
 

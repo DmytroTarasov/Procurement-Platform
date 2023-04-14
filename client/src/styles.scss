@@ -15,6 +15,10 @@ body {
   background-color: #E9F5DE;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 app-button:focus-visible {
   outline: none;
 }

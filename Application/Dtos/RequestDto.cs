@@ -11,6 +11,7 @@ namespace Application.Dtos
         public int Quantity { get; set; }
         public string MeasurementUnit { get; set; }
         public decimal Budget { get; set; }
+        public string Status { get; set; }
         public int? OrderId { get; set; }
     }
 }

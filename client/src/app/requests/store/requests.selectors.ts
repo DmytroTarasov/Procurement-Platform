@@ -12,3 +12,8 @@ export const selectCategories = createSelector(
   selectRequestsState,
   (state: State) => state.categories
 );
+
+export const selectCompanyRequests = createSelector(
+  selectRequestsState,
+  (state: State) => state.requests
+);

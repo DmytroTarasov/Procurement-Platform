@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as fromApp from 'src/app/store/app.reducer';
@@ -20,5 +20,5 @@ export class RequestsContainerComponent implements OnInit {
   openCreateRequestDialog() {
     this.store.dispatch(DialogActions.openCreateRequestDialog());
   }
-  
+
 }

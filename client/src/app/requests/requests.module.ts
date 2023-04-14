@@ -5,12 +5,14 @@ import { RouterModule } from '@angular/router';
 import { RequestsContainerComponent } from './requests-container/requests-container.component';
 import { RequestsListComponent } from './requests-list/requests-list.component';
 import { CreateRequestModalComponent } from './create-request-modal/create-request-modal.component';
+import { RequestsListItemComponent } from './requests-list-item/requests-list-item.component';
 
 @NgModule({
   declarations: [
     RequestsContainerComponent,
     RequestsListComponent,
-    CreateRequestModalComponent
+    CreateRequestModalComponent,
+    RequestsListItemComponent
   ],
   imports: [
     SharedModule,

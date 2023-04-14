@@ -46,6 +46,19 @@ export class RequestsEffects {
     )
   );
 
+  getCompanyRequests$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RequestsActions.getCompanyRequests, RequestsActions.createRequestSuccess),
+      switchMap((action) => {
+        return this.requestService.getCompanyRequests().pipe(
+          map((requests) => {
+            return RequestsActions.setCompanyRequests({ requests });
+          })
+        );
+      })
+    )
+  );
+
   createRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RequestsActions.createRequest),

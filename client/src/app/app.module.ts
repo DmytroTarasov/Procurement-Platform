@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +20,8 @@ import { RouteEffects } from './store/effects/route.effects';
 import { RequestsEffects } from './requests/store/requests.effects';
 import { DashboardComponent } from './core/dashboard/dashboard.component';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
+import localeUk from '@angular/common/locales/uk';
+import { registerLocaleData } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,12 @@ import { AuthInterceptor } from './_interceptors/auth.interceptor';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'uk-UA' },
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    registerLocaleData(localeUk)
+  }
+}

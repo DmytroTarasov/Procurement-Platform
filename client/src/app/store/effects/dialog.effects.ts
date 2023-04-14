@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, tap } from 'rxjs';
 import * as DialogActions from '../actions/dialog.actions';
@@ -51,6 +51,7 @@ export class DialogEffects {
           const dialogRef = this.dialog.open(CreateRequestModalComponent, {
             disableClose: true,
           });
+          this.ref.tick();
           return dialogRef.afterClosed();
         })
       ),
@@ -168,6 +169,7 @@ export class DialogEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromApp.AppState>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private ref: ApplicationRef
   ) {}
 }
