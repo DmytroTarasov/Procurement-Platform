@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HeaderComponent } from './header/header.component';
 import { TextareaComponent } from './_forms/textarea/textarea.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { TextareaComponent } from './_forms/textarea/textarea.component';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxPaginationModule
   ],
   exports: [
     InputComponent,
@@ -48,7 +50,8 @@ import { TextareaComponent } from './_forms/textarea/textarea.component';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxPaginationModule
   ]
 })
 export class SharedModule { }

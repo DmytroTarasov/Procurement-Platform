@@ -1,3 +1,4 @@
+using System.Net;
 using Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +21,9 @@ namespace API.Controllers
                 return NotFound();
             if (!result.IsSuccess && result.ValidationErrors != null)
                 return BadRequest(result.ValidationErrors);
-            if (!result.IsSuccess && result.IsForbidden)
-                return Forbid(result.Error);
+            if (!result.IsSuccess && result.IsForbidden) 
+                return Forbid();
+                // return Forbid(result.Error);
             return BadRequest(result.Error);
         }
     }

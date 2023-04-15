@@ -13,7 +13,7 @@ namespace Application.Common.Models
             new Result<T> { IsSuccess = false, Error = error };
         public static Result<T> ValidationFailure(IDictionary<string, string[]> validationErrors) => 
             new Result<T> { IsSuccess = false, ValidationErrors = validationErrors };
-        public static Result<T> Forbidden(string error) => 
-            new Result<T> { IsSuccess = false, Error = error, IsForbidden = true };
+        public static Result<T> Forbidden() => 
+            new Result<T> { IsSuccess = false, IsForbidden = true };
     }
 }

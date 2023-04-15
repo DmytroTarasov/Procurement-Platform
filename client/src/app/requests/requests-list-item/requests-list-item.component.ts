@@ -8,6 +8,7 @@ import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as fromApp from 'src/app/store/app.reducer';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
+import * as RequestsActions from '../store/requests.actions';
 
 @Component({
   selector: 'app-requests-list-item',
@@ -34,5 +35,9 @@ export class RequestsListItemComponent implements OnInit {
 
   openEditRequestDialog() {
     this.store.dispatch(DialogActions.openEditRequestDialog({ request: this.request }));
+  }
+
+  cancelRequest() {
+    this.store.dispatch(RequestsActions.cancelRequest({ id: this.request.id }));
   }
 }

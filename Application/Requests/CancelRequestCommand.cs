@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using Application.Common.Models;
-using AutoMapper;
+using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -8,24 +8,19 @@ using Persistence;
 
 namespace Application.Requests
 {
-    public class EditRequestCommand : IRequest<Result<int>>
+    public class CancelRequestCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
-        public string Description { get; set; }
-        public int Quantity { get; set; }
-        public decimal Budget { get; set; }
     }
-    public class EditRequestCommandHandler : IRequestHandler<EditRequestCommand, Result<int>>
+    public class CancelRequestCommandHandler : IRequestHandler<CancelRequestCommand, Result<int>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
-        private readonly IMapper _mapper;
-        public EditRequestCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext context, IMapper mapper) {
+        public CancelRequestCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext context) {
             _httpContextAccessor = httpContextAccessor;
             _context = context;
-            _mapper = mapper;
         }
-        public async Task<Result<int>> Handle(EditRequestCommand command, CancellationToken cancellationToken)
+        public async Task<Result<int>> Handle(CancelRequestCommand command, CancellationToken cancellationToken)
         {
             var request = await _context.Requests.FirstOrDefaultAsync(r => r.Id == command.Id);
 
@@ -35,15 +30,12 @@ namespace Application.Requests
 
             if (subdivisionId != request.SubdivisionId) return Result<int>.Forbidden();
             
-            request.Description = command.Description;
-            request.Quantity = command.Quantity;
-            request.Budget = command.Budget;
-
+            request.Status = RequestStatus.Cancelled;
             _context.Requests.Update(request);
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (!result) return Result<int>.Failure("Не вдалось редагувати заявку. Спробуйте, будь ласка, пізніше");
+            if (!result) return Result<int>.Failure("Не вдалось скасувати заявку. Спробуйте, будь ласка, пізніше");
 
             return Result<int>.Success(request.Id);
         }

@@ -9,5 +9,5 @@ export const requestStatusesColors = {
   Active: 'text-[#2FCB80]',
   AddedToOrder: 'text-[#E67E22]',
   Completed: 'text-[#2FCB80]',
-  Cancelled: 'text-[#CB4335]'
+  Cancelled: 'text-[#E74C3C]'
 }

@@ -1,4 +1,4 @@
-<div class="w-full bg-white rounded-xl shadow-gray-400 p-8">
+<div class="w-full bg-white rounded-xl shadow-gray-400 p-6 mb-4">
   <div class="grid grid-cols-[50%_15%_1fr] gap-x-4">
     <div>
       <h3 class="font-semibold text-xl text-[#2FCB80]">{{request.good.title}} ({{request.quantity}} {{getShortenMeasurementUnit(request.measurementUnit)}})</h3>
@@ -9,8 +9,9 @@
     <span [ngClass]="['h-fit', 'text-center', requestStatusesColors[request.status]]">{{requestStatuses[request.status]}}</span>
     <div>
       <p class="text-right italic text-[#A9A9A9] text-sm">Створена {{request.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA'}}</p>
-      <div class="flex justify-center" *ngIf="(user$ | async)?.subdivisionId === request?.subdivision?.id">
+      <div class="grid justify-center" *ngIf="(user$ | async)?.subdivisionId === request?.subdivision?.id && request.status !== 'Cancelled'">
         <app-button text="Редагувати" type="button" [classList]="['mt-2', 'h-[45px]', 'w-[152px]']" (click)="openEditRequestDialog()"></app-button>
+        <app-button text="Скасувати" type="button" [classList]="['mt-2', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelRequest()"></app-button>
       </div>
     </div>
   </div>

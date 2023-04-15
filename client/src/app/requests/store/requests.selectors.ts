@@ -17,3 +17,8 @@ export const selectCompanyRequests = createSelector(
   selectRequestsState,
   (state: State) => state.requests
 );
+
+export const selectPagination = createSelector(
+  selectRequestsState,
+  (state: State) => state.pagination
+);
