@@ -1,7 +1,7 @@
 <div class="mb-2 relative">
-  <p *ngIf="displayLabel" class="block">{{label}} <span class="text-red-600">*</span></p>
+  <p *ngIf="displayLabel" class="block">{{label}} <span *ngIf="required" class="text-red-600">*</span></p>
   <mat-form-field appearance="fill">
-    <mat-select [formControl]="control">
+    <mat-select [formControl]="control" (selectionChange)="selectionChange($event)">
       <mat-option *ngFor="let item of items" [value]="item[optionValueProp]">
         {{displayProps.length > 1 ? (item[displayProps[0]] + ' (' + item[displayProps[1]] + ')') : item[displayProps[0]]}}
       </mat-option>

@@ -15,8 +15,8 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCompanyRequests([FromQuery] PaginationParams paginationParams) {
-            var requestsResult = await Mediator.Send(new GetCompanyRequestsQuery { PaginationParams = paginationParams });
+        public async Task<IActionResult> GetCompanyRequests([FromQuery] RequestsParams requestsParams) {
+            var requestsResult = await Mediator.Send(new GetCompanyRequestsQuery { RequestsParams = requestsParams });
             var requests = requestsResult.Value;
             Response.AddPaginationHeader(requests.CurrentPage, requests.PageSize, requests.TotalCount, requests.TotalPages);
             return HandleResult(requestsResult);

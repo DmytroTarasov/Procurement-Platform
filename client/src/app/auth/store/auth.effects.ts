@@ -76,7 +76,7 @@ export class AuthEffects {
               text: 'Компанія успішно створена. Адміністратор верифікує її протягом 24 годин.',
               primaryBtn: {
                 text: 'Ок',
-                route: 'auth/register',
+                route: 'auth/register'
               },
               successfull: true,
             };

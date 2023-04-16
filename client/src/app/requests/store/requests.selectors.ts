@@ -22,3 +22,8 @@ export const selectPagination = createSelector(
   selectRequestsState,
   (state: State) => state.pagination
 );
+
+export const selectRequestParams = createSelector(
+  selectRequestsState,
+  (state: State) => state.requestParams
+);

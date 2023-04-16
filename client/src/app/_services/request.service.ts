@@ -4,6 +4,7 @@ import { CreateRequest } from '../_models/create-request.model';
 import { environment } from 'src/environments/environment';
 import { RequestModel } from '../_models/request.model';
 import { EditRequest } from '../_models/edit-request.model';
+import { RequestParams } from '../_models/request-params.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,14 @@ export class RequestService {
     return this.http.post<number>(`${environment.serverUrl}/requests`, createRequest);
   }
 
-  getCompanyRequests(page?: number, itemsPerPage?: number) {
+  getCompanyRequests(page?: number, requestParams?: RequestParams) {
     let params = new HttpParams();
     if (page) {
       params = params.append('pageNumber', page);
     }
-    if (itemsPerPage) {
-      params = params.append('pageSize', itemsPerPage);
+    if (requestParams) {
+      params = params.append('status', requestParams.status);
+      params = params.append('goodTitle', requestParams.goodTitle);
     }
     return this.http.get<RequestModel[]>(`${environment.serverUrl}/requests`, { observe: 'response', params });
   }

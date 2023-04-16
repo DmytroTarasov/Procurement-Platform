@@ -4,6 +4,7 @@ using Application.Common.Models;
 using Application.Dtos;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ namespace Application.Requests
 {
     public class GetCompanyRequestsQuery : IRequest<Result<PagedList<RequestDto>>>
     {     
-        public PaginationParams PaginationParams { get; set; }
+        public RequestsParams RequestsParams { get; set; }
     }
 
     public class GetCompanyRequestsQueryHandler : IRequestHandler<GetCompanyRequestsQuery, Result<PagedList<RequestDto>>>
@@ -32,23 +33,37 @@ namespace Application.Requests
         public async Task<Result<PagedList<RequestDto>>> Handle(GetCompanyRequestsQuery request, CancellationToken cancellationToken)
         {
             var companyId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("companyId"));
-            // var companyRequests = await _context.Requests
+
+            var query = _context.Requests
+                .Include(c => c.Subdivision)
+                .ThenInclude(s => s.Company)
+                .Include(c => c.Good)
+                .Where(r => r.Subdivision.CompanyId == companyId);
+
+            RequestStatus status;
+            if (!string.IsNullOrEmpty(request.RequestsParams.Status) &&
+                Enum.TryParse(request.RequestsParams.Status, out status)) {
+                query = query.Where(r => r.Status == status);
+            }
+
+            if (!string.IsNullOrEmpty(request.RequestsParams.GoodTitle)) {
+                query = query.Where(r => r.Good.Title == request.RequestsParams.GoodTitle);
+            }
+
+            query = query.OrderByDescending(r => r.CreatedAt);
+
+            // var query = _context.Requests
             //     .Include(c => c.Subdivision)
             //     .ThenInclude(s => s.Company)
             //     .Include(c => c.Good)
             //     .Where(r => r.Subdivision.CompanyId == companyId)
             //     .OrderByDescending(r => r.CreatedAt)
-            //     .ToListAsync();
-            var query = _context.Requests
-                .Include(c => c.Subdivision)
-                .ThenInclude(s => s.Company)
-                .Include(c => c.Good)
-                .Where(r => r.Subdivision.CompanyId == companyId)
-                .OrderByDescending(r => r.CreatedAt)
-                .ProjectTo<RequestDto>(_mapper.ConfigurationProvider);
-            // return Result<List<RequestDto>>.Success(_mapper.Map<List<RequestDto>>(companyRequests));
-            var pagedList = await PagedList<RequestDto>.CreateAsync(query, request.PaginationParams.PageNumber, 
-                request.PaginationParams.PageSize);
+            //     .ProjectTo<RequestDto>(_mapper.ConfigurationProvider);
+
+            var pagedList = await PagedList<RequestDto>.CreateAsync(
+                query.ProjectTo<RequestDto>(_mapper.ConfigurationProvider),
+                request.RequestsParams.PageNumber, 
+                request.RequestsParams.PageSize);
             return Result<PagedList<RequestDto>>.Success(pagedList);
         }
     }

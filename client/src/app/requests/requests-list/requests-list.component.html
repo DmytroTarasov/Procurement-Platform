@@ -1,9 +1,9 @@
-<div class="h-full w-full flex justify-center items-center relative">
-  <div class="flex flex-col items-center" *ngIf="!(requests$ | async) && !(loading$ | async)">
+<div class="h-full w-full flex justify-center relative">
+  <div class="flex flex-col justify-center items-center" *ngIf="!(loading$ | async) && !(requests$ | async)?.length">
     <mat-icon>content_paste_search</mat-icon>
     <span class="mt-3 text-[#898E96] font-semibold">Заявок немає</span>
   </div>
-  <div *ngIf="pagination && (requests$ | async) as requests" class="w-full">
+  <div *ngIf="pagination && (requests$ | async)?.length > 0 && (requests$ | async) as requests" class="w-full">
     <app-requests-list-item *ngFor="let request of requests | paginate: { id: 'requests', itemsPerPage: this.pagination.itemsPerPage, currentPage: this.pagination.currentPage, totalItems: this.pagination.totalItems}" [request]="request"></app-requests-list-item>
 
     <div class="flex justify-center">
