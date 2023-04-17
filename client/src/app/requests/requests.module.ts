@@ -9,6 +9,7 @@ import { RequestsListItemComponent } from './requests-list-item/requests-list-it
 import { EditRequestModalComponent } from './edit-request-modal/edit-request-modal.component';
 import { RequestsFilterSortActionsComponent } from './requests-filter-sort-actions/requests-filter-sort-actions.component';
 import { RequestsActionsComponent } from './requests-actions/requests-actions.component';
+import { CreateOrderModalComponent } from './create-order-modal/create-order-modal.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RequestsActionsComponent } from './requests-actions/requests-actions.co
     RequestsListItemComponent,
     EditRequestModalComponent,
     RequestsFilterSortActionsComponent,
-    RequestsActionsComponent
+    RequestsActionsComponent,
+    CreateOrderModalComponent
   ],
   imports: [
     SharedModule,

@@ -70,3 +70,11 @@ export const setRequestParams = createAction(
 export const clearState = createAction(
   '[Requests] Clear State'
 );
+export const addRequestToOrder = createAction(
+  '[Requests] Add Request To Order',
+  props<{ id: number }>()
+);
+export const deleteRequestFromOrder = createAction(
+  '[Requests] Delete Request From Order',
+  props<{ id: number }>()
+);

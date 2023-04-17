@@ -33,6 +33,7 @@ namespace Application.Requests
         public async Task<Result<PagedList<RequestDto>>> Handle(GetCompanyRequestsQuery request, CancellationToken cancellationToken)
         {
             var companyId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("companyId"));
+            var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
             var query = _context.Requests
                 .Include(c => c.Subdivision)
@@ -40,10 +41,14 @@ namespace Application.Requests
                 .Include(c => c.Good)
                 .Where(r => r.Subdivision.CompanyId == companyId);
 
-            RequestStatus status;
-            if (!string.IsNullOrEmpty(request.RequestsParams.Status) &&
-                Enum.TryParse(request.RequestsParams.Status, out status)) {
-                query = query.Where(r => r.Status == status);
+            if (role == "Замовник") {
+                query = query.Where(r => r.Status == RequestStatus.Active);
+            } else {
+                RequestStatus status;
+                if (!string.IsNullOrEmpty(request.RequestsParams.Status) &&
+                    Enum.TryParse(request.RequestsParams.Status, out status)) {
+                    query = query.Where(r => r.Status == status);
+                }
             }
 
             if (!string.IsNullOrEmpty(request.RequestsParams.GoodTitle)) {

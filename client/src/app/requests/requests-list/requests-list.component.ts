@@ -10,6 +10,7 @@ import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
 import { PaginationInstance } from 'ngx-pagination';
 import { selectPagination } from '../store/requests.selectors';
 import { Pagination } from 'src/app/_models/pagination.model';
+import { selectUser } from 'src/app/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-requests-list',
@@ -17,10 +18,12 @@ import { Pagination } from 'src/app/_models/pagination.model';
   styleUrls: ['./requests-list.component.scss']
 })
 export class RequestsListComponent implements OnInit, OnDestroy {
-  requests$: Observable<RequestModel[]>;
+  // requests$: Observable<RequestModel[]>;
   loading$: Observable<boolean>;
   pagination: Pagination;
-  subscription: Subscription;
+  paginationSubscription: Subscription;
+  requestsSubscription: Subscription;
+  requests: RequestModel[] | null = null;
 
   // public config: PaginationInstance = {
   //     id: 'custom',
@@ -34,10 +37,14 @@ export class RequestsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(RequestsActions.getCompanyRequests({}));
 
-    this.requests$ = this.store.pipe(select(selectCompanyRequests));
+    // this.requests$ = this.store.pipe(select(selectCompanyRequests));
+    this.requestsSubscription = this.store.pipe(select(selectCompanyRequests)).subscribe(requests => {
+      this.requests = requests;
+    });
+
     this.loading$ = this.store.pipe(select(selectLoading));
 
-    this.store.pipe(select(selectPagination)).subscribe(pagination => {
+    this.paginationSubscription = this.store.pipe(select(selectPagination)).subscribe(pagination => {
       this.pagination = pagination;
     });
   }
@@ -49,6 +56,7 @@ export class RequestsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) this.subscription.unsubscribe();
+    if (this.paginationSubscription) this.paginationSubscription.unsubscribe();
+    if (this.requestsSubscription) this.requestsSubscription.unsubscribe();
   }
 }

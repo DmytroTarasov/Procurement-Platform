@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { RequestModel } from 'src/app/_models/request.model';
 import * as fromApp from 'src/app/store/app.reducer';
-import { selectError } from 'src/app/auth/store/auth.selectors';
+import { selectError } from '../store/requests.selectors';
 import * as RequestsActions from '../store/requests.actions';
 
 @Component({

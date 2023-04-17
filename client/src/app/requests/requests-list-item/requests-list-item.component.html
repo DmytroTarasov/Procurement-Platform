@@ -9,10 +9,20 @@
     <span [ngClass]="['h-fit', 'text-center', requestStatusesColors[request.status]]">{{requestStatuses[request.status]}}</span>
     <div>
       <p class="text-right italic text-[#A9A9A9] text-sm">Створена {{request.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA'}}</p>
-      <div class="grid justify-center" *ngIf="(user$ | async)?.subdivisionId === request?.subdivision?.id && request.status !== 'Cancelled'">
-        <app-button text="Редагувати" type="button" [classList]="['mt-2', 'h-[45px]', 'w-[152px]']" (click)="openEditRequestDialog()"></app-button>
-        <app-button text="Скасувати" type="button" [classList]="['mt-2', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelRequest()"></app-button>
+
+      <div *ngIf="(user$ | async) as user">
+        <div class="grid justify-center" *ngIf="user.subdivisionId === request?.subdivision?.id && request?.status === 'Active' && user.role === 'Заявник'">
+          <app-button text="Редагувати" type="button" [classList]="['mt-2', 'h-[45px]', 'w-[152px]']" (click)="openEditRequestDialog()"></app-button>
+          <app-button text="Скасувати" type="button" [classList]="['mt-2', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelRequest()"></app-button>
+        </div>
+        <div class="grid justify-center mt-6" *ngIf="request?.status === 'Active' && user.role === 'Замовник'">
+          <app-button *ngIf="!(orderRequests$ | async)?.includes(request.id); else removeFromOrderBtn" text="Додати до замовлення" type="button" [classList]="['mt-2', 'h-[45px]', 'w-auto']" (click)="addRequestToOrder()"></app-button>
+          <ng-template #removeFromOrderBtn>
+            <app-button text="Прибрати із замовлення" type="button" [classList]="['mt-2', 'h-[45px]', 'w-auto', 'border', 'border-[#E74C3C]']" (click)="deleteRequestFromOrder()" [colors]="['bg-transparent', 'text-[#E74C3C]']"></app-button>
+          </ng-template>
+        </div>
       </div>
+
     </div>
   </div>
 </div>

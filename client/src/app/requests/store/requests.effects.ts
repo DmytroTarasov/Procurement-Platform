@@ -12,6 +12,7 @@ import { GoodService } from 'src/app/_services/good.service';
 import { CategoryService } from 'src/app/_services/category.service';
 import { RequestService } from 'src/app/_services/request.service';
 import { selectPagination, selectRequestParams } from './requests.selectors';
+import * as OrdersActions from 'src/app/orders/store/orders.actions';
 
 @Injectable()
 export class RequestsEffects {
@@ -47,7 +48,8 @@ export class RequestsEffects {
         RequestsActions.getCompanyRequests,
         RequestsActions.createRequestSuccess,
         RequestsActions.editRequestSuccess,
-        RequestsActions.cancelRequestSuccess
+        RequestsActions.cancelRequestSuccess,
+        OrdersActions.createOrderSuccess
       ),
       withLatestFrom(
         this.store.pipe(select(selectPagination)),

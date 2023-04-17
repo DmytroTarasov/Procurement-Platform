@@ -19,3 +19,7 @@
   outline: none !important;
   border: none !important;
 }
+
+button[disabled] {
+  opacity: 0.75;
+}

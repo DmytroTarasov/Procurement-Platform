@@ -10,6 +10,8 @@ import { selectRequestParams } from '../store/requests.selectors';
 import { RequestParams } from 'src/app/_models/request-params.model';
 import { selectGoods } from '../store/requests.selectors';
 import { Good } from 'src/app/_models/good.model';
+import { selectUser } from 'src/app/auth/store/auth.selectors';
+import { User } from 'src/app/_models/user.model';
 
 export interface GoodModel {
   key: string;
@@ -35,6 +37,7 @@ export class RequestsActionsComponent implements OnInit, OnDestroy {
   goodsSubscription: Subscription;
   // goods$: Observable<Good[]>;
   goods: GoodModel[] = [{ key: '', value: 'Всі' }];
+  user$: Observable<User>;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
@@ -45,6 +48,8 @@ export class RequestsActionsComponent implements OnInit, OnDestroy {
       status: new FormControl(''),
       goodTitle: new FormControl('')
     });
+
+    this.user$ = this.store.pipe(select(selectUser));
 
     this.paramsSubscription = this.store.pipe(select(selectRequestParams)).subscribe(requestParams => {
       this.requestParams = requestParams;

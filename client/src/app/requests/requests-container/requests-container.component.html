@@ -3,11 +3,14 @@
     <!-- <app-requests-filter-sort-actions></app-requests-filter-sort-actions> -->
     <app-requests-actions></app-requests-actions>
   </div>
-  <div class="grid grid-rows-[auto_1fr] gap-y-6">
+  <div class="grid grid-rows-[45px_1fr] gap-y-6">
     <div class="flex flex-row justify-between items-center">
-      <h1 class="text-2xl font-medium">Заявки</h1>
-      <app-button text="+ Створити заявку" type="button" [classList]="['h-[45px]', 'w-[180px]']"
-        (click)="openCreateRequestDialog()"></app-button>
+      <h1 class="text-2xl font-medium justify-self-start">Заявки</h1>
+      <!-- <app-button text="+ Створити заявку" type="button" [classList]="['h-[45px]', 'w-[180px]']" (click)="openCreateRequestDialog()"></app-button> -->
+      <div *ngIf="(user$ | async) as user">
+        <app-button *ngIf="user.role === 'Заявник'" text="+ Створити заявку" type="button" [classList]="['h-[45px]', 'w-[180px]']" (click)="openCreateRequestDialog()"></app-button>
+        <app-button *ngIf="user.role === 'Замовник'" text="Сформувати замовлення" type="button" [classList]="['h-[45px]', 'w-[220px]']" (click)="openCreateOrderDialog()" [disabled]="!(orderRequests$ | async)?.length"></app-button>
+      </div>
     </div>
     <app-requests-list></app-requests-list>
   </div>

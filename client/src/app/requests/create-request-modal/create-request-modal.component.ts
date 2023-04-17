@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Good } from 'src/app/_models/good.model';
-import { selectError } from 'src/app/auth/store/auth.selectors';
+import { selectError } from '../store/requests.selectors';
 
 import * as fromApp from 'src/app/store/app.reducer';
 import * as RequestsActions from '../store/requests.actions';

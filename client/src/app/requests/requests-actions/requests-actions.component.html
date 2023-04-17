@@ -1,5 +1,6 @@
 <div class="mt-16">
-  <app-dropdown label="Статус" [control]="getFormControl('status')" [displayProps]="['value']" [items]="requestStatuses" [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="getCompanyRequestsByStatus($event)">
+  <!-- *ngIf="(user$ | async)?.role === 'Заявник'" -->
+  <app-dropdown label="Статус" [control]="getFormControl('status')" [displayProps]="['value']" [items]="requestStatuses" [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="getCompanyRequestsByStatus($event)" *ngIf="(user$ | async)?.role === 'Заявник'">
   </app-dropdown>
   <app-dropdown label="Товар" [control]="getFormControl('goodTitle')" [displayProps]="['value']" [items]="goods"  [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="getCompanyRequestsByGoodTitle($event)">
   </app-dropdown>

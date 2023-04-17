@@ -12,6 +12,7 @@ export interface State {
   requests: RequestModel[] | null;
   pagination: Pagination;
   requestParams: RequestParams;
+  orderRequests: number[];
   error: string | null;
 }
 
@@ -20,6 +21,7 @@ export const initialState: State = {
   categories: null,
   requests: null,
   pagination: null,
+  orderRequests: [],
   requestParams: new RequestParams(),
   error: null
 };
@@ -46,5 +48,7 @@ export const requestsReducer = createReducer(
   // }),
   on(RequestsActions.setRequestParams, (state, { requestParams }) => ({ ...state, requestParams: {...requestParams} })),
   on(RequestsActions.clearState, (state) => ({ ...initialState })),
+  on(RequestsActions.addRequestToOrder, (state, { id }) => ({ ...state, orderRequests: [...state.orderRequests, id] })),
+  on(RequestsActions.deleteRequestFromOrder, (state, { id }) => ({ ...state, orderRequests: state.orderRequests.filter(r => r !== id) })),
   on(RequestsActions.failure, (state, { error }) => ({ ...state, error })),
 );

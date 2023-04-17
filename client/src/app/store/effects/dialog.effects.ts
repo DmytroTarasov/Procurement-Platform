@@ -16,6 +16,8 @@ import {
 } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 import { CreateRequestModalComponent } from 'src/app/requests/create-request-modal/create-request-modal.component';
 import { EditRequestModalComponent } from 'src/app/requests/edit-request-modal/edit-request-modal.component';
+import { CreateOrderModalComponent } from 'src/app/requests/create-order-modal/create-order-modal.component';
+import * as OrdersActions from 'src/app/orders/store/orders.actions';
 
 @Injectable()
 export class DialogEffects {
@@ -81,7 +83,7 @@ export class DialogEffects {
           const dialogRef = this.dialog.open(CreateSubdivisionModalComponent, {
             disableClose: true,
             data: {
-              companyId: action.companyId,
+              companyId: action.companyId
             },
           });
           return dialogRef.afterClosed();
@@ -94,7 +96,8 @@ export class DialogEffects {
     () => {
       return this.actions$.pipe(
         ofType(AuthActions.createCompanySuccess, AuthActions.createSubdivisionSuccess,
-          RequestsActions.createRequestSuccess, RequestsActions.editRequestSuccess),
+          RequestsActions.createRequestSuccess, RequestsActions.editRequestSuccess,
+          OrdersActions.createOrderSuccess),
         map((action) => {
           this.dialog.closeAll();
           this.dialog.open(ModalRedirectComponent, {
@@ -124,11 +127,24 @@ export class DialogEffects {
           };
           this.dialog.open(ModalRedirectComponent, {
             disableClose: true,
-            data,
+            data
           });
         })
       );
     },
+    { dispatch: false }
+  );
+
+  openCreateOrderDialog$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(DialogActions.openCreateOrderDialog),
+        map((action) => {
+          this.dialog.open(CreateOrderModalComponent, {
+            disableClose: true
+          });
+        })
+      ),
     { dispatch: false }
   );
 

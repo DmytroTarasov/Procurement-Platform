@@ -1,9 +1,8 @@
 namespace Domain
 {
-    public enum RequestStatus
+    public enum OrderStatus
     {
         Active,
-        AddedToOrder,
         Processed,
         Cancelled
     }

@@ -7,4 +7,5 @@ export const openCreateCompanyDialog = createAction('[Dialog] Open Create Compan
 export const openCreateSubdivisionDialog = createAction('[Dialog] Open Create Subdivision Dialog', props<{ companyId: number }>());
 export const openCreateRequestDialog = createAction('[Dialog] Open Create Request Dialog');
 export const openEditRequestDialog = createAction('[Dialog] Open Edit Request Dialog', props<{ request: RequestModel }>());
+export const openCreateOrderDialog = createAction('[Dialog] Open Create Order Dialog');
 // export const openRedirectDialog = createAction('[Dialog] Open Redirect Dialog', props<{ data: ModalRedirectData }>());

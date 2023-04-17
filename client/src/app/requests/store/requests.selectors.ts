@@ -27,3 +27,13 @@ export const selectRequestParams = createSelector(
   selectRequestsState,
   (state: State) => state.requestParams
 );
+
+export const selectOrderRequests = createSelector(
+  selectRequestsState,
+  (state: State) => state.orderRequests
+);
+
+export const selectError = createSelector(
+  selectRequestsState,
+  (state: State) => state.error
+);
