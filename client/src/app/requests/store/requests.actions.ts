@@ -67,3 +67,6 @@ export const setRequestParams = createAction(
   '[Requests] Set Request Params',
   props<{ requestParams: RequestParams }>()
 );
+export const clearState = createAction(
+  '[Requests] Clear State'
+);

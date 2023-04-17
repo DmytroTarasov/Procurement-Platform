@@ -12,7 +12,8 @@ namespace Persistence
                 var roles = new List<Role>
                 {
                     new Role { Name = "Адмін" },
-                    new Role { Name = "Покупець" },
+                    new Role { Name = "Заявник" },
+                    new Role { Name = "Замовник" },
                     new Role { Name = "Постачальник" },
                     new Role { Name = "Перевізник" }
                 };
@@ -61,7 +62,7 @@ namespace Persistence
                         },
                     }
                 };
-                await context.Companies.AddAsync(company);
+                context.Companies.Add(company);
                 await context.SaveChangesAsync();
             }
 
@@ -136,7 +137,7 @@ namespace Persistence
                     }
                 };
 
-                await context.Categories.AddRangeAsync(categories);
+                context.Categories.AddRange(categories);
                 await context.SaveChangesAsync();
             }
         }

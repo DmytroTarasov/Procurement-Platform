@@ -19,6 +19,17 @@ export class RouteEffects {
     { dispatch: false }
   );
 
+  redirectToLogin$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(_ => {
+          this.router.navigateByUrl('auth/login');
+        })
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromApp.AppState>,

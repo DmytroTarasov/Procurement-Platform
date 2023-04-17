@@ -4,6 +4,7 @@ import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
 import * as RequestsActions from './requests.actions';
 import * as fromApp from '../../store/app.reducer';
 import { Store, select } from '@ngrx/store';
+import * as AuthActions from 'src/app/auth/store/auth.actions';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
@@ -104,6 +105,17 @@ export class RequestsEffects {
             return of(RequestsActions.failure({ error: errorRes?.error }));
           })
         );
+      })
+    )
+  );
+
+  clearState$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        AuthActions.logout
+      ),
+      map((action) => {
+        return RequestsActions.clearState();
       })
     )
   );

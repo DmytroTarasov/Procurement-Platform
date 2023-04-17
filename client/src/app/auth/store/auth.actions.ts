@@ -23,5 +23,6 @@ export const createSubdivisionSuccess = createAction('[Auth] Create Subdivision 
 export const login = createAction('[Auth] Login', props<{ login: Login }>());
 export const loginSuccess = createAction('[Auth] Login Success', props<{ user: User, redirect?: boolean }>());
 export const autoLogin = createAction('[Auth] Auto Login');
+export const logout = createAction('[Auth] Logout');
 export const failure = createAction('[Auth] Failure', props<{ error: string }>());
 

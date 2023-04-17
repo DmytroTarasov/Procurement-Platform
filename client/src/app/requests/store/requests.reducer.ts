@@ -45,5 +45,6 @@ export const requestsReducer = createReducer(
   //   };
   // }),
   on(RequestsActions.setRequestParams, (state, { requestParams }) => ({ ...state, requestParams: {...requestParams} })),
+  on(RequestsActions.clearState, (state) => ({ ...initialState })),
   on(RequestsActions.failure, (state, { error }) => ({ ...state, error })),
 );

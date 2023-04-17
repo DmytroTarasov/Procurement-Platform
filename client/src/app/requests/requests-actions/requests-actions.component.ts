@@ -17,11 +17,11 @@ export interface GoodModel {
 }
 
 @Component({
-  selector: 'app-requests-filter-sort-actions',
-  templateUrl: './requests-filter-sort-actions.component.html',
-  styleUrls: ['./requests-filter-sort-actions.component.scss']
+  selector: 'app-requests-actions',
+  templateUrl: './requests-actions.component.html',
+  styleUrls: ['./requests-actions.component.scss']
 })
-export class RequestsFilterSortActionsComponent implements OnInit, OnDestroy {
+export class RequestsActionsComponent implements OnInit, OnDestroy {
   // ({ key, value })
   requestStatuses = [{ key: '', value: 'Всі' }, ...Object.entries(requestStatuses).map(([key, value]) => {
     var splitted = value.split(' ');

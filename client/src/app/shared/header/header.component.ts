@@ -6,6 +6,7 @@ import { User } from 'src/app/_models/user.model';
 import * as fromApp from 'src/app/store/app.reducer';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
+import * as AuthActions from 'src/app/auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.user$ = this.store.pipe(select(selectUser));
     this.loading$ = this.store.pipe(select(selectLoading));
+  }
+
+  logout() {
+    this.store.dispatch(AuthActions.logout());
   }
 
 }
