@@ -1,0 +1,18 @@
+<div class="w-full bg-white rounded-xl shadow-gray-400 p-6 mb-4">
+  <div class="grid grid-cols-[50%_15%_1fr] gap-x-4">
+    <div>
+      <h3 class="font-semibold text-xl text-[#2FCB80]">{{order.title}}</h3>
+      <p class="mt-3">Бюджет: {{order.budget}} (грн.)</p>
+    </div>
+
+    <div>
+
+    </div>
+
+    <div>
+      <p class="text-right italic text-[#A9A9A9] text-sm">Створене {{order.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA'}}</p>
+
+    </div>
+
+  </div>
+</div>

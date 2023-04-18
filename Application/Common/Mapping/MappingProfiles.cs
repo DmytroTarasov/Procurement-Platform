@@ -16,6 +16,10 @@ namespace Application.Common.Mapping
             CreateMap<Good, GoodDto>().ReverseMap();
             CreateMap<Category, CategoryDto>();
             CreateMap<Request, RequestDto>().ReverseMap();
+            CreateMap<Order, OrderDto>();
+            CreateMap<Request, OrderRequestDto>()
+                .ForMember(ord => ord.GoodTitle, o => o.MapFrom(r => r.Good.Title))
+                .ForMember(ord => ord.SubdivisionTitle, o => o.MapFrom(r => r.Subdivision.Title));
         }
     }
 }

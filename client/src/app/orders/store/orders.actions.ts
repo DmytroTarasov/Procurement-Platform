@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { CreateOrder } from 'src/app/_models/create-order.model';
+import { Order } from 'src/app/_models/order.model';
+import { Pagination } from 'src/app/_models/pagination.model';
 import { RequestParams } from 'src/app/_models/request-params.model';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 
@@ -15,7 +16,15 @@ export const createOrderSuccess = createAction(
     requestParams?: RequestParams;
   }>()
 );
+export const getOrders = createAction(
+  '[Orders] Get Orders',
+  props<{ pageNumber?: number }>()
+);
+export const setOrders = createAction(
+  '[Orders] Set Orders',
+  props<{ orders: Order[]; pagination: Pagination }>()
+);
 export const failure = createAction(
-  '[Requests] Failure',
+  '[Orders] Failure',
   props<{ error: string }>()
 );

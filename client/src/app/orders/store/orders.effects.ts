@@ -4,11 +4,11 @@ import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
 import * as OrdersActions from './orders.actions';
 import * as fromApp from '../../store/app.reducer';
 import { Store, select } from '@ngrx/store';
-import * as AuthActions from 'src/app/auth/store/auth.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 import { OrderService } from 'src/app/_services/order.service';
 import { selectOrderRequests } from 'src/app/requests/store/requests.selectors';
+import { selectPagination } from './orders.selectors';
 
 @Injectable()
 export class OrdersEffects {
@@ -30,15 +30,37 @@ export class OrdersEffects {
                 text: 'Залишитись',
                 route: 'requests',
               },
-              successfull: true
+              successfull: true,
             };
-            // need to be fixed
             return OrdersActions.createOrderSuccess({
-              data
+              data,
             });
           }),
           catchError((errorRes) => {
             return of(OrdersActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
+  );
+
+  getOrders$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        OrdersActions.getOrders,
+      ),
+      withLatestFrom(
+        this.store.pipe(select(selectPagination)),
+      ),
+      switchMap(([action, pagination]) => {
+        const pageNumber = action.pageNumber ?? (pagination && pagination.currentPage ? pagination.currentPage : 1);
+        return this.orderService.getOrders(pageNumber).pipe(
+          map((response) => {
+            const pagination = JSON.parse(response.headers.get('Pagination'));
+            return OrdersActions.setOrders({
+              orders: response.body,
+              pagination,
+            });
           })
         );
       })
