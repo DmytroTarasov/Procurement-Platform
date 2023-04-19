@@ -18,14 +18,20 @@ export class RequestService {
   }
 
   getCompanyRequests(page?: number, requestParams?: RequestParams) {
-    let params = new HttpParams();
-    if (page) {
-      params = params.append('pageNumber', page);
-    }
-    if (requestParams) {
-      params = params.append('status', requestParams.status);
-      params = params.append('goodTitle', requestParams.goodTitle);
-    }
+    // let params = new HttpParams();
+    // if (page) {
+    //   params = params.append('pageNumber', page);
+    // }
+    // if (requestParams && requestParams.status) {
+    //   params = params.append('status', requestParams.status);
+    // }
+    // if (requestParams && requestParams.categoryTitle) {
+    //   params = params.append('categoryTitle', requestParams.categoryTitle);
+    // }
+    // if (requestParams && requestParams.goodTitle) {
+    //   params = params.append('goodTitle', requestParams.goodTitle);
+    // }
+    const params = this.createRequestParams(page, requestParams);
     return this.http.get<RequestModel[]>(`${environment.serverUrl}/requests`, { observe: 'response', params });
   }
 
@@ -35,5 +41,15 @@ export class RequestService {
 
   cancelRequest(id: number) {
     return this.http.put<number>(`${environment.serverUrl}/requests/${id}/cancel`, {});
+  }
+
+  private createRequestParams(page?: number, requestParams?: RequestParams) {
+    let params = new HttpParams();
+    params = page ? params.append('pageNumber', page) : params;
+    if (!requestParams) return params;
+    params = requestParams.status ? params.append('status', requestParams.status) : params;
+    params = requestParams.categoryTitle ? params.append('categoryTitle', requestParams.categoryTitle) : params;
+    params = requestParams.goodTitle ? params.append('goodTitle', requestParams.goodTitle) : params;
+    return params;
   }
 }

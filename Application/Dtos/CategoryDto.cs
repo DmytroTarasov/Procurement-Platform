@@ -4,6 +4,6 @@ namespace Application.Dtos
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public ICollection<GoodDto> Goods { get; set; }
+        // public ICollection<GoodDto> Goods { get; set; }
     }
 }

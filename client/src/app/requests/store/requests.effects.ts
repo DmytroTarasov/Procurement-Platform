@@ -20,7 +20,7 @@ export class RequestsEffects {
     this.actions$.pipe(
       ofType(RequestsActions.getGoods),
       switchMap((action) => {
-        return this.goodService.getGoods().pipe(
+        return this.goodService.getGoods(action.categoryTitle).pipe(
           map((goods) => {
             return RequestsActions.setGoods({ goods });
           })
@@ -56,7 +56,9 @@ export class RequestsEffects {
         this.store.pipe(select(selectRequestParams))
       ),
       switchMap(([action, pagination, requestParams]) => {
-        const pageNumber = action.pageNumber ?? (pagination && pagination.currentPage ? pagination.currentPage : 1);
+        const pageNumber =
+          action.pageNumber ??
+          (pagination && pagination.currentPage ? pagination.currentPage : 1);
         const params = action.requestParams ?? requestParams;
         return this.requestService.getCompanyRequests(pageNumber, params).pipe(
           map((response) => {
@@ -71,14 +73,39 @@ export class RequestsEffects {
     )
   );
 
+  refreshGoods$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RequestsActions.createRequestSuccess),
+      withLatestFrom(this.store.pipe(select(selectRequestParams))),
+      switchMap(([action, requestParams]) => {
+        return this.goodService.getGoods(requestParams.categoryTitle).pipe(
+          map((goods) => {
+            return RequestsActions.setGoods({ goods });
+          })
+        );
+      })
+    )
+  );
+
+  // setRequestParams$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(
+  //       RequestsActions.getCompanyRequests
+  //     ),
+  //     map((action) => {
+  //       if (action.requestParams) return RequestsActions.setRequestParams({ requestParams: action.requestParams });
+  //       return RequestsActions.noAction();
+  //     })
+  //   )
+  // );
   setRequestParams$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        RequestsActions.getCompanyRequests
-      ),
+      ofType(RequestsActions.setRequestParams),
       map((action) => {
-        if (action.requestParams) return RequestsActions.setRequestParams({ requestParams: action.requestParams });
-        return RequestsActions.noAction();
+        return RequestsActions.getCompanyRequests({
+          pageNumber: 1,
+          requestParams: action.requestParams,
+        });
       })
     )
   );
@@ -113,9 +140,7 @@ export class RequestsEffects {
 
   clearState$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        AuthActions.logout
-      ),
+      ofType(AuthActions.logout),
       map((action) => {
         return RequestsActions.clearState();
       })

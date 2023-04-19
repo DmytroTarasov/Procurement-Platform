@@ -12,8 +12,10 @@ export class RouteEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        tap(_ => {
-          this.router.navigateByUrl('/');
+        tap(action => {
+          if (action.redirect) {
+            this.router.navigateByUrl('/');
+          }
         })
       ),
     { dispatch: false }

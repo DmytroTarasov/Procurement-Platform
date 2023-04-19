@@ -39,6 +39,7 @@ namespace Application.Requests
                 .Include(c => c.Subdivision)
                 .ThenInclude(s => s.Company)
                 .Include(c => c.Good)
+                .ThenInclude(g => g.Category)
                 .Where(r => r.Subdivision.CompanyId == companyId);
 
             if (role == "Замовник") {
@@ -49,6 +50,10 @@ namespace Application.Requests
                     Enum.TryParse(request.RequestsParams.Status, out status)) {
                     query = query.Where(r => r.Status == status);
                 }
+            }
+
+            if (!string.IsNullOrEmpty(request.RequestsParams.CategoryTitle)) {
+                query = query.Where(r => r.Good.Category.Title == request.RequestsParams.CategoryTitle);
             }
 
             if (!string.IsNullOrEmpty(request.RequestsParams.GoodTitle)) {

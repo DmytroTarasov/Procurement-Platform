@@ -6,7 +6,7 @@ import { AuthGuard } from './_guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'requests',
+    redirectTo: 'orders',
     pathMatch: 'full'
   },
   {

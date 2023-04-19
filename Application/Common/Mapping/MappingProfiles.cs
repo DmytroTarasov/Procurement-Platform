@@ -13,7 +13,12 @@ namespace Application.Common.Mapping
             CreateMap<SubdivisionDto, Subdivision>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Role, RoleDto>();
-            CreateMap<Good, GoodDto>().ReverseMap();
+            // CreateMap<Good, GoodDto>().ReverseMap();
+            CreateMap<Good, GoodDto>()
+                .ForMember(gd => gd.CategoryTitle, o => o.MapFrom(g => g.Category.Title));
+            CreateMap<GoodDto, Good>();
+            // CreateMap<GoodDto, Good>()
+            //     .ForMember(g => g.)
             CreateMap<Category, CategoryDto>();
             CreateMap<Request, RequestDto>().ReverseMap();
             CreateMap<Order, OrderDto>();

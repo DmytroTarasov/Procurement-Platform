@@ -1,9 +1,9 @@
-import { ApplicationRef, ChangeDetectorRef, Injectable } from '@angular/core';
+import { ApplicationRef, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, tap } from 'rxjs';
+import { map, tap, withLatestFrom } from 'rxjs';
 import * as DialogActions from '../actions/dialog.actions';
 import * as fromApp from '../../store/app.reducer';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateCompanyModalComponent } from 'src/app/auth/create-company-modal/create-company-modal.component';
 import { CreateSubdivisionModalComponent } from 'src/app/auth/create-subdivision-modal/create-subdivision-modal.component';
@@ -18,6 +18,7 @@ import { CreateRequestModalComponent } from 'src/app/requests/create-request-mod
 import { EditRequestModalComponent } from 'src/app/requests/edit-request-modal/edit-request-modal.component';
 import { CreateOrderModalComponent } from 'src/app/requests/create-order-modal/create-order-modal.component';
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
+import { selectRequestParams } from 'src/app/requests/store/requests.selectors';
 
 @Injectable()
 export class DialogEffects {
@@ -25,11 +26,16 @@ export class DialogEffects {
     () =>
       this.actions$.pipe(
         ofType(DialogActions.closeDialogs),
-        tap((action) => {
+        withLatestFrom(this.store.pipe(select(selectRequestParams))),
+        map(([action, requestParams]) => {
           this.dialog.closeAll();
+          if (requestParams.categoryTitle) {
+            return RequestsActions.getGoods({ categoryTitle: requestParams.categoryTitle });
+          }
+          return DialogActions.noAction();
         })
       ),
-    { dispatch: false }
+    // { dispatch: false }
   );
 
   openCreateCompanyDialog$ = createEffect(

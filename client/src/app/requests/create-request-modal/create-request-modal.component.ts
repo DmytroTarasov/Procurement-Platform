@@ -27,7 +27,7 @@ export class CreateRequestModalComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
-    this.store.dispatch(RequestsActions.getGoods());
+    this.store.dispatch(RequestsActions.getGoods({}));
 
     this.requestForm = new FormGroup({
       description: new FormControl('', Validators.required),

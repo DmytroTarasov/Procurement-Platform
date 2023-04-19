@@ -7,7 +7,6 @@ import { RequestsListComponent } from './requests-list/requests-list.component';
 import { CreateRequestModalComponent } from './create-request-modal/create-request-modal.component';
 import { RequestsListItemComponent } from './requests-list-item/requests-list-item.component';
 import { EditRequestModalComponent } from './edit-request-modal/edit-request-modal.component';
-import { RequestsFilterSortActionsComponent } from './requests-filter-sort-actions/requests-filter-sort-actions.component';
 import { RequestsActionsComponent } from './requests-actions/requests-actions.component';
 import { CreateOrderModalComponent } from './create-order-modal/create-order-modal.component';
 
@@ -18,7 +17,6 @@ import { CreateOrderModalComponent } from './create-order-modal/create-order-mod
     CreateRequestModalComponent,
     RequestsListItemComponent,
     EditRequestModalComponent,
-    RequestsFilterSortActionsComponent,
     RequestsActionsComponent,
     CreateOrderModalComponent
   ],

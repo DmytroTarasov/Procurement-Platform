@@ -8,7 +8,10 @@ import { RequestParams } from 'src/app/_models/request-params.model';
 import { RequestModel } from 'src/app/_models/request.model';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 
-export const getGoods = createAction('[Requests] Get Goods');
+export const getGoods = createAction(
+  '[Requests] Get Goods',
+  props<{ categoryTitle?: string }>()
+);
 export const setGoods = createAction(
   '[Requests] Set Goods',
   props<{ goods: Good[] }>()
