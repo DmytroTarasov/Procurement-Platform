@@ -7,6 +7,12 @@ namespace Domain
         public decimal Budget { get; set; }
         public ICollection<Request> Requests { get; set; }
         public ICollection<Proposal> Proposals { get; set; }
+        public int BuyerContactPersonId { get; set; }
+        public User BuyerContactPerson { get; set; }
+        public int? SupplierContactPersonId { get; set; }
+        public User SupplierContactPerson { get; set; }
+        public int? TransporterContactPersonId { get; set; }
+        public User TransporterContactPerson { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Active;
     }
 }

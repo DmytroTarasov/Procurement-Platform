@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Application.Common.Models;
 using AutoMapper;
 using Domain;
@@ -26,6 +27,7 @@ namespace Application.Orders
         }
         public async Task<Result<int>> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {   
+            var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             var requests = await _context.Requests.Where(r => command.RequestIds.Contains(r.Id)).ToListAsync();
 
             if (requests.Count == 0) 
@@ -35,7 +37,8 @@ namespace Application.Orders
                 Title = command.Title,
                 CreatedAt = DateTime.UtcNow,
                 Requests = requests,
-                Budget = requests.Sum(r => r.Budget)
+                Budget = requests.Sum(r => r.Budget),
+                BuyerContactPersonId = userId
             };
 
             _context.Orders.Add(order);

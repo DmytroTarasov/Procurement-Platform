@@ -50,5 +50,6 @@ export const requestsReducer = createReducer(
   on(RequestsActions.clearState, (state) => ({ ...initialState })),
   on(RequestsActions.addRequestToOrder, (state, { id }) => ({ ...state, orderRequests: [...state.orderRequests, id] })),
   on(RequestsActions.deleteRequestFromOrder, (state, { id }) => ({ ...state, orderRequests: state.orderRequests.filter(r => r !== id) })),
+  on(RequestsActions.clearOrderRequests, (state) => ({ ...state, orderRequests: [] })),
   on(RequestsActions.failure, (state, { error }) => ({ ...state, error })),
 );

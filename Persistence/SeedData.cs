@@ -140,6 +140,78 @@ namespace Persistence
                 context.Categories.AddRange(categories);
                 await context.SaveChangesAsync();
             }
+
+            if (!await context.Requests.AnyAsync()) {
+                var requests = new List<Request> {
+                    new Request {
+                        Description = "Потрібен жорсткий диск", 
+                        SubdivisionId = 1,
+                        GoodId = 4,
+                        Quantity = 10,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 10000
+                    },
+                    new Request {
+                        Description = "Потрібні принтери чорного кольору", 
+                        SubdivisionId = 1,
+                        GoodId = 1,
+                        Quantity = 5,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 15000
+                    },    
+                    new Request {
+                        Description = "Потрібні клавіатури під стаціонарний комп'ютер", 
+                        SubdivisionId = 2,
+                        GoodId = 2,
+                        Quantity = 30,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 32000
+                    },
+                    new Request {
+                        Description = "Потрібні клавіатури білого кольору у шкільний комп'ютерний клас", 
+                        SubdivisionId = 1,
+                        GoodId = 2,
+                        Quantity = 20,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 30000
+                    },
+                    new Request {
+                        Description = "Потрібний папір форматний", 
+                        SubdivisionId = 1,
+                        GoodId = 8,
+                        Quantity = 2000,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 10000
+                    },  
+                    new Request {
+                        Description = "Потрібні папки-планшети", 
+                        SubdivisionId = 2,
+                        GoodId = 10,
+                        Quantity = 4,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 1000
+                    }, 
+                    new Request {
+                        Description = "Необхідний вогнегасник", 
+                        SubdivisionId = 1,
+                        GoodId = 11,
+                        Quantity = 1,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 1500
+                    }, 
+                    new Request {
+                        Description = "Потрібні файли для документів", 
+                        SubdivisionId = 2,
+                        GoodId = 9,
+                        Quantity = 100,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 4000
+                    }                                     
+                };
+
+                context.Requests.AddRange(requests);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

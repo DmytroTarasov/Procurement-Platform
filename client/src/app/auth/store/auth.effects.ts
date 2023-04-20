@@ -53,7 +53,6 @@ export class AuthEffects {
       switchMap((action) => {
         return this.authService.register(action.user).pipe(
           map((user) => {
-            console.log(user);
             localStorage.setItem('token', user.token);
             return AuthActions.registerSuccess({ user });
           }),
@@ -143,7 +142,6 @@ export class AuthEffects {
       switchMap((action) => {
         return this.authService.login(action.login).pipe(
           map((user) => {
-            console.log(user);
             localStorage.setItem('token', user.token);
             return AuthActions.loginSuccess({ user, redirect: true });
           }),
@@ -161,7 +159,6 @@ export class AuthEffects {
       switchMap(() => {
         return this.authService.getCurrentUser().pipe(
           map((user) => {
-            console.log(user);
             // localStorage.setItem('token', user.token);
             return AuthActions.loginSuccess({ user, redirect: false });
           }),

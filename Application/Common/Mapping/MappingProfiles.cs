@@ -22,9 +22,12 @@ namespace Application.Common.Mapping
             CreateMap<Category, CategoryDto>();
             CreateMap<Request, RequestDto>().ReverseMap();
             CreateMap<Order, OrderDto>();
+                // .ForMember(od => od.BuyerCompanyName, o => o.MapFrom(or => or.BuyerContactPerson.Subdivision.Company.Title));
             CreateMap<Request, OrderRequestDto>()
                 .ForMember(ord => ord.GoodTitle, o => o.MapFrom(r => r.Good.Title))
                 .ForMember(ord => ord.SubdivisionTitle, o => o.MapFrom(r => r.Subdivision.Title));
+            CreateMap<User, ContactPersonDto>()
+                .ForMember(cpd => cpd.CompanyName, o => o.MapFrom(u => u.Subdivision.Company.Title));
         }
     }
 }

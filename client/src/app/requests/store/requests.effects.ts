@@ -188,6 +188,15 @@ export class RequestsEffects {
     )
   );
 
+  clearOrderRequests$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersActions.createOrderSuccess),
+      map((action) => {
+        return RequestsActions.clearOrderRequests();
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private goodService: GoodService,

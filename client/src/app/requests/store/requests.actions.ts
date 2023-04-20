@@ -81,3 +81,6 @@ export const deleteRequestFromOrder = createAction(
   '[Requests] Delete Request From Order',
   props<{ id: number }>()
 );
+export const clearOrderRequests = createAction(
+  '[Requests] Clear Order Requests'
+);
