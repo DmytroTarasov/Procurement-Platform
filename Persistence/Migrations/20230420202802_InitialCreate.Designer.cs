@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230417162620_AddStatusToOrder")]
-    partial class AddStatusToOrder
+    [Migration("20230420202802_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,7 +77,49 @@ namespace Persistence.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("Domain.Good", b =>
+            modelBuilder.Entity("Domain.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("BuyerContactPersonId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("SupplierContactPersonId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("TransporterContactPersonId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuyerContactPersonId");
+
+                    b.HasIndex("SupplierContactPersonId");
+
+                    b.HasIndex("TransporterContactPersonId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Domain.ProcurementItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,34 +138,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Goods");
-                });
-
-            modelBuilder.Entity("Domain.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Budget")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Orders");
+                    b.ToTable("ProcurementItems");
                 });
 
             modelBuilder.Entity("Domain.Proposal", b =>
@@ -178,17 +193,16 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("GoodId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("MeasurementUnit")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("ProcurementItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Quantity")
                         .HasColumnType("integer");
 
                     b.Property<string>("Status")
@@ -200,9 +214,9 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GoodId");
-
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("ProcurementItemId");
 
                     b.HasIndex("SubdivisionId");
 
@@ -459,10 +473,33 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Good", b =>
+            modelBuilder.Entity("Domain.Order", b =>
+                {
+                    b.HasOne("Domain.User", "BuyerContactPerson")
+                        .WithMany()
+                        .HasForeignKey("BuyerContactPersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.User", "SupplierContactPerson")
+                        .WithMany()
+                        .HasForeignKey("SupplierContactPersonId");
+
+                    b.HasOne("Domain.User", "TransporterContactPerson")
+                        .WithMany()
+                        .HasForeignKey("TransporterContactPersonId");
+
+                    b.Navigation("BuyerContactPerson");
+
+                    b.Navigation("SupplierContactPerson");
+
+                    b.Navigation("TransporterContactPerson");
+                });
+
+            modelBuilder.Entity("Domain.ProcurementItem", b =>
                 {
                     b.HasOne("Domain.Category", "Category")
-                        .WithMany("Goods")
+                        .WithMany("ProcurementItems")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -499,15 +536,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Request", b =>
                 {
-                    b.HasOne("Domain.Good", "Good")
-                        .WithMany()
-                        .HasForeignKey("GoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Order", "Order")
                         .WithMany("Requests")
                         .HasForeignKey("OrderId");
+
+                    b.HasOne("Domain.ProcurementItem", "ProcurementItem")
+                        .WithMany()
+                        .HasForeignKey("ProcurementItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Subdivision", "Subdivision")
                         .WithMany("Requests")
@@ -515,9 +552,9 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Good");
-
                     b.Navigation("Order");
+
+                    b.Navigation("ProcurementItem");
 
                     b.Navigation("Subdivision");
                 });
@@ -599,7 +636,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Category", b =>
                 {
-                    b.Navigation("Goods");
+                    b.Navigation("ProcurementItems");
                 });
 
             modelBuilder.Entity("Domain.Company", b =>

@@ -18,19 +18,6 @@ export class RequestService {
   }
 
   getCompanyRequests(page?: number, requestParams?: RequestParams) {
-    // let params = new HttpParams();
-    // if (page) {
-    //   params = params.append('pageNumber', page);
-    // }
-    // if (requestParams && requestParams.status) {
-    //   params = params.append('status', requestParams.status);
-    // }
-    // if (requestParams && requestParams.categoryTitle) {
-    //   params = params.append('categoryTitle', requestParams.categoryTitle);
-    // }
-    // if (requestParams && requestParams.goodTitle) {
-    //   params = params.append('goodTitle', requestParams.goodTitle);
-    // }
     const params = this.createRequestParams(page, requestParams);
     return this.http.get<RequestModel[]>(`${environment.serverUrl}/requests`, { observe: 'response', params });
   }
@@ -49,7 +36,7 @@ export class RequestService {
     if (!requestParams) return params;
     params = requestParams.status ? params.append('status', requestParams.status) : params;
     params = requestParams.categoryTitle ? params.append('categoryTitle', requestParams.categoryTitle) : params;
-    params = requestParams.goodTitle ? params.append('goodTitle', requestParams.goodTitle) : params;
+    params = requestParams.procurementItemTitle ? params.append('procurementItemTitle', requestParams.procurementItemTitle) : params;
     return params;
   }
 }

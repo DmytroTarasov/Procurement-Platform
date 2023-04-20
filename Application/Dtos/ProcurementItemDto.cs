@@ -1,6 +1,6 @@
 namespace Application.Dtos
 {
-    public class GoodDto
+    public class ProcurementItemDto
     {
         public int Id { get; set; }
         public string Title { get; set; }

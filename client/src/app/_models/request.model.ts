@@ -1,4 +1,4 @@
-import { Good } from "./good.model";
+import { ProcurementItem } from "./procurement-item.model";
 import { Subdivision } from "./subdivision.model";
 
 export interface RequestModel {
@@ -6,8 +6,8 @@ export interface RequestModel {
   description: string;
   createdAt: Date;
   subdivision: Subdivision;
-  good: Good;
-  goodId?: number;
+  procurementItem: ProcurementItem;
+  procurementItemId?: number;
   quantity: number;
   measurementUnit: string;
   budget: number;

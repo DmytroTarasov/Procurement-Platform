@@ -10,6 +10,8 @@ namespace Persistence.Configurations
         {
             builder.Property(r => r.Description).IsRequired();
             builder.Property(r => r.OrderId).IsRequired(false);
+            builder.Property(r => r.Quantity).IsRequired(false);
+            builder.Property(r => r.MeasurementUnit).IsRequired(false);
 
             builder.Property(r => r.MeasurementUnit)
                 .HasConversion(mu => mu.ToString(), s => (MeasurementUnit)Enum.Parse(typeof(MeasurementUnit), s));

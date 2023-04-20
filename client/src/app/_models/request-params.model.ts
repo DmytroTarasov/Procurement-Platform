@@ -1,11 +1,11 @@
 export class RequestParams {
   status: string;
   categoryTitle: string;
-  goodTitle: string;
+  procurementItemTitle: string;
 
-  constructor(status = '', categoryTitle = '', goodTitle = '') {
+  constructor(status = '', categoryTitle = '', procurementItemTitle = '') {
     this.status = status;
     this.categoryTitle = categoryTitle;
-    this.goodTitle = goodTitle;
+    this.procurementItemTitle = procurementItemTitle;
   }
 }

@@ -6,9 +6,9 @@ namespace Application.Dtos
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public SubdivisionDto Subdivision { get; set; }
-        public GoodDto Good { get; set; }
-        public int GoodId { get; set; }
-        public int Quantity { get; set; }
+        public ProcurementItemDto ProcurementItem { get; set; }
+        public int ProcurementItemId { get; set; }
+        public int? Quantity { get; set; }
         public string MeasurementUnit { get; set; }
         public decimal Budget { get; set; }
         public string Status { get; set; }

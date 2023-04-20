@@ -57,22 +57,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Budget = table.Column<decimal>(type: "numeric", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -94,7 +78,7 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Goods",
+                name: "ProcurementItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -104,9 +88,9 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Goods", x => x.Id);
+                    table.PrimaryKey("PK_ProcurementItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Goods_Categories_CategoryId",
+                        name: "FK_ProcurementItems_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
@@ -169,46 +153,7 @@ namespace Persistence.Migrations
                         name: "FK_AspNetUsers_Subdivisions_SubdivisionId",
                         column: x => x.SubdivisionId,
                         principalTable: "Subdivisions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Requests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    SubdivisionId = table.Column<int>(type: "integer", nullable: false),
-                    GoodId = table.Column<int>(type: "integer", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    MeasurementUnit = table.Column<int>(type: "integer", nullable: false),
-                    Budget = table.Column<decimal>(type: "numeric", nullable: false),
-                    RequestStatus = table.Column<int>(type: "integer", nullable: false),
-                    OrderId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Requests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Requests_Goods_GoodId",
-                        column: x => x.GoodId,
-                        principalTable: "Goods",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Requests_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Requests_Subdivisions_SubdivisionId",
-                        column: x => x.SubdivisionId,
-                        principalTable: "Subdivisions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -297,6 +242,41 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Budget = table.Column<decimal>(type: "numeric", nullable: false),
+                    BuyerContactPersonId = table.Column<int>(type: "integer", nullable: false),
+                    SupplierContactPersonId = table.Column<int>(type: "integer", nullable: true),
+                    TransporterContactPersonId = table.Column<int>(type: "integer", nullable: true),
+                    Status = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_BuyerContactPersonId",
+                        column: x => x.BuyerContactPersonId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_SupplierContactPersonId",
+                        column: x => x.SupplierContactPersonId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_TransporterContactPersonId",
+                        column: x => x.TransporterContactPersonId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Proposals",
                 columns: table => new
                 {
@@ -327,6 +307,44 @@ namespace Persistence.Migrations
                         name: "FK_Proposals_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Requests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    SubdivisionId = table.Column<int>(type: "integer", nullable: false),
+                    ProcurementItemId = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: true),
+                    MeasurementUnit = table.Column<string>(type: "text", nullable: true),
+                    Budget = table.Column<decimal>(type: "numeric", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    OrderId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Requests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Requests_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Requests_ProcurementItems_ProcurementItemId",
+                        column: x => x.ProcurementItemId,
+                        principalTable: "ProcurementItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Requests_Subdivisions_SubdivisionId",
+                        column: x => x.SubdivisionId,
+                        principalTable: "Subdivisions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -374,8 +392,23 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goods_CategoryId",
-                table: "Goods",
+                name: "IX_Orders_BuyerContactPersonId",
+                table: "Orders",
+                column: "BuyerContactPersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_SupplierContactPersonId",
+                table: "Orders",
+                column: "SupplierContactPersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_TransporterContactPersonId",
+                table: "Orders",
+                column: "TransporterContactPersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProcurementItems_CategoryId",
+                table: "ProcurementItems",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
@@ -394,14 +427,14 @@ namespace Persistence.Migrations
                 column: "TransporterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Requests_GoodId",
-                table: "Requests",
-                column: "GoodId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Requests_OrderId",
                 table: "Requests",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Requests_ProcurementItemId",
+                table: "Requests",
+                column: "ProcurementItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Requests_SubdivisionId",
@@ -441,19 +474,19 @@ namespace Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Goods");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Subdivisions");
+                name: "ProcurementItems");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Subdivisions");
 
             migrationBuilder.DropTable(
                 name: "Companies");

@@ -3,9 +3,9 @@ import { State } from './requests.reducer';
 
 export const selectRequestsState = createFeatureSelector<State>('requests');
 
-export const selectGoods = createSelector(
+export const selectProcurementItems = createSelector(
   selectRequestsState,
-  (state: State) => state.goods
+  (state: State) => state.procurementItems
 );
 
 export const selectCategories = createSelector(

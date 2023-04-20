@@ -38,8 +38,8 @@ namespace Application.Requests
             var query = _context.Requests
                 .Include(c => c.Subdivision)
                 .ThenInclude(s => s.Company)
-                .Include(c => c.Good)
-                .ThenInclude(g => g.Category)
+                .Include(c => c.ProcurementItem)
+                .ThenInclude(p => p.Category)
                 .Where(r => r.Subdivision.CompanyId == companyId);
 
             if (role == "Замовник") {
@@ -53,22 +53,14 @@ namespace Application.Requests
             }
 
             if (!string.IsNullOrEmpty(request.RequestsParams.CategoryTitle)) {
-                query = query.Where(r => r.Good.Category.Title == request.RequestsParams.CategoryTitle);
+                query = query.Where(r => r.ProcurementItem.Category.Title == request.RequestsParams.CategoryTitle);
             }
 
-            if (!string.IsNullOrEmpty(request.RequestsParams.GoodTitle)) {
-                query = query.Where(r => r.Good.Title == request.RequestsParams.GoodTitle);
+            if (!string.IsNullOrEmpty(request.RequestsParams.ProcurementItemTitle)) {
+                query = query.Where(r => r.ProcurementItem.Title == request.RequestsParams.ProcurementItemTitle);
             }
 
             query = query.OrderByDescending(r => r.CreatedAt);
-
-            // var query = _context.Requests
-            //     .Include(c => c.Subdivision)
-            //     .ThenInclude(s => s.Company)
-            //     .Include(c => c.Good)
-            //     .Where(r => r.Subdivision.CompanyId == companyId)
-            //     .OrderByDescending(r => r.CreatedAt)
-            //     .ProjectTo<RequestDto>(_mapper.ConfigurationProvider);
 
             var pagedList = await PagedList<RequestDto>.CreateAsync(
                 query.ProjectTo<RequestDto>(_mapper.ConfigurationProvider),

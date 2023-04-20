@@ -11,9 +11,9 @@ namespace Persistence.Configurations
             builder.Property(c => c.Title).IsRequired();
             
             builder 
-                .HasMany(c => c.Goods)
-                .WithOne(g => g.Category)
-                .HasForeignKey(g => g.CategoryId);
+                .HasMany(c => c.ProcurementItems)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId);
         }
     }
 }

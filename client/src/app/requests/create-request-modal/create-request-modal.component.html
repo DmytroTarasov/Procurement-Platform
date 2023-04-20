@@ -2,15 +2,15 @@
   <div mat-dialog-content>
     <form class="w-full mt-3" [formGroup]="requestForm" (ngSubmit)="onSubmit()">
       <app-textarea label="Опис" [control]="getFormControl('description')"></app-textarea>
-      <app-dropdown *ngIf="goodExists"  label="Товар" [control]="getFormControl('goodId')" [displayProps]="['title']" [items]="(goods$ | async)"
-        errorMessage="Товар має бути обраний">
-        <p class="text-sm italic">Не знайшли товар у списку? <span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleGoodExistence()">Натисність,</span> щоб створити новий</p>
+      <app-dropdown *ngIf="procurementItemExists" label="Предмет закупівлі" [control]="getFormControl('procurementItemId')" [displayProps]="['title']" [items]="(procurementItems$ | async)"
+        errorMessage="Предмет закупівлі має бути обраний">
+        <p class="text-sm italic">Не знайшли предмет закупівлі у списку? <span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleProcurementItemExistence()">Натисність,</span> щоб створити новий</p>
       </app-dropdown>
-      <div *ngIf="!goodExists">
+      <div *ngIf="!procurementItemExists">
         <app-input label="Назва" [control]="getFormControl('title')"></app-input>
         <app-dropdown label="Категорія" [control]="getFormControl('categoryId')" [displayProps]="['title']" [items]="(categories$ | async)"
         errorMessage="Категорія має бути обрана">
-        <p class="text-sm italic"><span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleGoodExistence()">Натисність,</span> щоб обрати товар зі списку</p>
+        <p class="text-sm italic"><span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleProcurementItemExistence()">Натисність,</span> щоб обрати предмет закупівлі зі списку</p>
       </app-dropdown>
       </div>
       <app-input label="Кількість" [control]="getFormControl('quantity')"></app-input>

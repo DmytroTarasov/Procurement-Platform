@@ -12,7 +12,7 @@ namespace Application.Requests
     public class CreateRequestCommand : IRequest<Result<int>>
     {
         public RequestDto Request { get; set; }
-        public GoodDto Good { get; set; }
+        public ProcurementItemDto ProcurementItem { get; set; }
     }
     public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand, Result<int>>
     {
@@ -26,12 +26,12 @@ namespace Application.Requests
         }
         public async Task<Result<int>> Handle(CreateRequestCommand command, CancellationToken cancellationToken)
         {
-            if (command.Good != null) {
-                var good = _mapper.Map<Good>(command.Good);
-                _context.Goods.Add(good);
-                var goodResult = await _context.SaveChangesAsync() > 0;
-                if (!goodResult) return Result<int>.Failure("Не вдалось створити товар. Спробуйте, будь ласка, пізніше");
-                command.Request.GoodId = good.Id;
+            if (command.ProcurementItem != null) {
+                var procurementItem = _mapper.Map<ProcurementItem>(command.ProcurementItem);
+                _context.ProcurementItems.Add(procurementItem);
+                var procurementItemResult = await _context.SaveChangesAsync() > 0;
+                if (!procurementItemResult) return Result<int>.Failure("Не вдалось створити предмет закупівлі. Спробуйте, будь ласка, пізніше");
+                command.Request.ProcurementItemId = procurementItem.Id;
             }
 
             var request = _mapper.Map<Request>(command.Request);

@@ -2,7 +2,7 @@ export const requestStatuses = {
   Active: 'Активна',
   AddedToOrder: 'Додана до замовлення',
   Processed: 'Опрацьована',
-  Cancelled: 'Відмінена'
+  Cancelled: 'Скасована'
 }
 
 export const requestStatusesColors = {

@@ -13,7 +13,7 @@ export interface OrderRequest {
   id?: number;
   description: string;
   subdivisionTitle: string;
-  goodTitle: string;
+  procurementItemTitle: string;
   measurementUnit: string;
   quantity: number;
 }

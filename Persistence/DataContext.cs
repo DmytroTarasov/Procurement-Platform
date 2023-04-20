@@ -14,7 +14,7 @@ namespace Persistence
         public DbSet<Subdivision> Subdivisions { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Request> Requests { get; set; }
-        public DbSet<Good> Goods { get; set; }
+        public DbSet<ProcurementItem> ProcurementItems { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Order> Orders { get; set; }

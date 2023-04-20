@@ -1,21 +1,21 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Good } from '../_models/good.model';
+import { ProcurementItem } from '../_models/procurement-item.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GoodService {
+export class ProcurementItemService {
 
   constructor(private http: HttpClient) { }
 
-  getGoods(categoryTitle?: string) {
-    const params = this.createGoodParams(categoryTitle);
-    return this.http.get<Good[]>(`${environment.serverUrl}/goods`, { params });
+  getProcurementItems(categoryTitle?: string) {
+    const params = this.createProcurementItemParams(categoryTitle);
+    return this.http.get<ProcurementItem[]>(`${environment.serverUrl}/procurementItems`, { params });
   }
 
-  private createGoodParams(categoryTitle?: string) {
+  private createProcurementItemParams(categoryTitle?: string) {
     let params = new HttpParams();
     params = categoryTitle ? params.append('categoryTitle', categoryTitle) : params;
     return params;

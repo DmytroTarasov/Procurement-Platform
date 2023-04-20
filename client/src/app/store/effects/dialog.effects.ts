@@ -30,7 +30,7 @@ export class DialogEffects {
         map(([action, requestParams]) => {
           this.dialog.closeAll();
           if (requestParams.categoryTitle) {
-            return RequestsActions.getGoods({ categoryTitle: requestParams.categoryTitle });
+            return RequestsActions.getProcurementItems({ categoryTitle: requestParams.categoryTitle });
           }
           return DialogActions.noAction();
         })

@@ -1,13 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 import * as RequestsActions from './requests.actions';
-import { Good } from 'src/app/_models/good.model';
+import { ProcurementItem } from 'src/app/_models/procurement-item.model';
 import { Category } from 'src/app/_models/category.model';
 import { RequestModel } from 'src/app/_models/request.model';
 import { Pagination } from 'src/app/_models/pagination.model';
 import { RequestParams } from 'src/app/_models/request-params.model';
 
 export interface State {
-  goods: Good[] | null;
+  procurementItems: ProcurementItem[] | null;
   categories: Category[] | null;
   requests: RequestModel[] | null;
   pagination: Pagination;
@@ -17,7 +17,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  goods: null,
+  procurementItems: null,
   categories: null,
   requests: null,
   pagination: null,
@@ -28,7 +28,7 @@ export const initialState: State = {
 
 export const requestsReducer = createReducer(
   initialState,
-  on(RequestsActions.setGoods, (state, { goods }) => ({ ...state, goods: [...goods] })),
+  on(RequestsActions.setProcurementItems, (state, { procurementItems }) => ({ ...state, procurementItems: [...procurementItems] })),
   on(RequestsActions.setCategories, (state, { categories }) => ({ ...state, categories: [...categories] })),
   on(RequestsActions.setCompanyRequests, (state, { requests, pagination }) => ({ ...state, requests: [...requests],
     pagination: {...pagination} })),

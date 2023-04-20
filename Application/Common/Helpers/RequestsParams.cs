@@ -4,6 +4,6 @@ namespace Application.Common.Helpers
     {
         public string Status { get; set; }
         public string CategoryTitle { get; set; }
-        public string GoodTitle { get; set; }
+        public string ProcurementItemTitle { get; set; }
     }
 }

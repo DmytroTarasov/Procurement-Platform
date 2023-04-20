@@ -146,6 +146,23 @@ namespace Persistence
                             }
                         }
                     },
+                    new Company {
+                        Title = "ТОВ 'Транс-Експрес'",
+                        Edrpou = "42589102",
+                        City = "Дніпро",
+                        Street = "Вул. Михайла Грушевського",
+                        Apartment = "40",
+                        ZipCode = "49000",
+                        Subdivisions = new List<Subdivision> {
+                            new Subdivision {
+                                Title = "Відділ перевезень",
+                                City = "Дніпро",
+                                Street = "Вул. Михайла Грушевського",
+                                Apartment = "40",
+                                ZipCode = "49000"
+                            }
+                        }
+                    }
                 };
 
                 context.Companies.AddRange(companies);
@@ -157,71 +174,71 @@ namespace Persistence
                 var categories = new List<Category> {
                     new Category {
                         Title = "Комп'ютерна техніка",
-                        Goods = new List<Good> {
-                            new Good {
+                        ProcurementItems = new List<ProcurementItem> {
+                            new ProcurementItem {
                                 Title = "Джерело безперебійного живлення"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Клавіатура"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Монітор"
                             }, 
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Принтер"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Комп'ютер настільний"
                             }
                         }
                     },
                     new Category {
                         Title = "Одяг та взуття",
-                        Goods = new List<Good> {
-                            new Good {
+                        ProcurementItems = new List<ProcurementItem> {
+                            new ProcurementItem {
                                 Title = "Кросівки"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Робочий комбінезон"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Сорочка"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Футболка"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Туфлі"
                             }
                         }
                     },
                     new Category {
                         Title = "Меблі",
-                        Goods = new List<Good> {
-                            new Good {
+                        ProcurementItems = new List<ProcurementItem> {
+                            new ProcurementItem {
                                 Title = "Стіл"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Крісло"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Тумба"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Шафа"
                             }
                         }
                     },
                     new Category {
                         Title = "Транспорт",
-                        Goods = new List<Good> {
-                            new Good {
+                        ProcurementItems = new List<ProcurementItem> {
+                            new ProcurementItem {
                                 Title = "Амортизатор"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Акумулятор"
                             },
-                            new Good {
+                            new ProcurementItem {
                                 Title = "Шини"
                             }
                         }
@@ -236,69 +253,85 @@ namespace Persistence
             {
                 var requests = new List<Request> {
                     new Request {
-                        Description = "Потрібен жорсткий диск",
-                        SubdivisionId = 1,
-                        GoodId = 4,
-                        Quantity = 10,
+                        Description = "ДБЖ, 750 ВА. Обов'язково повинна бути гарантія.",
+                        SubdivisionId = 5,
+                        ProcurementItemId = 1,
+                        Quantity = 2,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 7200
+                    },
+                    new Request {
+                        Description = "Потрібен багатофункціональний принтер. Бажано чорного кольору.",
+                        SubdivisionId = 6,
+                        ProcurementItemId = 4,
+                        Quantity = 1,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 3400
+                    },
+                    new Request {
+                        Description = "Потрібні дротові клавіатури, з гарантією. Мова розкладки - українська та англійська.",
+                        SubdivisionId = 7,
+                        ProcurementItemId = 2,
+                        Quantity = 15,
                         MeasurementUnit = MeasurementUnit.Pieces,
                         Budget = 10000
                     },
                     new Request {
-                        Description = "Потрібні принтери чорного кольору",
-                        SubdivisionId = 1,
-                        GoodId = 1,
-                        Quantity = 5,
+                        Description = "Потрібні монітори. 23.8 дюймів. Роздільна здатність 1920x1080.",
+                        SubdivisionId = 7,
+                        ProcurementItemId = 3,
+                        Quantity = 20,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 100000
+                    },
+                    new Request {
+                        Description = "Потрібні робочі комбінезони. Бажано синього кольору.",
+                        SubdivisionId = 3,
+                        ProcurementItemId = 7,
+                        Quantity = 100,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 100000
+                    },
+                    new Request {
+                        Description = "Потрібні футболки зеленого кольору. Розмір 46-52.",
+                        SubdivisionId = 3,
+                        ProcurementItemId = 9,
+                        Quantity = 100,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 20000
+                    },
+                    new Request {
+                        Description = "Необхідні сорочки білого кольору. Розмір 46-52.",
+                        SubdivisionId = 4,
+                        ProcurementItemId = 8,
+                        Quantity = 50,
                         MeasurementUnit = MeasurementUnit.Pieces,
                         Budget = 15000
                     },
                     new Request {
-                        Description = "Потрібні клавіатури під стаціонарний комп'ютер",
-                        SubdivisionId = 2,
-                        GoodId = 2,
-                        Quantity = 30,
+                        Description = "Необхідні комп'ютерні столи, ширина - 140см, із заокругленими кутами.",
+                        SubdivisionId = 6,
+                        ProcurementItemId = 11,
+                        Quantity = 40,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 32000
+                        Budget = 120000
                     },
                     new Request {
-                        Description = "Потрібні клавіатури білого кольору у шкільний комп'ютерний клас",
-                        SubdivisionId = 1,
-                        GoodId = 2,
-                        Quantity = 20,
+                        Description = "Потрібні офісні крісла, матеріал - шкіра, чорного кольору, з посиленою основою.",
+                        SubdivisionId = 5,
+                        ProcurementItemId = 12,
+                        Quantity = 40,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 30000
+                        Budget = 200000
                     },
                     new Request {
-                        Description = "Потрібний папір форматний",
-                        SubdivisionId = 1,
-                        GoodId = 8,
-                        Quantity = 2000,
+                        Description = "Потрібні літні шини 235/65R17 108H",
+                        SubdivisionId = 5,
+                        ProcurementItemId = 17,
+                        Quantity = 10,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 10000
+                        Budget = 57000
                     },
-                    new Request {
-                        Description = "Потрібні папки-планшети",
-                        SubdivisionId = 2,
-                        GoodId = 10,
-                        Quantity = 4,
-                        MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 1000
-                    },
-                    new Request {
-                        Description = "Необхідний вогнегасник",
-                        SubdivisionId = 1,
-                        GoodId = 11,
-                        Quantity = 1,
-                        MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 1500
-                    },
-                    new Request {
-                        Description = "Потрібні файли для документів",
-                        SubdivisionId = 2,
-                        GoodId = 9,
-                        Quantity = 100,
-                        MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 4000
-                    }
                 };
 
                 context.Requests.AddRange(requests);

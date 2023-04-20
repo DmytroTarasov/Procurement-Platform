@@ -7,7 +7,7 @@ import * as RequestsActions from '../store/requests.actions';
 import { Observable, Subscription, map } from 'rxjs';
 import { selectCategories, selectRequestParams } from '../store/requests.selectors';
 import { RequestParams } from 'src/app/_models/request-params.model';
-import { selectGoods } from '../store/requests.selectors';
+import { selectProcurementItems } from '../store/requests.selectors';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/_models/user.model';
 
@@ -33,18 +33,18 @@ export class RequestsActionsComponent implements OnInit, OnDestroy {
   paramsSubscription: Subscription;
   user$: Observable<User>;
   categories$: Observable<Model[]>;
-  goods$: Observable<Model[]>;
+  procurementItems$: Observable<Model[]>;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.store.dispatch(RequestsActions.getCategories());
-    this.store.dispatch(RequestsActions.getGoods({}));
+    this.store.dispatch(RequestsActions.getProcurementItems({}));
 
     this.actionsForm = new FormGroup({
       status: new FormControl(''),
       categoryTitle: new FormControl(''),
-      goodTitle: new FormControl('')
+      procurementItemTitle: new FormControl('')
     });
 
     this.user$ = this.store.pipe(select(selectUser));
@@ -54,8 +54,8 @@ export class RequestsActionsComponent implements OnInit, OnDestroy {
       map(this.transform)
     );
 
-    this.goods$ = this.store.pipe(
-      select(selectGoods),
+    this.procurementItems$ = this.store.pipe(
+      select(selectProcurementItems),
       map(this.transform)
     );
 
@@ -73,13 +73,13 @@ export class RequestsActionsComponent implements OnInit, OnDestroy {
   }
 
   setRequestParamsCategory(categoryTitle: string) {
-    this.store.dispatch(RequestsActions.getGoods({ categoryTitle }));
-    this.store.dispatch(RequestsActions.setRequestParams({ requestParams: { ...this.requestParams, categoryTitle, goodTitle: '' }}));
-    this.getFormControl('goodTitle').setValue('');
+    this.store.dispatch(RequestsActions.getProcurementItems({ categoryTitle }));
+    this.store.dispatch(RequestsActions.setRequestParams({ requestParams: { ...this.requestParams, categoryTitle, procurementItemTitle: '' }}));
+    this.getFormControl('procurementItemTitle').setValue('');
   }
 
-  setRequestParamsGood(goodTitle: string) {
-    this.store.dispatch(RequestsActions.setRequestParams({ requestParams: { ...this.requestParams, goodTitle }}));
+  setRequestParamsProcurementItem(procurementItemTitle: string) {
+    this.store.dispatch(RequestsActions.setRequestParams({ requestParams: { ...this.requestParams, procurementItemTitle }}));
   }
 
   transform(arr: any[]) {

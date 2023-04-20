@@ -24,7 +24,7 @@ namespace Application.Categories
 
         public async Task<Result<List<CategoryDto>>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var categories = await _context.Categories.Include(c => c.Goods).OrderBy(c => c.Title).ToListAsync();
+            var categories = await _context.Categories.OrderBy(c => c.Title).ToListAsync();
             return Result<List<CategoryDto>>.Success(_mapper.Map<List<CategoryDto>>(categories));
         }
     }

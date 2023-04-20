@@ -1,7 +1,7 @@
 export const orderStatuses = {
   Active: 'Активне',
   Processed: 'Опрацьоване',
-  Cancelled: 'Відмінене'
+  Cancelled: 'Скасоване'
 }
 
 export const orderStatusesColors = {

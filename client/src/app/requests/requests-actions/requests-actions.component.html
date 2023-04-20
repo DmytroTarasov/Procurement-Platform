@@ -5,6 +5,6 @@
   <app-dropdown label="Категорія" [control]="getFormControl('categoryTitle')" [displayProps]="['value']" [items]="(categories$ | async)"  [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="setRequestParamsCategory($event)">
   </app-dropdown>
 
-  <app-dropdown label="Товар" [control]="getFormControl('goodTitle')" [displayProps]="['value']" [items]="(goods$ | async)"  [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="setRequestParamsGood($event)">
+  <app-dropdown label="Назва предмету закупівлі" [control]="getFormControl('procurementItemTitle')" [displayProps]="['value']" [items]="(procurementItems$ | async)"  [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="setRequestParamsProcurementItem($event)">
   </app-dropdown>
 </div>

@@ -8,7 +8,7 @@ import * as AuthActions from 'src/app/auth/store/auth.actions';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
-import { GoodService } from 'src/app/_services/good.service';
+import { ProcurementItemService } from 'src/app/_services/procurement-item.service';
 import { CategoryService } from 'src/app/_services/category.service';
 import { RequestService } from 'src/app/_services/request.service';
 import { selectPagination, selectRequestParams } from './requests.selectors';
@@ -16,13 +16,13 @@ import * as OrdersActions from 'src/app/orders/store/orders.actions';
 
 @Injectable()
 export class RequestsEffects {
-  getGoods$ = createEffect(() =>
+  getProcurementItems$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(RequestsActions.getGoods),
+      ofType(RequestsActions.getProcurementItems),
       switchMap((action) => {
-        return this.goodService.getGoods(action.categoryTitle).pipe(
-          map((goods) => {
-            return RequestsActions.setGoods({ goods });
+        return this.procurementItemService.getProcurementItems(action.categoryTitle).pipe(
+          map((procurementItems) => {
+            return RequestsActions.setProcurementItems({ procurementItems });
           })
         );
       })
@@ -73,14 +73,14 @@ export class RequestsEffects {
     )
   );
 
-  refreshGoods$ = createEffect(() =>
+  refreshProcurementItems$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RequestsActions.createRequestSuccess),
       withLatestFrom(this.store.pipe(select(selectRequestParams))),
       switchMap(([action, requestParams]) => {
-        return this.goodService.getGoods(requestParams.categoryTitle).pipe(
-          map((goods) => {
-            return RequestsActions.setGoods({ goods });
+        return this.procurementItemService.getProcurementItems(requestParams.categoryTitle).pipe(
+          map((procurementItems) => {
+            return RequestsActions.setProcurementItems({ procurementItems });
           })
         );
       })
@@ -199,7 +199,7 @@ export class RequestsEffects {
 
   constructor(
     private actions$: Actions,
-    private goodService: GoodService,
+    private procurementItemService: ProcurementItemService,
     private categoryService: CategoryService,
     private requestService: RequestService,
     private router: Router,
