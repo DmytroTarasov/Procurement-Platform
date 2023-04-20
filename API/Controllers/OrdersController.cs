@@ -8,7 +8,7 @@ namespace API.Controllers
     public class OrdersController : BaseApiController
     {
         [HttpPost]
-        public async Task<IActionResult> CreateRequest([FromBody] CreateOrderCommand command) {
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command) {
             return HandleResult(await Mediator.Send(command));
         }
         
@@ -18,6 +18,11 @@ namespace API.Controllers
             var orders = ordersResult.Value;
             Response.AddPaginationHeader(orders.CurrentPage, orders.PageSize, orders.TotalCount, orders.TotalPages);
             return HandleResult(ordersResult);
+        }
+        
+        [HttpPut("{id}/cancel")]
+        public async Task<IActionResult> CancelOrder(int id) {
+            return HandleResult(await Mediator.Send(new CancelOrderCommand { Id = id }));
         }
     }
 }

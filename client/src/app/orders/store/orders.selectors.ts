@@ -13,6 +13,11 @@ export const selectPagination = createSelector(
   (state: State) => state.pagination
 );
 
+export const selectOrderParams = createSelector(
+  selectOrdersState,
+  (state: State) => state.orderParams
+);
+
 export const selectError = createSelector(
   selectOrdersState,
   (state: State) => state.error

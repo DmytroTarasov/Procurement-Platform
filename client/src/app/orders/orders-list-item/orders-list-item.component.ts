@@ -6,6 +6,7 @@ import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as fromApp from 'src/app/store/app.reducer';
 import { orderStatuses, orderStatusesColors } from 'src/app/_models/resources/order-statuses';
+import * as OrdersActions from '../store/orders.actions';
 
 @Component({
   selector: 'app-orders-list-item',
@@ -25,6 +26,6 @@ export class OrdersListItemComponent implements OnInit {
   }
 
   cancelOrder() {
-    
+    this.store.dispatch(OrdersActions.cancelOrder({ id: this.order.id }));
   }
 }

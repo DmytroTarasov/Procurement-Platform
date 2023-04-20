@@ -8,7 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 import { OrderService } from 'src/app/_services/order.service';
 import { selectOrderRequests } from 'src/app/requests/store/requests.selectors';
-import { selectPagination } from './orders.selectors';
+import { selectOrderParams, selectPagination } from './orders.selectors';
+import * as AuthActions from 'src/app/auth/store/auth.actions';
 
 @Injectable()
 export class OrdersEffects {
@@ -48,13 +49,16 @@ export class OrdersEffects {
     this.actions$.pipe(
       ofType(
         OrdersActions.getOrders,
+        OrdersActions.cancelOrderSuccess
       ),
       withLatestFrom(
         this.store.pipe(select(selectPagination)),
+        this.store.pipe(select(selectOrderParams))
       ),
-      switchMap(([action, pagination]) => {
+      switchMap(([action, pagination, orderParams]) => {
         const pageNumber = action.pageNumber ?? (pagination && pagination.currentPage ? pagination.currentPage : 1);
-        return this.orderService.getOrders(pageNumber).pipe(
+        const params = action.orderParams ?? orderParams;
+        return this.orderService.getOrders(pageNumber, params).pipe(
           map((response) => {
             const pagination = JSON.parse(response.headers.get('Pagination'));
             return OrdersActions.setOrders({
@@ -63,6 +67,43 @@ export class OrdersEffects {
             });
           })
         );
+      })
+    )
+  );
+
+  cancelOrder$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersActions.cancelOrder),
+      switchMap((action) => {
+        return this.orderService.cancelOrder(action.id).pipe(
+          map((id) => {
+            return OrdersActions.cancelOrderSuccess({ id });
+          }),
+          catchError((errorRes) => {
+            return of(OrdersActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
+  );
+
+  setOrderParams$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersActions.setOrderParams),
+      map((action) => {
+        return OrdersActions.getOrders({
+          pageNumber: 1,
+          orderParams: action.orderParams,
+        });
+      })
+    )
+  );
+
+  clearState$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      map((action) => {
+        return OrdersActions.clearState();
       })
     )
   );

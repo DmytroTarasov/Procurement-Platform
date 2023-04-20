@@ -72,7 +72,7 @@ export class AuthEffects {
           map((_) => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
-              text: 'Компанія успішно створена. Адміністратор верифікує її протягом 24 годин.',
+              text: 'Компанія успішно створена.',
               primaryBtn: {
                 text: 'Ок',
                 route: 'auth/register',
@@ -82,7 +82,7 @@ export class AuthEffects {
             return AuthActions.createCompanySuccess({ data });
             // const data: ModalRedirectData = {
             //   title: 'Успішно!',
-            //   text: 'Компанія успішно створена. Адміністратор верифікує її протягом 24 годин.',
+            //   text: 'Компанія успішно створена.',
             //   primaryBtn: {
             //     text: 'Ок',
             //     route: 'auth/register',

@@ -1,0 +1,5 @@
+<div class="mt-16">
+  <app-dropdown label="Статус" [control]="getFormControl('status')" [displayProps]="['value']" [items]="orderStatuses" [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="setOrderParamsStatus($event)">
+  </app-dropdown>
+</div>
+

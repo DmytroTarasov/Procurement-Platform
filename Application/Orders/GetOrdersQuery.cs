@@ -4,6 +4,7 @@ using Application.Common.Models;
 using Application.Dtos;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,12 @@ namespace Application.Orders
             var query = _context.Orders
                 .Include(o => o.Requests)
                 .AsQueryable();
+            
+            OrderStatus status;
+            if (!string.IsNullOrEmpty(request.OrdersParams.Status) &&
+                Enum.TryParse(request.OrdersParams.Status, out status)) {
+                query = query.Where(r => r.Status == status);
+            }
 
             query = query.OrderByDescending(o => o.CreatedAt);
 
