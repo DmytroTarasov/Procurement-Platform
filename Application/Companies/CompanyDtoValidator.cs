@@ -13,19 +13,7 @@ namespace Application.Companies
 
             RuleFor(x => x.Edrpou)
                 .NotEmpty()
-                .WithMessage("Код ЄДРПОУ є обов'язковим");    
-            
-            RuleFor(x => x.City)
-                .NotEmpty()
-                .WithMessage("Місто є обов'язковим");
-            
-            RuleFor(x => x.Street)
-                .NotEmpty()
-                .WithMessage("Вулиця є обов'язковою");   
-
-            RuleFor(x => x.ZipCode)
-                .NotEmpty()
-                .WithMessage("Поштовий індекс є обов'язковим");
+                .WithMessage("Код ЄДРПОУ є обов'язковим");   
         }
     }   
 }

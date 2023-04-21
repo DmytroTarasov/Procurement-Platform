@@ -1,3 +1,5 @@
+import { Address } from "./address.model";
+
 export interface Order {
   id?: number;
   title: string;
@@ -26,6 +28,5 @@ export interface BuyerContactPerson {
   email: string;
   companyName: string;
   companyEdrpou: string;
-  companyAddress: string;
-  companyZipCode: string;
+  companyAddress: Address;
 }

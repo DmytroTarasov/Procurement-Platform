@@ -9,6 +9,7 @@ namespace Application.Common.Mapping
         public MappingProfiles()
         {
             CreateMap<RegisterDto, User>();
+            CreateMap<Address, AddressDto>().ReverseMap();
             CreateMap<CompanyDto, Company>().ReverseMap();
             CreateMap<SubdivisionDto, Subdivision>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
@@ -25,9 +26,7 @@ namespace Application.Common.Mapping
             CreateMap<User, ContactPersonDto>()
                 .ForMember(cpd => cpd.CompanyName, o => o.MapFrom(u => u.Subdivision.Company.Title))
                 .ForMember(cpd => cpd.CompanyEdrpou, o => o.MapFrom(u => u.Subdivision.Company.Edrpou))
-                .ForMember(cpd => cpd.CompanyZipCode, o => o.MapFrom(u => u.Subdivision.Company.ZipCode))
-                .ForMember(cpd => cpd.CompanyAddress, o => o.MapFrom(u => 
-                    $"{u.Subdivision.Company.City}, {u.Subdivision.Company.Street}, {u.Subdivision.Company.Apartment}"));    
+                .ForMember(cpd => cpd.CompanyAddress, o => o.MapFrom(u => u.Subdivision.Company.Address));    
         }
 
         // private static string GetCompanyAddress(User u)

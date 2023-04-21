@@ -19,6 +19,7 @@ import { EditRequestModalComponent } from 'src/app/requests/edit-request-modal/e
 import { CreateOrderModalComponent } from 'src/app/requests/create-order-modal/create-order-modal.component';
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
 import { selectRequestParams } from 'src/app/requests/store/requests.selectors';
+import { selectUser } from 'src/app/auth/store/auth.selectors';
 
 @Injectable()
 export class DialogEffects {
@@ -120,14 +121,15 @@ export class DialogEffects {
     () => {
       return this.actions$.pipe(
         ofType(AuthActions.registerSuccess),
-        map(() => {
+        withLatestFrom(this.store.pipe(select(selectUser))),
+        map(([action, user]) => {
           this.dialog.closeAll();
           const data: ModalRedirectData = {
             title: 'Успішно!',
             text: 'Вітаємо! Ви успішно зареєструвались.',
             primaryBtn: {
               text: 'На головну',
-              route: '/',
+              route: ['Заявник', 'Замовник'].includes(user.role) ? 'requests' : 'orders'
             },
             successfull: true,
           };

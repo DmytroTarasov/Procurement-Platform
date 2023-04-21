@@ -23,8 +23,9 @@ export class CreateCompanyModalComponent implements OnInit {
       title: new FormControl('', Validators.required),
       edrpou: new FormControl('', [Validators.required, Validators.pattern(/^\d{8}$/)]),
       city: new FormControl('', Validators.required),
+      region: new FormControl(''),
       street: new FormControl('', Validators.required),
-      apartment: new FormControl(''),
+      buildingNumber: new FormControl(''),
       zipCode: new FormControl('', Validators.required)
     });
 
@@ -38,7 +39,9 @@ export class CreateCompanyModalComponent implements OnInit {
   onSubmit() {
     if (!this.companyForm.valid) return;
 
-    this.store.dispatch(AuthActions.createCompany({ company: this.companyForm.value }));
+    const { title, edrpou, ...address } = this.companyForm.value;
+
+    this.store.dispatch(AuthActions.createCompany({ company: { title, edrpou, address } }));
   }
 
 }

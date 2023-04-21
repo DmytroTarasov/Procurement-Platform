@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { RequestModel } from 'src/app/_models/request.model';
 import { measurementUnits, getShortenMeasurementUnit } from 'src/app/_models/resources/measurement-units';
 import { requestStatuses, requestStatusesColors } from 'src/app/_models/resources/request-statuses';
@@ -24,21 +24,25 @@ export class RequestsListItemComponent implements OnInit {
   getShortenMeasurementUnit = getShortenMeasurementUnit;
   user$: Observable<User>;
   orderRequests$: Observable<number[]>;
-  // orderRequests: number[];
-  // orderRequestsSubscription: Subscription;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.user$ = this.store.pipe(select(selectUser));
     this.orderRequests$ = this.store.pipe(select(selectOrderRequests));
-    // this.orderRequestsSubscription = this.store.pipe(select(selectOrderRequests)).subscribe(orderRequests => {
-    //   this.orderRequests = orderRequests;
-    // });
   }
 
   get subdivisionAddress() {
-    return `${this.request.subdivision.street}, ${this.request.subdivision.city}`;
+    console.log(this.request.subdivision.address);
+    const address = this.request.subdivision.address;
+    const data = [address.city, address.street];
+    if (address.region) {
+      data.splice(1, 0, `${address.region} область`);
+    }
+    if (address.buildingNumber) {
+      data.push(address.buildingNumber);
+    }
+    return data.join(', ');
   }
 
   openEditRequestDialog() {
@@ -56,8 +60,4 @@ export class RequestsListItemComponent implements OnInit {
   deleteRequestFromOrder() {
     this.store.dispatch(RequestsActions.deleteRequestFromOrder({ id: this.request.id }));
   }
-
-  // ngOnDestroy() {
-  //   if (this.orderRequestsSubscription) this.orderRequestsSubscription.unsubscribe();
-  // }
 }

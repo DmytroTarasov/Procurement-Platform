@@ -46,120 +46,150 @@ namespace Persistence
                     new Company {
                         Title = "ТОВ 'Каштан'",
                         Edrpou = "34225325",
-                        City = "Київ",
-                        Street = "Вул. Петра Сагайдачного",
-                        Apartment = "11/1",
-                        ZipCode = "04124",
+                        Address = new Address {
+                            City = "Київ",
+                            Street = "Вул. Петра Сагайдачного",
+                            BuildingNumber = "11/1",
+                            ZipCode = "04124"
+                        },
                         Subdivisions = new List<Subdivision> {
                             new Subdivision {
                                 Title = "Черкаська Філія",
-                                City = "Черкаси",
-                                Street = "Вул. Івана Мазепи",
-                                Apartment = "28",
-                                ZipCode = "18000"
+                                Address = new Address {
+                                    City = "Черкаси",
+                                    Street = "Вул. Івана Мазепи",
+                                    BuildingNumber = "28",
+                                    ZipCode = "18000"
+                                }
                             },
                             new Subdivision {
                                 Title = "Чернівецька Філія",
-                                City = "Чернівці",
-                                Street = "Вул. Ярослава Мудрого",
-                                Apartment = "12",
-                                ZipCode = "58000"
+                                Address = new Address {
+                                    City = "Чернівці",
+                                    Street = "Вул. Ярослава Мудрого",
+                                    BuildingNumber = "12",
+                                    ZipCode = "58000"
+                                }
                             }
                         }
                     },
                     new Company {
                         Title = "ТОВ 'ЛьвівМаркет'",
                         Edrpou = "40475821",
-                        City = "Львів",
-                        Street = "Вул. Івана Богуна",
-                        Apartment = "15",
-                        ZipCode = "79000",
+                        Address = new Address {
+                            City = "Львів",
+                            Street = "Вул. Івана Богуна",
+                            BuildingNumber = "15",
+                            ZipCode = "79000"
+                        },
                         Subdivisions = new List<Subdivision> {
                             new Subdivision {
                                 Title = "Магазин №5",
-                                City = "Львів",
-                                Street = "Вул. Шевченка",
-                                Apartment = "10",
-                                ZipCode = "79000"
+                                Address = new Address {
+                                    City = "Львів",
+                                    Street = "Вул. Шевченка",
+                                    BuildingNumber = "10",
+                                    ZipCode = "79000"
+                                }
                             },
                             new Subdivision {
                                 Title = "Магазин №12",
-                                City = "Львів",
-                                Street = "Вул. Трускавецька",
-                                Apartment = "24",
-                                ZipCode = "79000"
+                                Address = new Address {
+                                    City = "Львів",
+                                    Street = "Вул. Трускавецька",
+                                    BuildingNumber = "24",
+                                    ZipCode = "79000"
+                                }
                             }
                         }
                     },
                     new Company {
                         Title = "ТОВ 'Виробниче Підприємство 'Стандарт''",
                         Edrpou = "35387194",
-                        City = "Івано-Франківськ",
-                        Street = "Вул. Дмитра Вітовського",
-                        Apartment = "13А",
-                        ZipCode = "76018",
+                        Address = new Address {
+                            City = "Івано-Франківськ",
+                            Street = "Вул. Дмитра Вітовського",
+                            BuildingNumber = "13А",
+                            ZipCode = "76018"
+                        },
                         Subdivisions = new List<Subdivision> {
                             new Subdivision {
                                 Title = "Івано-Франківська Філія №1",
-                                City = "Івано-Франківськ",
-                                Street = "Вул. В'ячеслава Чорновола",
-                                Apartment = "79",
-                                ZipCode = "77528"
+                                Address = new Address {
+                                    City = "Івано-Франківськ",
+                                    Street = "Вул. В'ячеслава Чорновола",
+                                    BuildingNumber = "79",
+                                    ZipCode = "77528"
+                                }
                             },
                             new Subdivision {
                                 Title = "Івано-Франківська Філія №2",
-                                City = "Івано-Франківськ",
-                                Street = "Вул. Павла Тичини",
-                                Apartment = "46",
-                                ZipCode = "76054"
+                                Address = new Address {
+                                    City = "Івано-Франківськ",
+                                    Street = "Вул. Павла Тичини",
+                                    BuildingNumber = "46",
+                                    ZipCode = "76054"
+                                }
                             },
                             new Subdivision {
                                 Title = "Хмельницька Філія",
-                                City = "Хмельницький",
-                                Street = "Вул. Івана Франка",
-                                Apartment = "55",
-                                ZipCode = "29000"
+                                Address = new Address {
+                                    City = "Хмельницький",
+                                    Street = "Вул. Івана Франка",
+                                    BuildingNumber = "55",
+                                    ZipCode = "29000"
+                                }
                             }
                         }
                     },
                     new Company {
                         Title = "ТОВ 'КомпТех'",
                         Edrpou = "32906120",
-                        City = "Вінниця",
-                        Street = "Вул. Академіка Янгеля",
-                        Apartment = "61",
-                        ZipCode = "21000",
+                        Address = new Address {
+                            City = "Вінниця",
+                            Street = "Вул. Академіка Янгеля",
+                            BuildingNumber = "61",
+                            ZipCode = "21000"
+                        },
                         Subdivisions = new List<Subdivision> {
                             new Subdivision {
                                 Title = "Житомирська Філія",
-                                City = "Житомир",
-                                Street = "Вул. Князів Острозьких",
-                                Apartment = "88",
-                                ZipCode = "10001"
+                                Address = new Address {
+                                    City = "Житомир",
+                                    Street = "Вул. Князів Острозьких",
+                                    BuildingNumber = "88",
+                                    ZipCode = "10001"
+                                }
                             },
                             new Subdivision {
                                 Title = "Полтавська Філія",
-                                City = "Полтава",
-                                Street = "Вул. Пилипа Орлика",
-                                Apartment = "31",
-                                ZipCode = "36000"
+                                Address = new Address {
+                                    City = "Полтава",
+                                    Street = "Вул. Пилипа Орлика",
+                                    BuildingNumber = "31",
+                                    ZipCode = "36000"
+                                }
                             }
                         }
                     },
                     new Company {
                         Title = "ТОВ 'Транс-Експрес'",
                         Edrpou = "42589102",
-                        City = "Дніпро",
-                        Street = "Вул. Михайла Грушевського",
-                        Apartment = "40",
-                        ZipCode = "49000",
+                        Address = new Address {
+                            City = "Дніпро",
+                            Street = "Вул. Михайла Грушевського",
+                            BuildingNumber = "40",
+                            ZipCode = "49000"
+                        },
                         Subdivisions = new List<Subdivision> {
                             new Subdivision {
                                 Title = "Відділ перевезень",
-                                City = "Дніпро",
-                                Street = "Вул. Михайла Грушевського",
-                                Apartment = "40",
-                                ZipCode = "49000"
+                                Address = new Address {
+                                    City = "Дніпро",
+                                    Street = "Вул. Михайла Грушевського",
+                                    BuildingNumber = "40",
+                                    ZipCode = "49000"
+                                }
                             }
                         }
                     }

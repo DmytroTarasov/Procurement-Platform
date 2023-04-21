@@ -4,8 +4,9 @@
       <app-input label="Назва" [control]="getFormControl('title')"></app-input>
       <app-input label="Код ЄДРПОУ" [control]="getFormControl('edrpou')"></app-input>
       <app-input label="Місто" [control]="getFormControl('city')"></app-input>
+      <app-input label="Область" [control]="getFormControl('region')" [required]="false"></app-input>
       <app-input label="Вулиця" [control]="getFormControl('street')"></app-input>
-      <app-input label="Приміщення" [control]="getFormControl('apartment')" [required]="false"></app-input>
+      <app-input label="Номер будівлі" [control]="getFormControl('buildingNumber')" [required]="false"></app-input>
       <app-input label="Поштовий індекс" [control]="getFormControl('zipCode')"></app-input>
       <p class="text-center italic"><span class="text-red-600">*</span> позначені обов'язкові поля</p>
       <p class="mt-2 text-center text-red-600 h-[20px]">{{(error$ | async) ?? ''}}</p>

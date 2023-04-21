@@ -80,16 +80,6 @@ export class AuthEffects {
               successfull: true,
             };
             return AuthActions.createCompanySuccess({ data });
-            // const data: ModalRedirectData = {
-            //   title: 'Успішно!',
-            //   text: 'Компанія успішно створена.',
-            //   primaryBtn: {
-            //     text: 'Ок',
-            //     route: 'auth/register',
-            //   },
-            //   successfull: true
-            // };
-            // return DialogActions.openRedirectDialog({ data });
           }),
           catchError((errorRes) => {
             return of(AuthActions.failure({ error: errorRes?.error }));
@@ -117,16 +107,6 @@ export class AuthEffects {
                 successfull: true,
               };
               return AuthActions.createSubdivisionSuccess({ data });
-              // const data: ModalRedirectData = {
-              //   title: 'Успішно!',
-              //   text: 'Підрозділ компанії успішно створений.',
-              //   primaryBtn: {
-              //     text: 'Ок',
-              //     route: 'auth/register',
-              //   },
-              //   successfull: true
-              // };
-              // return DialogActions.openRedirectDialog({ data });
             }),
             catchError((errorRes) => {
               return of(AuthActions.failure({ error: errorRes?.error }));

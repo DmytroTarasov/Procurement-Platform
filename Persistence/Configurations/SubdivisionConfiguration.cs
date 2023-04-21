@@ -9,10 +9,6 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<Subdivision> builder)
         {
             builder.Property(s => s.Title).IsRequired();
-            builder.Property(s => s.City).IsRequired();
-            builder.Property(s => s.Street).IsRequired();
-            builder.Property(s => s.ZipCode).IsRequired();
-            builder.Property(s => s.Apartment).IsRequired(false);
 
             builder
                 .HasMany(s => s.Users)

@@ -1,12 +1,10 @@
+import { Address } from "./address.model";
 import { Subdivision } from "./subdivision.model";
 
 export interface Company {
   id?: number;
   title: string;
   edrpou: number;
-  city: string;
-  street: string;
-  apartment?: string;
-  zipCode: string;
+  address: Address;
   subdivisions?: Subdivision[]
 }

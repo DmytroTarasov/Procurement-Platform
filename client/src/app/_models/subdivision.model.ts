@@ -1,9 +1,8 @@
+import { Address } from "./address.model";
+
 export interface Subdivision {
   id?: number;
   title: string;
-  city: string;
-  street: string;
-  apartment?: string;
-  zipCode: string;
+  address: Address;
   // companyId?: number;
 }

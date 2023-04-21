@@ -17,8 +17,8 @@
       <p>{{ order.buyerContactPerson.companyName }}</p>
       <p>Код ЄДРПОУ: {{ order.buyerContactPerson.companyEdrpou }}</p>
       <!-- <p>Адреса: {{ order.buyerContactPerson.companyAddress.endsWith(',') ? order.buyerContactPerson.companyAddress.substring(0, -2) : order.buyerContactPerson.companyAddress}}</p> -->
-      <p>Адреса: {{ order.buyerContactPerson.companyAddress }}</p>
-      <p>Поштовий індекс: {{ order.buyerContactPerson.companyZipCode }}</p>
+      <p>Адреса: {{ tranformCompanyAddress(order.buyerContactPerson.companyAddress) }}</p>
+      <p>Поштовий індекс: {{order.buyerContactPerson.companyAddress.zipCode}}</p>
       <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
       <p>ПІБ: {{order.buyerContactPerson.lastName}} {{order.buyerContactPerson.firstName}} {{order.buyerContactPerson.middleName}}</p>
       <p>Пошта: {{ order.buyerContactPerson.email }}</p>
@@ -41,4 +41,8 @@
     </div> -->
   </div>
 </div>
+<div class="h-full w-full flex justify-center items-center">
+  <mat-spinner *ngIf="(loading$ | async)" diameter="70"></mat-spinner>
+</div>
+
 

@@ -27,8 +27,9 @@ export class CreateSubdivisionModalComponent implements OnInit {
     this.subdivisionForm = new FormGroup({
       title: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
+      region: new FormControl(''),
       street: new FormControl('', Validators.required),
-      apartment: new FormControl(''),
+      buildingNumber: new FormControl(''),
       zipCode: new FormControl('', Validators.required)
     });
 
@@ -42,6 +43,8 @@ export class CreateSubdivisionModalComponent implements OnInit {
   onSubmit() {
     if (!this.subdivisionForm.valid) return;
 
-    this.store.dispatch(AuthActions.createSubdivision({ subdivision: this.subdivisionForm.value, companyId: this.data.companyId }));
+    const { title, ...address } = this.subdivisionForm.value;
+
+    this.store.dispatch(AuthActions.createSubdivision({ subdivision: { title, address }, companyId: this.data.companyId }));
   }
 }

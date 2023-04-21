@@ -10,10 +10,6 @@ namespace Persistence.Configurations
         {
             builder.Property(c => c.Title).IsRequired();
             builder.Property(c => c.Edrpou).IsRequired();
-            builder.Property(c => c.City).IsRequired();
-            builder.Property(c => c.Street).IsRequired();
-            builder.Property(c => c.ZipCode).IsRequired();
-            builder.Property(c => c.Apartment).IsRequired(false);
 
             builder
                 .HasMany(c => c.Subdivisions)

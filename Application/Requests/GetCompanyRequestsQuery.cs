@@ -38,6 +38,7 @@ namespace Application.Requests
             var query = _context.Requests
                 .Include(c => c.Subdivision)
                 .ThenInclude(s => s.Company)
+                .ThenInclude(c => c.Address)
                 .Include(c => c.ProcurementItem)
                 .ThenInclude(p => p.Category)
                 .Where(r => r.Subdivision.CompanyId == companyId);

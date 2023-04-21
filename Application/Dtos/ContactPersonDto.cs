@@ -9,7 +9,6 @@ namespace Application.Dtos
         public string Email { get; set; }
         public string CompanyName { get; set; }
         public string CompanyEdrpou { get; set; }
-        public string CompanyAddress { get; set; }
-        public string CompanyZipCode { get; set; }
+        public AddressDto CompanyAddress { get; set; }
     }
 }

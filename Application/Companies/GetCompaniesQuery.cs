@@ -1,6 +1,7 @@
 using Application.Common.Models;
 using Application.Dtos;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -24,8 +25,10 @@ namespace Application.Companies
 
         public async Task<Result<List<CompanyDto>>> Handle(GetCompaniesQuery request, CancellationToken cancellationToken)
         {
-            var companies = await _context.Companies.Include(c => c.Subdivisions).ToListAsync();
-            return Result<List<CompanyDto>>.Success(_mapper.Map<List<CompanyDto>>(companies));
+            var companies = await _context.Companies
+                .ProjectTo<CompanyDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+            return Result<List<CompanyDto>>.Success(companies);
         }
     }
 }
