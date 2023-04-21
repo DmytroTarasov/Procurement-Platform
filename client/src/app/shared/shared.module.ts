@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { HeaderComponent } from './header/header.component';
 import { TextareaComponent } from './_forms/textarea/textarea.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CheckboxComponent } from './checkbox/checkbox.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ModalContainerComponent,
     ModalRedirectComponent,
     HeaderComponent,
-    TextareaComponent
+    TextareaComponent,
+    CheckboxComponent
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ModalRedirectComponent,
     HeaderComponent,
     TextareaComponent,
+    CheckboxComponent,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,

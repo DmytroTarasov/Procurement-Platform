@@ -24,11 +24,16 @@ export class OrderService {
     return this.http.put<number>(`${environment.serverUrl}/orders/${id}/cancel`, {});
   }
 
+  getOrderDetails(id: number) {
+    return this.http.get<Order>(`${environment.serverUrl}/orders/${id}`);
+  }
+
   private createOrderParams(page?: number, orderParams?: OrderParams) {
     let params = new HttpParams();
     params = page ? params.append('pageNumber', page) : params;
     if (!orderParams) return params;
     params = orderParams.status ? params.append('status', orderParams.status) : params;
+    params = orderParams.companyOrders ? params.append('companyOrders', orderParams.companyOrders) : params;
     return params;
   }
 }

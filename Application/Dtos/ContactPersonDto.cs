@@ -8,5 +8,8 @@ namespace Application.Dtos
         public string MiddleName { get; set; }   
         public string Email { get; set; }
         public string CompanyName { get; set; }
+        public string CompanyEdrpou { get; set; }
+        public string CompanyAddress { get; set; }
+        public string CompanyZipCode { get; set; }
     }
 }

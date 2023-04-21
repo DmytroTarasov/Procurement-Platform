@@ -24,5 +24,10 @@ namespace API.Controllers
         public async Task<IActionResult> CancelOrder(int id) {
             return HandleResult(await Mediator.Send(new CancelOrderCommand { Id = id }));
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrderDetails(int id) {
+            return HandleResult(await Mediator.Send(new GetOrderDetailsQuery { Id = id }));
+        }
     }
 }

@@ -54,4 +54,8 @@ export class OrdersActionsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.paramsSubscription) this.paramsSubscription.unsubscribe();
   }
+
+  onChange(checked: boolean) {
+    this.store.dispatch(OrdersActions.setOrderParams({ orderParams: { ...this.orderParams, companyOrders: checked }}));
+  }
 }

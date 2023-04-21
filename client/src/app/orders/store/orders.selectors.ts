@@ -18,6 +18,11 @@ export const selectOrderParams = createSelector(
   (state: State) => state.orderParams
 );
 
+export const selectOrder = createSelector(
+  selectOrdersState,
+  (state: State) => state.selectedOrder
+);
+
 export const selectError = createSelector(
   selectOrdersState,
   (state: State) => state.error

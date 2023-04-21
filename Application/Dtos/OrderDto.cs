@@ -7,7 +7,6 @@ namespace Application.Dtos
         public DateTime CreatedAt { get; set; }
         public decimal Budget { get; set; }
         public ContactPersonDto BuyerContactPerson { get; set; }
-        // public string BuyerCompanyName { get; set; }
         public ICollection<OrderRequestDto> Requests { get; set; }
         public string Status { get; set; }
     }

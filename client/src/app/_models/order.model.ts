@@ -25,4 +25,7 @@ export interface BuyerContactPerson {
   middleName: string;
   email: string;
   companyName: string;
+  companyEdrpou: string;
+  companyAddress: string;
+  companyZipCode: string;
 }

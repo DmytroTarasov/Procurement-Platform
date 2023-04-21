@@ -1,0 +1,44 @@
+<div class="container w-4/5 bg-white rounded-xl shadow-gray-400 p-6 mx-auto mt-10" *ngIf="(order$ | async) as order">
+  <h3 class="font-semibold text-2xl text-[#2FCB80]">{{ order.title }}</h3>
+  <div class="mt-4 grid grid-cols-2 gap-x-12 text-base">
+    <div class="grid grid-rows-[auto_1fr]">
+      <p class="italic text-[#A9A9A9] text-base">
+        Дата створення: {{ order.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA' }}
+      </p>
+      <div class="flex flex-col justify-center gap-y-4">
+        <p>Номер замовлення: {{ order.id }}</p>
+        <p>Статус: {{ orderStatuses[order.status] }}</p>
+        <p>Бюджет: {{ order.budget }} (грн.)</p>
+      </div>
+    </div>
+
+    <div class="flex flex-col justify-center gap-y-4">
+      <p class="font-semibold text-[#2FCB80]">Інформація про замовника</p>
+      <p>{{ order.buyerContactPerson.companyName }}</p>
+      <p>Код ЄДРПОУ: {{ order.buyerContactPerson.companyEdrpou }}</p>
+      <!-- <p>Адреса: {{ order.buyerContactPerson.companyAddress.endsWith(',') ? order.buyerContactPerson.companyAddress.substring(0, -2) : order.buyerContactPerson.companyAddress}}</p> -->
+      <p>Адреса: {{ order.buyerContactPerson.companyAddress }}</p>
+      <p>Поштовий індекс: {{ order.buyerContactPerson.companyZipCode }}</p>
+      <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
+      <p>ПІБ: {{order.buyerContactPerson.lastName}} {{order.buyerContactPerson.firstName}} {{order.buyerContactPerson.middleName}}</p>
+      <p>Пошта: {{ order.buyerContactPerson.email }}</p>
+    </div>
+  </div>
+  <div class="mt-6">
+    <h3 class="font-semibold text-xl text-[#2FCB80]">Заявки</h3>
+    <div class="mt-3 flex flex-col justify-center gap-y-2 border border-[#2FCB80] rounded-lg p-3" *ngFor="let request of order.requests; let i = index">
+      <p>{{ i+1 }}. {{ request.description }}</p>
+      <p>{{ request.subdivisionTitle }}</p>
+      <p>Предмет закупівлі: {{ request.procurementItemTitle }}</p>
+      <p *ngIf="request.quantity && request.measurementUnit">Кількість: {{ request.quantity }} {{getShortenMeasurementUnit(request.measurementUnit)}}</p>
+    </div>
+  </div>
+  <div class="mt-6">
+    <h3 class="font-semibold text-xl text-[#2FCB80]">Пропозиції</h3>
+    <p class="mt-4">Пропозицій немає</p>
+    <!-- <div class="mt-3 flex flex-col justify-center gap-y-2 p-3">
+
+    </div> -->
+  </div>
+</div>
+

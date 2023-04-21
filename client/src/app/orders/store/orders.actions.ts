@@ -44,3 +44,11 @@ export const setOrderParams = createAction(
 export const clearState = createAction(
   '[Orders] Clear State'
 );
+export const getOrderDetails = createAction(
+  '[Orders] Get Order Details',
+  props<{ id: number }>()
+);
+export const setSelectedOrder = createAction(
+  '[Orders] Set Selected Order',
+  props<{ order: Order }>()
+);

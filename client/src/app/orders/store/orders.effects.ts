@@ -108,6 +108,22 @@ export class OrdersEffects {
     )
   );
 
+  getOrderDetails$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersActions.getOrderDetails),
+      switchMap((action) => {
+        return this.orderService.getOrderDetails(action.id).pipe(
+          map((order) => {
+            return OrdersActions.setSelectedOrder({ order });
+          }),
+          catchError((errorRes) => {
+            return of(OrdersActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private orderService: OrderService,

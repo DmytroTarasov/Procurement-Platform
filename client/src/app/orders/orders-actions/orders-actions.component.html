@@ -1,5 +1,7 @@
 <div class="mt-16">
   <app-dropdown label="Статус" [control]="getFormControl('status')" [displayProps]="['value']" [items]="orderStatuses" [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="setOrderParamsStatus($event)">
   </app-dropdown>
+
+  <app-checkbox *ngIf="['Заявник', 'Замовник'].includes((user$ | async)?.role)" label="Лише замовлення власної компанії" (onChange)="onChange($event)"></app-checkbox>
 </div>
 
