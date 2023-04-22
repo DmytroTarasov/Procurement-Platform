@@ -151,6 +151,7 @@ export class DialogEffects {
           this.dialog.open(CreateOrderModalComponent, {
             disableClose: true
           });
+          this.ref.tick();
         })
       ),
     { dispatch: false }

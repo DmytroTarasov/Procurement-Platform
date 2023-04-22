@@ -14,5 +14,9 @@ namespace Domain
         public int? TransporterContactPersonId { get; set; }
         public User TransporterContactPerson { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Active;
+        public int DeliveryAddressId { get; set; }
+        public Address DeliveryAddress { get; set; }
+        public int? ShipmentAddressId { get; set; }
+        public Address ShipmentAddress { get; set; }
     }
 }

@@ -23,6 +23,12 @@ export const selectOrder = createSelector(
   (state: State) => state.selectedOrder
 );
 
+export const selectCompanyOrderAddresses = createSelector(
+  selectOrdersState,
+  (state: State) => state.addresses
+);
+
+
 export const selectError = createSelector(
   selectOrdersState,
   (state: State) => state.error

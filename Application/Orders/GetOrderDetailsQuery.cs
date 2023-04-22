@@ -31,7 +31,7 @@ namespace Application.Orders
         public async Task<Result<OrderDto>> Handle(GetOrderDetailsQuery request, CancellationToken cancellationToken)
         {   
             var order = await _context.Orders
-                .Include(o => o.Requests)
+                // .Include(o => o.Requests)
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(o => o.Id == request.Id);
             

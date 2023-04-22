@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Application.Common.Models;
+using Application.Dtos;
 using AutoMapper;
 using Domain;
 using MediatR;
@@ -13,6 +14,8 @@ namespace Application.Orders
     {
         public string Title { get; set; }
         public ICollection<int> RequestIds { get; set; }
+        public int DeliveryAddressId { get; set; }
+        public AddressDto DeliveryAddress { get; set; }
     }
 
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Result<int>>
@@ -27,6 +30,14 @@ namespace Application.Orders
         }
         public async Task<Result<int>> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {   
+            if (command.DeliveryAddress != null) {
+                var address = _mapper.Map<Address>(command.DeliveryAddress);
+                _context.Addresses.Add(address);
+                var addressResult = await _context.SaveChangesAsync() > 0;
+                if (!addressResult) return Result<int>.Failure("Не вдалось додати адресу доставки. Спробуйте, будь ласка, пізніше");
+                command.DeliveryAddressId = address.Id;
+            }
+
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             var requests = await _context.Requests.Where(r => command.RequestIds.Contains(r.Id)).ToListAsync();
 
@@ -38,7 +49,8 @@ namespace Application.Orders
                 CreatedAt = DateTime.UtcNow,
                 Requests = requests,
                 Budget = requests.Sum(r => r.Budget),
-                BuyerContactPersonId = userId
+                BuyerContactPersonId = userId,
+                DeliveryAddressId = command.DeliveryAddressId
             };
 
             _context.Orders.Add(order);

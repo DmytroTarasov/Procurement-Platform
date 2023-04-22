@@ -33,7 +33,6 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   tranformCompanyAddress(address: Address) {
-    console.log(address);
     const data = [address.city, address.street];
     if (address.region) {
       data.splice(1, 0, `${address.region} область`);

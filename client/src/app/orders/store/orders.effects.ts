@@ -10,6 +10,7 @@ import { OrderService } from 'src/app/_services/order.service';
 import { selectOrderRequests } from 'src/app/requests/store/requests.selectors';
 import { selectOrderParams, selectPagination } from './orders.selectors';
 import * as AuthActions from 'src/app/auth/store/auth.actions';
+import { AddressService } from 'src/app/_services/address.service';
 
 @Injectable()
 export class OrdersEffects {
@@ -18,7 +19,7 @@ export class OrdersEffects {
       ofType(OrdersActions.createOrder),
       withLatestFrom(this.store.pipe(select(selectOrderRequests))),
       switchMap(([action, requestIds]) => {
-        return this.orderService.createOrder(action.title, requestIds).pipe(
+        return this.orderService.createOrder({ ...action.order, requestIds }).pipe(
           map((_) => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
@@ -124,9 +125,27 @@ export class OrdersEffects {
     )
   );
 
+  getCompanyOrderAddresses$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersActions.getCompanyOrderAddresses),
+      switchMap((action) => {
+        return this.addressService.getCompanyOrderAddresses().pipe(
+          map((addresses) => {
+            console.log(addresses);
+            return OrdersActions.setCompanyOrderAddresses({ addresses });
+          }),
+          catchError((errorRes) => {
+            return of(OrdersActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private orderService: OrderService,
+    private addressService: AddressService,
     private store: Store<fromApp.AppState>,
     private dialog: MatDialog
   ) {}

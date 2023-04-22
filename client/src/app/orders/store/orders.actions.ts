@@ -1,4 +1,6 @@
 import { createAction, props } from '@ngrx/store';
+import { Address } from 'src/app/_models/address.model';
+import { CreateOrder } from 'src/app/_models/create-order.model';
 import { OrderParams } from 'src/app/_models/order-params.model';
 import { Order } from 'src/app/_models/order.model';
 import { Pagination } from 'src/app/_models/pagination.model';
@@ -7,7 +9,7 @@ import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-r
 
 export const createOrder = createAction(
   '[Orders] Create Order',
-  props<{ title: string }>()
+  props<{ order: CreateOrder }>()
 );
 export const createOrderSuccess = createAction(
   '[Orders] Create Order Success',
@@ -51,4 +53,11 @@ export const getOrderDetails = createAction(
 export const setSelectedOrder = createAction(
   '[Orders] Set Selected Order',
   props<{ order: Order }>()
+);
+export const getCompanyOrderAddresses = createAction(
+  '[Orders] Get Company Order Addresses',
+);
+export const setCompanyOrderAddresses = createAction(
+  '[Orders] Set Company Order Addresses',
+  props<{ addresses: Address[] }>()
 );

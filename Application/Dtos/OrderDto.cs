@@ -9,5 +9,7 @@ namespace Application.Dtos
         public ContactPersonDto BuyerContactPerson { get; set; }
         public ICollection<OrderRequestDto> Requests { get; set; }
         public string Status { get; set; }
+        public AddressDto DeliveryAddress { get; set; }
+        public AddressDto ShipmentAddress { get; set; }
     }
 }

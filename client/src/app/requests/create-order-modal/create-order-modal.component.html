@@ -2,6 +2,29 @@
   <div mat-dialog-content>
     <form class="w-full mt-3" [formGroup]="orderForm" (ngSubmit)="onSubmit()">
       <app-textarea label="Назва" [control]="getFormControl('title')"></app-textarea>
+      <!-- <app-dropdown *ngIf="deliveryAddressExists" label="Адреса доставки" [control]="getFormControl('deliveryAddressId')" [displayProps]="['title']" [items]="(addresses$ | async)"
+        errorMessage="Адреса доставки має бути обрана">
+        <p class="text-sm italic">Не знайшли адресу у списку? <span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleDeliveryAddressExistence()">Натисність,</span> щоб додати нову</p>
+      </app-dropdown> -->
+      <p class="mb-2">Адреса доставки <span class="text-red-600">*</span></p>
+      <div *ngIf="deliveryAddressExists" class="mb-2 relative">
+        <mat-form-field appearance="fill">
+          <mat-select [formControl]="getFormControl('deliveryAddressId')">
+            <mat-option *ngFor="let address of (addresses$ | async)" [value]="address['id']">
+              {{ tranformAddress(address) }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error>{{ (getFormControl('deliveryAddressId').errors?.required && getFormControl('deliveryAddressId').touched) ? 'Адреса доставки має бути обрана' : '' }} </mat-error>
+        <p class="text-sm italic">Не знайшли адресу у списку? <span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleDeliveryAddressExistence()">Натисність,</span> щоб додати нову</p>
+      </div>
+      <div *ngIf="!deliveryAddressExists">
+        <app-input label="Місто" [control]="getFormControl('city')"></app-input>
+        <app-input label="Область" [control]="getFormControl('region')" [required]="false"></app-input>
+        <app-input label="Вулиця" [control]="getFormControl('street')"></app-input>
+        <app-input label="Номер будівлі" [control]="getFormControl('buildingNumber')" [required]="false"></app-input>
+        <app-input label="Поштовий індекс" [control]="getFormControl('zipCode')"></app-input>
+      </div>
 
       <p class="text-center italic"><span class="text-red-600">*</span> позначені обов'язкові поля</p>
       <p class="mt-2 text-center text-red-600 h-[20px]">{{(error$ | async) ?? ''}}</p>

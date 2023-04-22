@@ -18,6 +18,7 @@ namespace Persistence
         public DbSet<Category> Categories { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

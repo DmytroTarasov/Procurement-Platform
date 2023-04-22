@@ -33,7 +33,6 @@ export class RequestsListItemComponent implements OnInit {
   }
 
   get subdivisionAddress() {
-    console.log(this.request.subdivision.address);
     const address = this.request.subdivision.address;
     const data = [address.city, address.street];
     if (address.region) {

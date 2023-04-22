@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Order } from '../_models/order.model';
 import { OrderParams } from '../_models/order-params.model';
+import { CreateOrder } from '../_models/create-order.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  createOrder(title: string, requestIds: number[]) {
-    return this.http.post<number>(`${environment.serverUrl}/orders`, { title, requestIds });
+  createOrder(order: CreateOrder) {
+    return this.http.post<number>(`${environment.serverUrl}/orders`, order);
   }
 
   getOrders(page?: number, orderParams?: OrderParams) {
