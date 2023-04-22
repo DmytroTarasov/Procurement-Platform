@@ -8,6 +8,8 @@ export interface Order {
   buyerContactPerson: BuyerContactPerson;
   // buyerCompanyName: string;
   status: string;
+  deliveryAddress: Address;
+  shipmentAddress: Address;
   requests: OrderRequest[];
 }
 

@@ -33,12 +33,12 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   tranformCompanyAddress(address: Address) {
-    const data = [address.city, address.street];
+    const data = [address.city, address.street, address.zipCode];
     if (address.region) {
       data.splice(1, 0, `${address.region} область`);
     }
     if (address.buildingNumber) {
-      data.push(address.buildingNumber);
+      data.splice(-1, 0, address.buildingNumber);
     }
     return data.join(', ');
   }
