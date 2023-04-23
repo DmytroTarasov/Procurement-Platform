@@ -8,6 +8,7 @@ namespace Application.Dtos
         public decimal Budget { get; set; }
         public ContactPersonDto BuyerContactPerson { get; set; }
         public ICollection<OrderRequestDto> Requests { get; set; }
+        public ICollection<ProposalDto> Proposals { get; set; }
         public string Status { get; set; }
         public AddressDto DeliveryAddress { get; set; }
         public AddressDto ShipmentAddress { get; set; }

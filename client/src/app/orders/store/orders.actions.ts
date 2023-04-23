@@ -49,7 +49,7 @@ export const clearState = createAction(
 );
 export const getOrderDetails = createAction(
   '[Orders] Get Order Details',
-  props<{ id: number }>()
+  props<{ orderId: number }>()
 );
 export const setSelectedOrder = createAction(
   '[Orders] Set Selected Order',
@@ -68,5 +68,5 @@ export const submitProposal = createAction(
 );
 export const submitProposalSuccess = createAction(
   '[Orders] Submit Proposal Success',
-  props<{ id: number }>()
+  props<{ orderId: number, data: ModalRedirectData }>()
 );

@@ -53,23 +53,17 @@ namespace Application.Common.Services.Implementations
             if (!roleResult.Succeeded) 
                 return Result<UserDto>.Failure("Виникла помилка під час призначення ролі. Спробуйте, будь ласка, пізніше");
 
-            // var userDto = _mapper.Map<UserDto>(user);
-            // userDto.Role = registerDto.Role;
-            // userDto.Token = await _tokenService.CreateTokenAsync(user);
-
+            user = await _userManager.Users.Include(u => u.Subdivision).FirstAsync(u => u.Email == registerDto.Email);
             return Result<UserDto>.Success(await CreateUserDtoAsync(user));
         }
         public async Task<Result<UserDto>> LoginAsync(LoginDto loginDto)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
+            var user = await _userManager.Users.Include(u => u.Subdivision).FirstOrDefaultAsync(u => u.Email == loginDto.Email);
 
             if (user == null) return Result<UserDto>.Failure("Невірна пошта");
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
             if (result.Succeeded) {
-                // var userDto = _mapper.Map<UserDto>(user);
-                // userDto.Role = (await _userManager.GetRolesAsync(user)).First();
-                // userDto.Token = await _tokenService.CreateTokenAsync(user);
                 return Result<UserDto>.Success(await CreateUserDtoAsync(user));
             }
             
@@ -78,8 +72,8 @@ namespace Application.Common.Services.Implementations
         public async Task<Result<UserDto>> GetCurrentUserAsync() {
             var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"];
             var email = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
-            var user = await _userManager.Users.FirstAsync(u => u.Email == email);
-            return Result<UserDto>.Success(await CreateUserDtoAsync(user));
+            var user = await _userManager.Users.Include(u => u.Subdivision).FirstAsync(u => u.Email == email);
+            return Result<UserDto>.Success(await CreateUserDtoAsync(user, token));
         }
         private async Task<UserDto> CreateUserDtoAsync(User user, string token = null) {
             var userDto = _mapper.Map<UserDto>(user);

@@ -21,7 +21,7 @@
         <p>Код ЄДРПОУ: {{ order.buyerContactPerson.companyEdrpou }}</p>
         <p>Адреса: {{ tranformCompanyAddress(order.buyerContactPerson.companyAddress) }}</p>
         <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
-        <p>ПІБ: {{order.buyerContactPerson.lastName}} {{order.buyerContactPerson.firstName}} {{order.buyerContactPerson.middleName}}</p>
+        <p>ПІБ: {{ getFullName(order.buyerContactPerson) }}</p>
         <p>Пошта: {{ order.buyerContactPerson.email }}</p>
       </div>
     </div>
@@ -36,15 +36,33 @@
     </div>
     <div class="mt-6">
       <h3 class="font-semibold text-xl text-[#2FCB80]">Пропозиції</h3>
-      <!-- <p class="mt-4">Пропозицій немає</p> -->
-      <div class="mt-4" *ngIf="(user$ | async)?.role === 'Постачальник'">
+      <p class="mt-4" *ngIf="order.proposals.length === 0">Пропозицій немає</p>
+      <div class="mt-4" *ngIf="user && user?.role === 'Постачальник' && !anyProposals(order) && order.status === 'Active'">
         <app-button text="Подати пропозицію" type="button" [classList]="['border', 'border-[#2FCB80]', 'h-[45px]', 'w-auto']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog()"></app-button>
         <!-- <app-button text="Подати пропозицію" type="button" [classList]="['h-[45px]', 'w-auto']" [colors]="['bg-[#2FCB80]', 'text-white']" (click)="openSubmitProposalDialog()"></app-button> -->
       </div>
 
-      <!-- <div class="mt-3 flex flex-col justify-center gap-y-2 p-3">
-
-      </div> -->
+      <div class="mt-3" *ngFor="let proposal of order.proposals; let i = index">
+        <div class="grid grid-cols-2 gap-x-4 text-base">
+          <div class="flex flex-col justify-center gap-y-2 border border-[#2FCB80] rounded-lg p-3">
+            <!-- <p>{{ i+1 }}. Постачальник: {{ proposal.supplierContactPerson.companyName }}</p> -->
+            <p>{{ i+1 }}. <span class="font-semibold text-[#2FCB80]">Інформація про постачальника</span></p>
+            <p>{{ proposal.supplierContactPerson.companyName }}</p>
+            <p>Код ЄДРПОУ: {{ proposal.supplierContactPerson.companyEdrpou }}</p>
+            <p>Адреса відвантаження: {{ tranformCompanyAddress(proposal.shipmentAddress) }}</p>
+            <p class="italic text-[#A9A9A9]">{{ proposal.supplierAdditionalInfo }}</p>
+            <p>Ціна: {{ proposal.supplierPrice }} (грн.)</p>
+            <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
+            <p>ПІБ: {{ getFullName(proposal.supplierContactPerson) }}</p>
+            <p>Пошта: {{ proposal.supplierContactPerson.email }}</p>
+          </div>
+          <div class="flex flex-col justify-center gap-y-2 border border-[#2FCB80] rounded-lg p-3" *ngIf="proposal.transporterContactPerson">
+            <p>Перевізник: {{ proposal.transporterContactPerson.companyName }}</p>
+            <p>Код ЄДРПОУ: {{ proposal.transporterContactPerson.companyEdrpou }}</p>
+            <p>Ціна: {{ proposal.transporterSum }} (грн.)</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

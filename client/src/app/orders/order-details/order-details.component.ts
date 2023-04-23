@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import * as fromApp from 'src/app/store/app.reducer';
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
 import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
 import { selectOrder } from '../store/orders.selectors';
-import { Observable } from 'rxjs';
-import { Order } from 'src/app/_models/order.model';
+import { Observable, Subscription } from 'rxjs';
+import { ContactPerson, Order } from 'src/app/_models/order.model';
 import { orderStatuses } from 'src/app/_models/resources/order-statuses';
 import { getShortenMeasurementUnit } from 'src/app/_models/resources/measurement-units';
 import { Address } from 'src/app/_models/address.model';
@@ -19,22 +19,27 @@ import * as DialogActions from 'src/app/store/actions/dialog.actions';
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss']
 })
-export class OrderDetailsComponent implements OnInit {
+export class OrderDetailsComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
   loading$: Observable<boolean>;
   orderStatuses = orderStatuses;
   getShortenMeasurementUnit = getShortenMeasurementUnit;
   user$: Observable<User>;
+  user: User;
+  userSubscription: Subscription;
 
   constructor(private store: Store<fromApp.AppState>, private route: ActivatedRoute) { }
 
   ngOnInit() {
     const orderId = +this.route.snapshot.paramMap.get('orderId');
-    this.store.dispatch(OrdersActions.getOrderDetails({ id: orderId }));
+    this.store.dispatch(OrdersActions.getOrderDetails({ orderId }));
 
     this.order$ = this.store.pipe(select(selectOrder));
     this.loading$ = this.store.pipe(select(selectLoading));
-    this.user$ = this.store.pipe(select(selectUser));
+    // this.user$ = this.store.pipe(select(selectUser));
+    this.userSubscription = this.store.pipe(select(selectUser)).subscribe(user => {
+      this.user = user;
+    });
   }
 
   tranformCompanyAddress(address: Address) {
@@ -48,7 +53,19 @@ export class OrderDetailsComponent implements OnInit {
     return data.join(', ');
   }
 
+  getFullName(person: ContactPerson) {
+    return `${person.lastName} ${person.firstName} ${person.middleName}`;
+  }
+
   openSubmitProposalDialog() {
     this.store.dispatch(DialogActions.openSubmitProposalDialog());
+  }
+
+  anyProposals(order: Order) {
+    return order.proposals.some(p => p.supplierContactPerson.companyId === this.user.companyId);
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 }

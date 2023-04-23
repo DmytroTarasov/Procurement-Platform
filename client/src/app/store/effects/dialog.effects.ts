@@ -36,7 +36,7 @@ export class DialogEffects {
           }
           return DialogActions.noAction();
         })
-      ),
+      )
     // { dispatch: false }
   );
 
@@ -46,7 +46,7 @@ export class DialogEffects {
         ofType(DialogActions.openCreateCompanyDialog),
         map((action) => {
           const dialogRef = this.dialog.open(CreateCompanyModalComponent, {
-            disableClose: true,
+            disableClose: true
           });
           return dialogRef.afterClosed();
         })
@@ -60,7 +60,7 @@ export class DialogEffects {
         ofType(DialogActions.openCreateRequestDialog),
         map((action) => {
           const dialogRef = this.dialog.open(CreateRequestModalComponent, {
-            disableClose: true,
+            disableClose: true
           });
           this.ref.tick();
           return dialogRef.afterClosed();
@@ -92,7 +92,7 @@ export class DialogEffects {
             disableClose: true,
             data: {
               companyId: action.companyId
-            },
+            }
           });
           return dialogRef.afterClosed();
         })
@@ -103,9 +103,14 @@ export class DialogEffects {
   openRedirectDialog$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(AuthActions.createCompanySuccess, AuthActions.createSubdivisionSuccess,
-          RequestsActions.createRequestSuccess, RequestsActions.editRequestSuccess,
-          OrdersActions.createOrderSuccess),
+        ofType(
+          AuthActions.createCompanySuccess,
+          AuthActions.createSubdivisionSuccess,
+          RequestsActions.createRequestSuccess,
+          RequestsActions.editRequestSuccess,
+          OrdersActions.createOrderSuccess,
+          OrdersActions.submitProposalSuccess
+        ),
         map((action) => {
           this.dialog.closeAll();
           this.dialog.open(ModalRedirectComponent, {
@@ -130,9 +135,9 @@ export class DialogEffects {
             text: 'Вітаємо! Ви успішно зареєструвались.',
             primaryBtn: {
               text: 'На головну',
-              route: ['Заявник', 'Замовник'].includes(user.role) ? 'requests' : 'orders'
+              route: ['Заявник', 'Замовник'].includes(user.role) ? 'requests' : 'orders',
             },
-            successfull: true,
+            successfull: true
           };
           this.dialog.open(ModalRedirectComponent, {
             disableClose: true,

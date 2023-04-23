@@ -7,4 +7,5 @@ export interface User {
   role: string;
   token: string;
   subdivisionId?: number;
+  companyId?: number;
 }

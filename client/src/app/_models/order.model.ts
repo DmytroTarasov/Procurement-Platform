@@ -1,16 +1,17 @@
 import { Address } from "./address.model";
+import { Proposal } from "./proposal.model";
 
 export interface Order {
   id?: number;
   title: string;
   createdAt: Date;
   budget: number;
-  buyerContactPerson: BuyerContactPerson;
-  // buyerCompanyName: string;
+  buyerContactPerson: ContactPerson;
+  requests: OrderRequest[];
+  proposals: Proposal[];
   status: string;
   deliveryAddress: Address;
   shipmentAddress: Address;
-  requests: OrderRequest[];
 }
 
 export interface OrderRequest {
@@ -22,12 +23,13 @@ export interface OrderRequest {
   quantity: number;
 }
 
-export interface BuyerContactPerson {
+export interface ContactPerson {
   id: number;
   firstName: string;
   lastName: string;
   middleName: string;
   email: string;
+  companyId: number;
   companyName: string;
   companyEdrpou: string;
   companyAddress: Address;

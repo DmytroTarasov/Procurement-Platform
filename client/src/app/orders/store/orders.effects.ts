@@ -111,9 +111,12 @@ export class OrdersEffects {
 
   getOrderDetails$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(OrdersActions.getOrderDetails),
+      ofType(
+        OrdersActions.getOrderDetails,
+        OrdersActions.submitProposalSuccess
+      ),
       switchMap((action) => {
-        return this.orderService.getOrderDetails(action.id).pipe(
+        return this.orderService.getOrderDetails(action.orderId).pipe(
           map((order) => {
             return OrdersActions.setSelectedOrder({ order });
           }),
@@ -158,7 +161,7 @@ export class OrdersEffects {
               },
               successfull: true
             };
-            return OrdersActions.submitProposalSuccess({ id });
+            return OrdersActions.submitProposalSuccess({ orderId: order.id, data });
           }),
           catchError((errorRes) => {
             return of(OrdersActions.failure({ error: errorRes?.error }));

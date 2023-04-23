@@ -20,7 +20,7 @@ export class OrderGuard implements CanActivate {
       select(selectOrder),
       tap((order) => {
         if (!order || order.id !== orderId) {
-          this.store.dispatch(OrdersActions.getOrderDetails({ id: orderId }));
+          this.store.dispatch(OrdersActions.getOrderDetails({ orderId }));
         }
       }),
       filter((order) => !!order && order.id === orderId),
