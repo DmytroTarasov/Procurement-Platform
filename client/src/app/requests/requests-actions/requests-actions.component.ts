@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { requestStatuses } from 'src/app/_models/resources/request-statuses';
+import { requestStatuses } from 'src/app/core/resources/statuses';
 import * as fromApp from 'src/app/store/app.reducer';
 import * as RequestsActions from '../store/requests.actions';
 import { Observable, Subscription, map } from 'rxjs';

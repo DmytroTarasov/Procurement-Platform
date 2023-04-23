@@ -6,7 +6,7 @@ import * as OrdersActions from '../store/orders.actions';
 import { Observable, Subscription, map } from 'rxjs';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/_models/user.model';
-import { orderStatuses } from 'src/app/_models/resources/order-statuses';
+import { orderStatuses } from 'src/app/core/resources/statuses';
 import { OrderParams } from 'src/app/_models/order-params.model';
 import { selectOrderParams } from '../store/orders.selectors';
 

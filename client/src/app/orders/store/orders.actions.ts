@@ -70,3 +70,11 @@ export const submitProposalSuccess = createAction(
   '[Orders] Submit Proposal Success',
   props<{ orderId: number, data: ModalRedirectData }>()
 );
+export const cancelProposal = createAction(
+  '[Orders] Cancel Proposal',
+  props<{ id: number }>()
+);
+export const cancelProposalSuccess = createAction(
+  '[Orders] Cancel Proposal Success',
+  props<{ orderId: number }>()
+);

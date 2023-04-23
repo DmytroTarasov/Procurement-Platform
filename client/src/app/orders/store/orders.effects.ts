@@ -11,6 +11,7 @@ import { selectOrderRequests } from 'src/app/requests/store/requests.selectors';
 import { selectOrder, selectOrderParams, selectPagination } from './orders.selectors';
 import * as AuthActions from 'src/app/auth/store/auth.actions';
 import { AddressService } from 'src/app/_services/address.service';
+import { ProposalService } from 'src/app/_services/proposal.service';
 
 @Injectable()
 export class OrdersEffects {
@@ -113,7 +114,8 @@ export class OrdersEffects {
     this.actions$.pipe(
       ofType(
         OrdersActions.getOrderDetails,
-        OrdersActions.submitProposalSuccess
+        OrdersActions.submitProposalSuccess,
+        OrdersActions.cancelProposalSuccess
       ),
       switchMap((action) => {
         return this.orderService.getOrderDetails(action.orderId).pipe(
@@ -150,7 +152,7 @@ export class OrdersEffects {
       ofType(OrdersActions.submitProposal),
       withLatestFrom(this.store.pipe(select(selectOrder))),
       switchMap(([action, order]) => {
-        return this.orderService.submitProposal({ ...action.proposal, orderId: order.id }).pipe(
+        return this.proposalService.submitProposal({ ...action.proposal, orderId: order.id }).pipe(
           map((id) => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
@@ -171,10 +173,28 @@ export class OrdersEffects {
     )
   );
 
+  cancelProposal$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersActions.cancelProposal),
+      withLatestFrom(this.store.pipe(select(selectOrder))),
+      switchMap(([action, order]) => {
+        return this.proposalService.cancelProposal(action.id).pipe(
+          map(_ => {
+            return OrdersActions.cancelProposalSuccess({ orderId: order.id });
+          }),
+          catchError((errorRes) => {
+            return of(OrdersActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private orderService: OrderService,
     private addressService: AddressService,
+    private proposalService: ProposalService,
     private store: Store<fromApp.AppState>,
     private dialog: MatDialog
   ) {}

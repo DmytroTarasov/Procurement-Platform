@@ -9,7 +9,7 @@ import * as fromApp from 'src/app/store/app.reducer';
 import * as RequestsActions from '../store/requests.actions';
 import { selectProcurementItems, selectCategories } from '../store/requests.selectors';
 import { Category } from 'src/app/_models/category.model';
-import { measurementUnits } from 'src/app/_models/resources/measurement-units';
+import { measurementUnits } from 'src/app/core/resources/measurement-units';
 
 @Component({
   selector: 'app-create-request-modal',

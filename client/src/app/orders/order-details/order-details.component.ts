@@ -7,12 +7,13 @@ import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
 import { selectOrder } from '../store/orders.selectors';
 import { Observable, Subscription } from 'rxjs';
 import { ContactPerson, Order } from 'src/app/_models/order.model';
-import { orderStatuses } from 'src/app/_models/resources/order-statuses';
-import { getShortenMeasurementUnit } from 'src/app/_models/resources/measurement-units';
+import { orderStatuses } from 'src/app/core/resources/statuses';
+import { getShortenMeasurementUnit } from 'src/app/core/resources/measurement-units';
 import { Address } from 'src/app/_models/address.model';
 import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
+import { proposalStatuses, statusesColors } from 'src/app/core/resources/statuses';
 
 @Component({
   selector: 'app-order-details',
@@ -23,6 +24,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
   loading$: Observable<boolean>;
   orderStatuses = orderStatuses;
+  proposalStatuses = proposalStatuses;
+  statusesColors = statusesColors;
   getShortenMeasurementUnit = getShortenMeasurementUnit;
   user$: Observable<User>;
   user: User;
@@ -63,6 +66,10 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
   anyProposals(order: Order) {
     return order.proposals.some(p => p.supplierContactPerson.companyId === this.user.companyId);
+  }
+
+  cancelProposal(id: number) {
+    this.store.dispatch(OrdersActions.cancelProposal({ id }));
   }
 
   ngOnDestroy() {

@@ -5,7 +5,7 @@ import { Order } from 'src/app/_models/order.model';
 import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as fromApp from 'src/app/store/app.reducer';
-import { orderStatuses, orderStatusesColors } from 'src/app/_models/resources/order-statuses';
+import { orderStatuses, statusesColors } from 'src/app/core/resources/statuses';
 import * as OrdersActions from '../store/orders.actions';
 import * as RouteActions from 'src/app/store/actions/route.actions';
 
@@ -17,7 +17,7 @@ import * as RouteActions from 'src/app/store/actions/route.actions';
 export class OrdersListItemComponent implements OnInit {
   @Input() order: Order;
   orderStatuses = orderStatuses;
-  orderStatusesColors = orderStatusesColors;
+  statusesColors = statusesColors;
   user$: Observable<User>;
 
   constructor(private store: Store<fromApp.AppState>) { }
