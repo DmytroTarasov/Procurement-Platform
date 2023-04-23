@@ -43,7 +43,7 @@ namespace Application.Requests
                 .ThenInclude(p => p.Category)
                 .Where(r => r.Subdivision.CompanyId == companyId);
 
-            if (role == "Замовник") {
+            if (role == UserRoles.Customer) {
                 query = query.Where(r => r.Status == RequestStatus.Active);
             } else {
                 RequestStatus status;

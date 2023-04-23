@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import * as fromApp from 'src/app/store/app.reducer';
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
@@ -8,8 +8,11 @@ import { selectOrder } from '../store/orders.selectors';
 import { Observable } from 'rxjs';
 import { Order } from 'src/app/_models/order.model';
 import { orderStatuses } from 'src/app/_models/resources/order-statuses';
-import { measurementUnits, getShortenMeasurementUnit } from 'src/app/_models/resources/measurement-units';
+import { getShortenMeasurementUnit } from 'src/app/_models/resources/measurement-units';
 import { Address } from 'src/app/_models/address.model';
+import { User } from 'src/app/_models/user.model';
+import { selectUser } from 'src/app/auth/store/auth.selectors';
+import * as DialogActions from 'src/app/store/actions/dialog.actions';
 
 @Component({
   selector: 'app-order-details',
@@ -21,6 +24,7 @@ export class OrderDetailsComponent implements OnInit {
   loading$: Observable<boolean>;
   orderStatuses = orderStatuses;
   getShortenMeasurementUnit = getShortenMeasurementUnit;
+  user$: Observable<User>;
 
   constructor(private store: Store<fromApp.AppState>, private route: ActivatedRoute) { }
 
@@ -30,6 +34,7 @@ export class OrderDetailsComponent implements OnInit {
 
     this.order$ = this.store.pipe(select(selectOrder));
     this.loading$ = this.store.pipe(select(selectLoading));
+    this.user$ = this.store.pipe(select(selectUser));
   }
 
   tranformCompanyAddress(address: Address) {
@@ -41,5 +46,9 @@ export class OrderDetailsComponent implements OnInit {
       data.splice(-1, 0, address.buildingNumber);
     }
     return data.join(', ');
+  }
+
+  openSubmitProposalDialog() {
+    this.store.dispatch(DialogActions.openSubmitProposalDialog());
   }
 }

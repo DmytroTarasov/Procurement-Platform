@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Order } from '../_models/order.model';
 import { OrderParams } from '../_models/order-params.model';
 import { CreateOrder } from '../_models/create-order.model';
+import { CreateProposal } from '../_models/proposal.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class OrderService {
 
   getOrderDetails(id: number) {
     return this.http.get<Order>(`${environment.serverUrl}/orders/${id}`);
+  }
+
+  submitProposal(proposal: CreateProposal) {
+    return this.http.post<number>(`${environment.serverUrl}/orders/${proposal.orderId}/proposals`, proposal);
   }
 
   private createOrderParams(page?: number, orderParams?: OrderParams) {

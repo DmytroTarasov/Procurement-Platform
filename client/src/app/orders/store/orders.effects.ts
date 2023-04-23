@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 import { OrderService } from 'src/app/_services/order.service';
 import { selectOrderRequests } from 'src/app/requests/store/requests.selectors';
-import { selectOrderParams, selectPagination } from './orders.selectors';
+import { selectOrder, selectOrderParams, selectPagination } from './orders.selectors';
 import * as AuthActions from 'src/app/auth/store/auth.actions';
 import { AddressService } from 'src/app/_services/address.service';
 
@@ -133,6 +133,32 @@ export class OrdersEffects {
           map((addresses) => {
             console.log(addresses);
             return OrdersActions.setCompanyOrderAddresses({ addresses });
+          }),
+          catchError((errorRes) => {
+            return of(OrdersActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
+  );
+
+  submitProposal$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersActions.submitProposal),
+      withLatestFrom(this.store.pipe(select(selectOrder))),
+      switchMap(([action, order]) => {
+        return this.orderService.submitProposal({ ...action.proposal, orderId: order.id }).pipe(
+          map((id) => {
+            const data: ModalRedirectData = {
+              title: 'Успішно!',
+              text: 'Ваша пропозиція успішно подана.',
+              primaryBtn: {
+                text: 'Ок',
+                route: `orders/${order.id}`,
+              },
+              successfull: true
+            };
+            return OrdersActions.submitProposalSuccess({ id });
           }),
           catchError((errorRes) => {
             return of(OrdersActions.failure({ error: errorRes?.error }));

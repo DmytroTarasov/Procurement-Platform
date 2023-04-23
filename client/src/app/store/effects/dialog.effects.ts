@@ -20,6 +20,7 @@ import { CreateOrderModalComponent } from 'src/app/requests/create-order-modal/c
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
 import { selectRequestParams } from 'src/app/requests/store/requests.selectors';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
+import { SubmitProposalModalComponent } from 'src/app/orders/submit-proposal-modal/submit-proposal-modal.component';
 
 @Injectable()
 export class DialogEffects {
@@ -157,55 +158,19 @@ export class DialogEffects {
     { dispatch: false }
   );
 
-  // openCreateCompanySuccessDialog$ = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(AuthActions.createCompanySuccess),
-  //       map(() => {
-  //         this.dialog.closeAll();
-  //         const data: ModalRedirectData = {
-  //           title: 'Success!',
-  //           text: 'Компанія успішно створена. Адміністратор верифікує її протягом 24 годин.',
-  //           primaryBtn: {
-  //             text: 'Ок',
-  //             route: 'auth/register',
-  //           },
-  //           successfull: true,
-  //         };
-  //         this.dialog.open(ModalRedirectComponent, {
-  //           disableClose: true,
-  //           data,
-  //         });
-  //       })
-  //     );
-  //   },
-  //   { dispatch: false }
-  // );
-
-  // openCreateSubdivisionSuccessDialog$ = createEffect(
-  //   () => {
-  //     return this.actions$.pipe(
-  //       ofType(AuthActions.createSubdivisionSuccess),
-  //       map(() => {
-  //         this.dialog.closeAll();
-  //         const data: ModalRedirectData = {
-  //           title: 'Success!',
-  //           text: 'Підрозділ компанії успішно створений.',
-  //           primaryBtn: {
-  //             text: 'Ок',
-  //             route: 'auth/register',
-  //           },
-  //           successfull: true,
-  //         };
-  //         this.dialog.open(ModalRedirectComponent, {
-  //           disableClose: true,
-  //           data,
-  //         });
-  //       })
-  //     );
-  //   },
-  //   { dispatch: false }
-  // );
+  openSubmitProposalDialog$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(DialogActions.openSubmitProposalDialog),
+        map((action) => {
+          this.dialog.open(SubmitProposalModalComponent, {
+            disableClose: true
+          });
+          this.ref.tick();
+        })
+      ),
+    { dispatch: false }
+  );
 
   constructor(
     private actions$: Actions,

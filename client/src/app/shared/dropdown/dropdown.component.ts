@@ -18,6 +18,7 @@ export class DropdownComponent {
   @Input() optionValueProp = 'id';
   @Input() emitSelectionChangeEvent = false;
   @Output() onSelectionChange: EventEmitter<any> = new EventEmitter();
+  @Input() displayPropFunc?: (data: any) => string;
 
   getErrorMessage() {
     if (this.control?.errors?.required && this.control?.touched)

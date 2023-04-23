@@ -8,6 +8,7 @@ import { OrdersListItemComponent } from './orders-list-item/orders-list-item.com
 import { OrdersActionsComponent } from './orders-actions/orders-actions.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderGuard } from '../_guards/order.guard';
+import { SubmitProposalModalComponent } from './submit-proposal-modal/submit-proposal-modal.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { OrderGuard } from '../_guards/order.guard';
     OrdersListComponent,
     OrdersListItemComponent,
     OrdersActionsComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    SubmitProposalModalComponent
   ],
   imports: [
     SharedModule,

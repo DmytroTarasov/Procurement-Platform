@@ -25,7 +25,7 @@ namespace Application.Roles
 
         public async Task<Result<List<RoleDto>>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
         {
-            var roles = await _context.Roles.Where(r => r.Name != "Адміністратор").ToListAsync();
+            var roles = await _context.Roles.Where(r => r.Name != UserRoles.Administrator).ToListAsync();
             return Result<List<RoleDto>>.Success(_mapper.Map<List<RoleDto>>(roles));
         }
     }

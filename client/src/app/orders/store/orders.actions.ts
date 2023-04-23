@@ -4,6 +4,7 @@ import { CreateOrder } from 'src/app/_models/create-order.model';
 import { OrderParams } from 'src/app/_models/order-params.model';
 import { Order } from 'src/app/_models/order.model';
 import { Pagination } from 'src/app/_models/pagination.model';
+import { CreateProposal } from 'src/app/_models/proposal.model';
 import { RequestParams } from 'src/app/_models/request-params.model';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 
@@ -60,4 +61,12 @@ export const getCompanyOrderAddresses = createAction(
 export const setCompanyOrderAddresses = createAction(
   '[Orders] Set Company Order Addresses',
   props<{ addresses: Address[] }>()
+);
+export const submitProposal = createAction(
+  '[Orders] Submit Proposal',
+  props<{ proposal: CreateProposal }>()
+);
+export const submitProposalSuccess = createAction(
+  '[Orders] Submit Proposal Success',
+  props<{ id: number }>()
 );

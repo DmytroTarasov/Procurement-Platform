@@ -1,6 +1,7 @@
 using API.Extensions;
 using Application.Common.Helpers;
 using Application.Orders;
+using Application.Proposals;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -28,6 +29,11 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderDetails(int id) {
             return HandleResult(await Mediator.Send(new GetOrderDetailsQuery { Id = id }));
+        }
+
+        [HttpPost("{id}/proposals")]
+        public async Task<IActionResult> SubmitProposal([FromBody] SubmitProposalCommand command) {
+            return HandleResult(await Mediator.Send(command));
         }
     }
 }

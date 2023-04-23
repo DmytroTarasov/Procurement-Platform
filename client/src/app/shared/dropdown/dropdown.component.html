@@ -3,7 +3,9 @@
   <mat-form-field appearance="fill">
     <mat-select [formControl]="control" (selectionChange)="selectionChange($event)">
       <mat-option *ngFor="let item of items" [value]="item[optionValueProp]">
-        {{displayProps.length > 1 ? (item[displayProps[0]] + ' (' + item[displayProps[1]] + ')') : item[displayProps[0]]}}
+        {{ displayPropFunc
+          ? displayPropFunc(item)
+          : (displayProps.length > 1 ? (item[displayProps[0]] + ' (' + item[displayProps[1]] + ')') : item[displayProps[0]]) }}
       </mat-option>
     </mat-select>
   </mat-form-field>
