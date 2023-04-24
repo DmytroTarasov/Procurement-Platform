@@ -5,7 +5,7 @@ import { Order } from 'src/app/_models/order.model';
 import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as fromApp from 'src/app/store/app.reducer';
-import { orderStatuses, statusesColors } from 'src/app/core/resources/statuses';
+import { OrderStatuses, StatusesColors } from 'src/app/core/resources/statuses';
 import * as OrdersActions from '../store/orders.actions';
 import * as RouteActions from 'src/app/store/actions/route.actions';
 import { Roles } from 'src/app/core/resources/roles';
@@ -17,8 +17,8 @@ import { Roles } from 'src/app/core/resources/roles';
 })
 export class OrdersListItemComponent implements OnInit {
   @Input() order: Order;
-  orderStatuses = orderStatuses;
-  statusesColors = statusesColors;
+  OrderStatuses = OrderStatuses;
+  StatusesColors = StatusesColors;
   user$: Observable<User>;
   Roles = Roles;
 

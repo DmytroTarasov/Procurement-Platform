@@ -7,13 +7,13 @@ import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
 import { selectOrder } from '../store/orders.selectors';
 import { Observable, Subscription } from 'rxjs';
 import { ContactPerson, Order } from 'src/app/_models/order.model';
-import { orderStatuses } from 'src/app/core/resources/statuses';
+import { OrderStatuses } from 'src/app/core/resources/statuses';
 import { getShortenMeasurementUnit } from 'src/app/core/resources/measurement-units';
 import { Address } from 'src/app/_models/address.model';
 import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
-import { proposalStatuses, statusesColors } from 'src/app/core/resources/statuses';
+import { ProposalStatuses, StatusesColors } from 'src/app/core/resources/statuses';
 import { Roles } from 'src/app/core/resources/roles';
 
 @Component({
@@ -24,9 +24,9 @@ import { Roles } from 'src/app/core/resources/roles';
 export class OrderDetailsComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
   loading$: Observable<boolean>;
-  orderStatuses = orderStatuses;
-  proposalStatuses = proposalStatuses;
-  statusesColors = statusesColors;
+  OrderStatuses = OrderStatuses;
+  ProposalStatuses = ProposalStatuses;
+  StatusesColors = StatusesColors;
   getShortenMeasurementUnit = getShortenMeasurementUnit;
   user$: Observable<User>;
   user: User;

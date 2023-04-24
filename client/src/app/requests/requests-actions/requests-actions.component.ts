@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { requestStatuses } from 'src/app/core/resources/statuses';
+import { RequestStatuses } from 'src/app/core/resources/statuses';
 import * as fromApp from 'src/app/store/app.reducer';
 import * as RequestsActions from '../store/requests.actions';
 import { Observable, Subscription, map } from 'rxjs';
@@ -23,11 +23,10 @@ export interface Model {
   styleUrls: ['./requests-actions.component.scss']
 })
 export class RequestsActionsComponent implements OnInit, OnDestroy {
-  requestStatuses = [{ key: '', value: 'Всі' }, ...Object.entries(requestStatuses).map(([key, value]) => {
-    var splitted = value.split(' ');
+  requestStatuses = [{ key: '', value: 'Всі' }, ...Object.keys(RequestStatuses).map(key => {
+    const splitted = RequestStatuses[key].split(' ');
     splitted[0] = splitted[0].replace(/а$/, 'і');
-    value = splitted.join(' ');
-    return { key, value }
+    return { key, value: splitted.join(' ') }
   })];
   actionsForm: FormGroup;
   requestParams: RequestParams;

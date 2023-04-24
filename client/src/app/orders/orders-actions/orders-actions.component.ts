@@ -6,7 +6,7 @@ import * as OrdersActions from '../store/orders.actions';
 import { Observable, Subscription, map } from 'rxjs';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/_models/user.model';
-import { orderStatuses } from 'src/app/core/resources/statuses';
+import { OrderStatuses } from 'src/app/core/resources/statuses';
 import { OrderParams } from 'src/app/_models/order-params.model';
 import { selectOrderParams } from '../store/orders.selectors';
 import { Roles } from 'src/app/core/resources/roles';
@@ -17,11 +17,10 @@ import { Roles } from 'src/app/core/resources/roles';
   styleUrls: ['./orders-actions.component.scss']
 })
 export class OrdersActionsComponent implements OnInit, OnDestroy {
-  orderStatuses = [{ key: '', value: 'Всі' }, ...Object.entries(orderStatuses).map(([key, value]) => {
-    var splitted = value.split(' ');
+  orderStatuses = [{ key: '', value: 'Всі' }, ...Object.keys(OrderStatuses).map(key => {
+    const splitted = OrderStatuses[key].split(' ');
     splitted[0] = splitted[0].replace(/е$/, 'і');
-    value = splitted.join(' ');
-    return { key, value }
+    return { key, value: splitted.join(' ') }
   })];
 
   actionsForm: FormGroup;
