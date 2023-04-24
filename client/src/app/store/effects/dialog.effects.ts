@@ -20,7 +20,7 @@ import { CreateOrderModalComponent } from 'src/app/requests/create-order-modal/c
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
 import { selectRequestParams } from 'src/app/requests/store/requests.selectors';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
-import { SubmitProposalModalComponent } from 'src/app/orders/submit-proposal-modal/submit-proposal-modal.component';
+import { SubmitProposalData, SubmitProposalModalComponent } from 'src/app/orders/submit-proposal-modal/submit-proposal-modal.component';
 
 @Injectable()
 export class DialogEffects {
@@ -167,9 +167,16 @@ export class DialogEffects {
     () =>
       this.actions$.pipe(
         ofType(DialogActions.openSubmitProposalDialog),
-        map((action) => {
+        withLatestFrom(this.store.select(selectUser)),
+        map(([action, user]) => {
+          const data: SubmitProposalData = {
+            submitTransportProposalAsSupplier: action.submitTransportProposalAsSupplier,
+            userRole: user.role,
+            proposalId: action.proposalId
+          };
           this.dialog.open(SubmitProposalModalComponent, {
-            disableClose: true
+            disableClose: true,
+            data
           });
           this.ref.tick();
         })

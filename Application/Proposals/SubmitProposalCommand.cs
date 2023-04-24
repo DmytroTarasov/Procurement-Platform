@@ -59,6 +59,13 @@ namespace Application.Proposals
                 _context.Proposals.Add(proposal);
             } else {
                 proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == command.ProposalId.Value);
+
+                if (proposal == null) return Result<int>.Failure("Не вдалось подати пропозицію. Спробуйте, будь ласка, пізніше");
+                
+                proposal.TransporterId = userId;
+                proposal.TransporterSum = command.TransporterSum;
+                proposal.TransporterAdditionalInfo = command.TransporterAdditionalInfo;
+                _context.Proposals.Update(proposal);
             }
 
             var result = await _context.SaveChangesAsync() > 0;

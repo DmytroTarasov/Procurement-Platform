@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import * as fromApp from 'src/app/store/app.reducer';
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
@@ -9,6 +10,14 @@ import { Address } from 'src/app/_models/address.model';
 import { selectCompanyOrderAddresses } from 'src/app/orders/store/orders.selectors';
 import { selectError } from 'src/app/orders/store/orders.selectors';
 import { CreateProposal } from 'src/app/_models/proposal.model';
+import { User } from 'src/app/_models/user.model';
+import { selectUser } from 'src/app/auth/store/auth.selectors';
+
+export interface SubmitProposalData {
+  submitTransportProposalAsSupplier: boolean;
+  userRole: string;
+  proposalId: number;
+}
 
 @Component({
   selector: 'app-submit-proposal-modal',
@@ -19,15 +28,19 @@ export class SubmitProposalModalComponent implements OnInit {
   proposalForm: FormGroup;
   error$: Observable<string>;
   addresses$: Observable<Address[]>;
+  user$: Observable<User>;
   shipmentAddressExists = true;
 
-  constructor(private store: Store<fromApp.AppState>) { }
+  constructor(private store: Store<fromApp.AppState>, @Inject(MAT_DIALOG_DATA) public data: SubmitProposalData) { }
 
   ngOnInit() {
-    this.store.dispatch(OrdersActions.getCompanyOrderAddresses());
+    if (this.data.userRole === 'Постачальник') {
+      this.store.dispatch(OrdersActions.getCompanyOrderAddresses());
+    }
 
     this.proposalForm = new FormGroup({
-      shipmentAddressId: new FormControl('', this.shipmentAddressExists ? Validators.required : null),
+      shipmentAddressId: new FormControl('', (this.shipmentAddressExists && this.data.userRole === 'Постачальник')
+        ? Validators.required : null),
       price: new FormControl('', Validators.required),
       additionalInfo: new FormControl(''),
       city: new FormControl('', !this.shipmentAddressExists ? Validators.required : null),
@@ -38,11 +51,16 @@ export class SubmitProposalModalComponent implements OnInit {
     });
 
     this.addresses$ = this.store.pipe(select(selectCompanyOrderAddresses));
+    this.user$ = this.store.pipe(select(selectUser));
     this.error$ = this.store.pipe(select(selectError));
   }
 
   getFormControl(controlName: string): FormControl {
     return this.proposalForm.get(controlName) as FormControl;
+  }
+
+  get label() {
+    return this.data.userRole === 'Постачальник' ? 'Ціна (грн.)' : 'Ціна за доставку (грн.)';
   }
 
   tranformAddress(address: Address) {
@@ -77,10 +95,15 @@ export class SubmitProposalModalComponent implements OnInit {
     if (!this.proposalForm.valid) return;
 
     const { shipmentAddressId, price, additionalInfo, ...address } = this.proposalForm.value;
-    const proposal: CreateProposal = { shipmentAddressId, supplierPrice: price, supplierAdditionalInfo: additionalInfo };
-    proposal.shipmentAddressId = !!proposal.shipmentAddressId ? proposal.shipmentAddressId : null;
-    // proposal.shipmentAddressId = this.shipmentAddressExists ? proposal.shipmentAddressId : 0;
-    proposal.shipmentAddress = !this.shipmentAddressExists ? address : null;
+
+    let proposal: CreateProposal;
+    if (this.data.userRole === 'Постачальник') {
+      proposal = { shipmentAddressId, supplierPrice: price, supplierAdditionalInfo: additionalInfo };
+      proposal.shipmentAddressId = !!proposal.shipmentAddressId ? proposal.shipmentAddressId : null;
+      proposal.shipmentAddress = !this.shipmentAddressExists ? address : null;
+    } else {
+      proposal = { proposalId: this.data.proposalId, transporterSum: price, transporterAdditionalInfo: additionalInfo };
+    }
 
     this.store.dispatch(OrdersActions.submitProposal({ proposal }));
   }

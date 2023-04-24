@@ -37,7 +37,7 @@
     <div class="mt-6">
       <h3 class="font-semibold text-xl text-[#2FCB80]">Пропозиції</h3>
       <p class="mt-4" *ngIf="order.proposals.length === 0">Пропозицій немає</p>
-      <div class="mt-4" *ngIf="user && user?.role === 'Постачальник' && !anyProposals(order) && order.status === 'Active'">
+      <div class="mt-4" *ngIf="user && user?.role === 'Постачальник' && !anySupplierProposals(order) && order.status === 'Active'">
         <app-button text="Подати пропозицію" type="button" [classList]="['border', 'border-[#2FCB80]', 'h-[45px]', 'w-auto']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog()"></app-button>
         <!-- <app-button text="Подати пропозицію" type="button" [classList]="['h-[45px]', 'w-auto']" [colors]="['bg-[#2FCB80]', 'text-white']" (click)="openSubmitProposalDialog()"></app-button> -->
       </div>
@@ -57,11 +57,17 @@
             <p>Пошта: {{ proposal.supplierContactPerson.email }}</p>
             <p [ngClass]="['absolute', 'right-3', 'top-3', statusesColors[proposal.status]]">{{ proposalStatuses[proposal.status] }}</p>
             <app-button *ngIf="user?.id === proposal.supplierContactPerson.id && proposal.status === 'Active'" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-3', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id)"></app-button>
+            <app-button *ngIf="user?.role === 'Перевізник' && proposal.status === 'Active' && !anyTransporterProposals(order, proposal.supplierContactPerson.companyId)" text="Подати пропозицію" type="button" [classList]="['absolute', 'bottom-5', 'right-3', 'border', 'border-[#2FCB80]', 'h-[45px]', 'w-auto']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog(proposal.id)"></app-button>
           </div>
-          <div class="flex flex-col justify-center gap-y-2 border border-[#2FCB80] rounded-lg p-3" *ngIf="proposal.transporterContactPerson">
-            <p>Перевізник: {{ proposal.transporterContactPerson.companyName }}</p>
+          <div class="flex flex-col gap-y-2 border border-[#2FCB80] rounded-lg p-3" *ngIf="proposal.transporterContactPerson">
+            <p class="font-semibold text-[#2FCB80]">Інформація про перевізника</p>
+            <p>{{ proposal.transporterContactPerson.companyName }}</p>
             <p>Код ЄДРПОУ: {{ proposal.transporterContactPerson.companyEdrpou }}</p>
-            <p>Ціна: {{ proposal.transporterSum }} (грн.)</p>
+            <p class="italic text-[#A9A9A9]">{{ proposal.transporterAdditionalInfo }}</p>
+            <p>Ціна за доставку: {{ proposal.transporterSum }} (грн.)</p>
+            <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
+            <p>ПІБ: {{ getFullName(proposal.transporterContactPerson) }}</p>
+            <p>Пошта: {{ proposal.transporterContactPerson.email }}</p>
           </div>
         </div>
       </div>

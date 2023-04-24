@@ -60,12 +60,19 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     return `${person.lastName} ${person.firstName} ${person.middleName}`;
   }
 
-  openSubmitProposalDialog() {
-    this.store.dispatch(DialogActions.openSubmitProposalDialog());
+  openSubmitProposalDialog(proposalId?: number) {
+    // const submitTransportProposalAsSupplier =
+    this.store.dispatch(DialogActions.openSubmitProposalDialog({ proposalId }));
   }
 
-  anyProposals(order: Order) {
+  anySupplierProposals(order: Order) {
     return order.proposals.some(p => p.supplierContactPerson.companyId === this.user.companyId);
+  }
+
+  anyTransporterProposals(order: Order, supplierCompanyId: number) {
+    return order.proposals.some(p =>
+      p.supplierContactPerson.companyId === supplierCompanyId &&
+      p.transporterContactPerson?.companyId === this.user.companyId);
   }
 
   cancelProposal(id: number) {
