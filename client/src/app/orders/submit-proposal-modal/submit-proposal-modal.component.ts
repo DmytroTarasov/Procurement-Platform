@@ -9,7 +9,7 @@ import * as OrdersActions from 'src/app/orders/store/orders.actions';
 import { Address } from 'src/app/_models/address.model';
 import { selectCompanyOrderAddresses } from 'src/app/orders/store/orders.selectors';
 import { selectError } from 'src/app/orders/store/orders.selectors';
-import { CreateProposal } from 'src/app/_models/proposal.model';
+import { SubmitProposal } from 'src/app/_models/proposal.model';
 import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { Roles } from 'src/app/core/resources/roles';
@@ -98,7 +98,7 @@ export class SubmitProposalModalComponent implements OnInit {
 
     const { shipmentAddressId, price, additionalInfo, ...address } = this.proposalForm.value;
 
-    let proposal: CreateProposal;
+    let proposal: SubmitProposal;
     if (this.data.userRole === Roles.Supplier) {
       proposal = { shipmentAddressId, supplierPrice: price, supplierAdditionalInfo: additionalInfo };
       proposal.shipmentAddressId = !!proposal.shipmentAddressId ? proposal.shipmentAddressId : null;

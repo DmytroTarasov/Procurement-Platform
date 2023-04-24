@@ -82,6 +82,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.store.dispatch(OrdersActions.resetSelectedOrder());
     if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 }

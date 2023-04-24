@@ -45,5 +45,6 @@ export const ordersReducer = createReducer(
   //     selectedOrder: { ...state.selectedOrder, proposals: updatedProposals }
   //   };
   // }),
+  on(OrdersActions.resetSelectedOrder, (state) => ({ ...state, selectedOrder: null })),
   on(OrdersActions.failure, (state, { error }) => ({ ...state, error })),
 );

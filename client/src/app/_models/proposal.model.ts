@@ -1,7 +1,7 @@
 import { Address } from "./address.model";
 import { ContactPerson } from "./order.model";
 
-export interface CreateProposal {
+export interface SubmitProposal {
   proposalId?: number;
   orderId?: number;
   supplierId?: number;

@@ -59,7 +59,7 @@
             <app-button *ngIf="user?.id === proposal.supplierContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-3', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id)"></app-button>
             <app-button *ngIf="user?.role === Roles.Transporter && ProposalStatuses[proposal.status] === ProposalStatuses.Active && !anyTransporterProposals(order, proposal.supplierContactPerson.companyId)" text="Подати пропозицію" type="button" [classList]="['absolute', 'bottom-5', 'right-3', 'border', 'border-[#2FCB80]', 'h-[45px]', 'w-auto']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog(proposal.id)"></app-button>
           </div>
-          <div class="flex flex-col gap-y-2 border border-[#2FCB80] rounded-lg p-3" *ngIf="proposal.transporterContactPerson">
+          <div class="flex flex-col gap-y-2 border border-[#2FCB80] rounded-lg p-3 relative" *ngIf="proposal.transporterContactPerson">
             <p class="font-semibold text-[#2FCB80]">Інформація про перевізника</p>
             <p>{{ proposal.transporterContactPerson.companyName }}</p>
             <p>Код ЄДРПОУ: {{ proposal.transporterContactPerson.companyEdrpou }}</p>
@@ -68,6 +68,7 @@
             <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
             <p>ПІБ: {{ getFullName(proposal.transporterContactPerson) }}</p>
             <p>Пошта: {{ proposal.transporterContactPerson.email }}</p>
+            <app-button *ngIf="user?.id === proposal.transporterContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-3', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id)"></app-button>
           </div>
         </div>
       </div>

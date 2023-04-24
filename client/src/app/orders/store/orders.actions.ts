@@ -4,7 +4,7 @@ import { CreateOrder } from 'src/app/_models/create-order.model';
 import { OrderParams } from 'src/app/_models/order-params.model';
 import { Order } from 'src/app/_models/order.model';
 import { Pagination } from 'src/app/_models/pagination.model';
-import { CreateProposal } from 'src/app/_models/proposal.model';
+import { SubmitProposal } from 'src/app/_models/proposal.model';
 import { RequestParams } from 'src/app/_models/request-params.model';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 
@@ -47,6 +47,9 @@ export const setOrderParams = createAction(
 export const clearState = createAction(
   '[Orders] Clear State'
 );
+export const resetSelectedOrder = createAction(
+  '[Orders] Reset Selected Order'
+);
 export const getOrderDetails = createAction(
   '[Orders] Get Order Details',
   props<{ orderId: number }>()
@@ -64,7 +67,7 @@ export const setCompanyOrderAddresses = createAction(
 );
 export const submitProposal = createAction(
   '[Orders] Submit Proposal',
-  props<{ proposal: CreateProposal }>()
+  props<{ proposal: SubmitProposal }>()
 );
 export const submitProposalSuccess = createAction(
   '[Orders] Submit Proposal Success',

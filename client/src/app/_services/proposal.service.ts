@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { CreateProposal } from '../_models/proposal.model';
+import { SubmitProposal } from '../_models/proposal.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,8 @@ export class ProposalService {
 
   constructor(private http: HttpClient) { }
 
-  submitProposal(proposal: CreateProposal) {
-    return this.http.post<number>(`${environment.serverUrl}/proposals`, proposal);
+  submitProposal(proposal: SubmitProposal) {
+    return this.http.post<void>(`${environment.serverUrl}/proposals`, proposal);
   }
 
   cancelProposal(id: number) {

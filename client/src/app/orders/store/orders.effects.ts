@@ -152,7 +152,7 @@ export class OrdersEffects {
       withLatestFrom(this.store.pipe(select(selectOrder))),
       switchMap(([action, order]) => {
         return this.proposalService.submitProposal({ ...action.proposal, orderId: order.id }).pipe(
-          map((id) => {
+          map(_ => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
               text: 'Ваша пропозиція успішно подана.',

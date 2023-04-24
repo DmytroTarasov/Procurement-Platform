@@ -37,8 +37,12 @@ namespace Application.Proposals
 
             if (role == UserRoles.Supplier) {
                 proposal.Status = ProposalStatus.Cancelled;
-                _context.Proposals.Update(proposal);
+            } else {
+                proposal.TransporterId = null;
+                proposal.TransporterSum = null;
+                proposal.TransporterAdditionalInfo = null;
             }
+            _context.Proposals.Update(proposal);
 
             var result = await _context.SaveChangesAsync() > 0;
 
