@@ -9,6 +9,7 @@ import { User } from 'src/app/_models/user.model';
 import { orderStatuses } from 'src/app/core/resources/statuses';
 import { OrderParams } from 'src/app/_models/order-params.model';
 import { selectOrderParams } from '../store/orders.selectors';
+import { Roles } from 'src/app/core/resources/roles';
 
 @Component({
   selector: 'app-orders-actions',
@@ -27,6 +28,7 @@ export class OrdersActionsComponent implements OnInit, OnDestroy {
   orderParams: OrderParams;
   paramsSubscription: Subscription;
   user$: Observable<User>;
+  Roles = Roles;
 
   constructor(private store: Store<fromApp.AppState>) { }
 

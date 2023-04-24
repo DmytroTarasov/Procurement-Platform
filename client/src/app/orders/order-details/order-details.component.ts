@@ -14,6 +14,7 @@ import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
 import { proposalStatuses, statusesColors } from 'src/app/core/resources/statuses';
+import { Roles } from 'src/app/core/resources/roles';
 
 @Component({
   selector: 'app-order-details',
@@ -30,6 +31,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   user: User;
   userSubscription: Subscription;
+  Roles = Roles;
 
   constructor(private store: Store<fromApp.AppState>, private route: ActivatedRoute) { }
 

@@ -21,6 +21,7 @@ import * as OrdersActions from 'src/app/orders/store/orders.actions';
 import { selectRequestParams } from 'src/app/requests/store/requests.selectors';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { SubmitProposalData, SubmitProposalModalComponent } from 'src/app/orders/submit-proposal-modal/submit-proposal-modal.component';
+import { Roles } from 'src/app/core/resources/roles';
 
 @Injectable()
 export class DialogEffects {
@@ -135,7 +136,7 @@ export class DialogEffects {
             text: 'Вітаємо! Ви успішно зареєструвались.',
             primaryBtn: {
               text: 'На головну',
-              route: ['Заявник', 'Замовник'].includes(user.role) ? 'requests' : 'orders',
+              route: (user.role === Roles.Applicant || user.role === Roles.Customer) ? 'requests' : 'orders',
             },
             successfull: true
           };

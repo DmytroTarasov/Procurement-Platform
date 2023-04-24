@@ -7,6 +7,7 @@ import * as AuthActions from 'src/app/auth/store/auth.actions';
 import * as fromApp from '../../store/app.reducer';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as RouteActions from '../actions/route.actions';
+import { Roles } from 'src/app/core/resources/roles';
 
 @Injectable()
 export class RouteEffects {
@@ -17,7 +18,7 @@ export class RouteEffects {
         withLatestFrom(this.store.pipe(select(selectUser))),
         tap(([action, user]) => {
           if (action.redirect) {
-            this.router.navigateByUrl(['Заявник', 'Замовник'].includes(user.role) ? 'requests' : 'orders');
+            this.router.navigateByUrl((user.role === Roles.Applicant || user.role === Roles.Customer) ? 'requests' : 'orders');
           }
         })
       ),

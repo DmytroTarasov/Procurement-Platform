@@ -12,11 +12,11 @@
       <p class="text-right italic text-[#A9A9A9] text-sm">Створена {{request.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA'}}</p>
 
       <div class="grid justify-center items-center" *ngIf="(user$ | async) as user">
-        <div class="grid justify-center" *ngIf="user.subdivisionId === request?.subdivision?.id && request?.status === 'Active' && user.role === 'Заявник'">
+        <div class="grid justify-center" *ngIf="user.subdivisionId === request?.subdivision?.id && request?.status === 'Active' && user.role === Roles.Applicant">
           <app-button text="Редагувати" type="button" [classList]="['h-[45px]', 'w-[152px]']" (click)="openEditRequestDialog()"></app-button>
           <app-button text="Скасувати" type="button" [classList]="['mt-2', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelRequest()"></app-button>
         </div>
-        <div *ngIf="request?.status === 'Active' && user.role === 'Замовник'">
+        <div *ngIf="request?.status === 'Active' && user.role === Roles.Customer">
           <app-button *ngIf="!(orderRequests$ | async)?.includes(request.id); else removeFromOrderBtn" text="Додати до замовлення" type="button" [classList]="['h-[45px]', 'w-[209px]']" (click)="addRequestToOrder()"></app-button>
           <ng-template #removeFromOrderBtn>
             <app-button text="Прибрати із замовлення" type="button" [classList]="['h-[45px]', 'w-[209px]', 'border', 'border-[#E74C3C]']" (click)="deleteRequestFromOrder()" [colors]="['bg-transparent', 'text-[#E74C3C]']"></app-button>

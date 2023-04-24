@@ -8,6 +8,7 @@ import * as fromApp from 'src/app/store/app.reducer';
 import { orderStatuses, statusesColors } from 'src/app/core/resources/statuses';
 import * as OrdersActions from '../store/orders.actions';
 import * as RouteActions from 'src/app/store/actions/route.actions';
+import { Roles } from 'src/app/core/resources/roles';
 
 @Component({
   selector: 'app-orders-list-item',
@@ -19,6 +20,7 @@ export class OrdersListItemComponent implements OnInit {
   orderStatuses = orderStatuses;
   statusesColors = statusesColors;
   user$: Observable<User>;
+  Roles = Roles;
 
   constructor(private store: Store<fromApp.AppState>) { }
 

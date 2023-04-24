@@ -2,6 +2,8 @@
   <app-dropdown label="Статус" [control]="getFormControl('status')" [displayProps]="['value']" [items]="orderStatuses" [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="setOrderParamsStatus($event)">
   </app-dropdown>
 
-  <app-checkbox *ngIf="['Заявник', 'Замовник'].includes((user$ | async)?.role)" label="Лише замовлення власної компанії" (onChange)="onChange($event)"></app-checkbox>
+  <div *ngIf="(user$ | async) as user">
+    <app-checkbox *ngIf="user.role === Roles.Applicant || user.role === Roles.Customer" label="Лише замовлення власної компанії" (onChange)="onChange($event)"></app-checkbox>
+  </div>
 </div>
 

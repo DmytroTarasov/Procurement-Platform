@@ -12,6 +12,7 @@ import { selectError } from 'src/app/orders/store/orders.selectors';
 import { CreateProposal } from 'src/app/_models/proposal.model';
 import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
+import { Roles } from 'src/app/core/resources/roles';
 
 export interface SubmitProposalData {
   submitTransportProposalAsSupplier: boolean;
@@ -30,16 +31,17 @@ export class SubmitProposalModalComponent implements OnInit {
   addresses$: Observable<Address[]>;
   user$: Observable<User>;
   shipmentAddressExists = true;
+  Roles = Roles;
 
   constructor(private store: Store<fromApp.AppState>, @Inject(MAT_DIALOG_DATA) public data: SubmitProposalData) { }
 
   ngOnInit() {
-    if (this.data.userRole === 'Постачальник') {
+    if (this.data.userRole === Roles.Supplier) {
       this.store.dispatch(OrdersActions.getCompanyOrderAddresses());
     }
 
     this.proposalForm = new FormGroup({
-      shipmentAddressId: new FormControl('', (this.shipmentAddressExists && this.data.userRole === 'Постачальник')
+      shipmentAddressId: new FormControl('', (this.shipmentAddressExists && this.data.userRole === Roles.Supplier)
         ? Validators.required : null),
       price: new FormControl('', Validators.required),
       additionalInfo: new FormControl(''),
@@ -60,7 +62,7 @@ export class SubmitProposalModalComponent implements OnInit {
   }
 
   get label() {
-    return this.data.userRole === 'Постачальник' ? 'Ціна (грн.)' : 'Ціна за доставку (грн.)';
+    return this.data.userRole === Roles.Supplier ? 'Ціна (грн.)' : 'Ціна за доставку (грн.)';
   }
 
   tranformAddress(address: Address) {
@@ -97,7 +99,7 @@ export class SubmitProposalModalComponent implements OnInit {
     const { shipmentAddressId, price, additionalInfo, ...address } = this.proposalForm.value;
 
     let proposal: CreateProposal;
-    if (this.data.userRole === 'Постачальник') {
+    if (this.data.userRole === Roles.Supplier) {
       proposal = { shipmentAddressId, supplierPrice: price, supplierAdditionalInfo: additionalInfo };
       proposal.shipmentAddressId = !!proposal.shipmentAddressId ? proposal.shipmentAddressId : null;
       proposal.shipmentAddress = !this.shipmentAddressExists ? address : null;

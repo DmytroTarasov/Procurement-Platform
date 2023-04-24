@@ -1,7 +1,7 @@
 <app-modal-container [width]="'450px'" [title]="'Подання пропозиції'" [showClose]="true">
   <div mat-dialog-content>
     <form class="w-full mt-3" [formGroup]="proposalForm" (ngSubmit)="onSubmit()">
-      <div *ngIf="data.userRole === 'Постачальник'">
+      <div *ngIf="data.userRole === Roles.Supplier">
         <p class="mb-2">Адреса відвантаження <span class="text-red-600">*</span></p>
         <app-dropdown *ngIf="shipmentAddressExists" [control]="getFormControl('shipmentAddressId')" [displayPropFunc]="tranformAddress" [displayLabel]="false" [items]="(addresses$ | async)" errorMessage="Адреса відвантаження має бути обрана">
           <p class="text-sm italic">Не знайшли адресу у списку? <span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleShipmentAddressExistence()">Натисність,</span> щоб додати нову</p>

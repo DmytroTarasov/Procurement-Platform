@@ -10,6 +10,7 @@ import * as fromApp from 'src/app/store/app.reducer';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
 import * as RequestsActions from '../store/requests.actions';
 import { selectOrderRequests } from '../store/requests.selectors';
+import { Roles } from 'src/app/core/resources/roles';
 
 @Component({
   selector: 'app-requests-list-item',
@@ -24,6 +25,7 @@ export class RequestsListItemComponent implements OnInit {
   getShortenMeasurementUnit = getShortenMeasurementUnit;
   user$: Observable<User>;
   orderRequests$: Observable<number[]>;
+  Roles = Roles;
 
   constructor(private store: Store<fromApp.AppState>) { }
 

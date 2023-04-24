@@ -10,6 +10,7 @@ import { RequestParams } from 'src/app/_models/request-params.model';
 import { selectProcurementItems } from '../store/requests.selectors';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/_models/user.model';
+import { Roles } from 'src/app/core/resources/roles';
 
 export interface Model {
   key: string;
@@ -34,6 +35,7 @@ export class RequestsActionsComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   categories$: Observable<Model[]>;
   procurementItems$: Observable<Model[]>;
+  Roles = Roles;
 
   constructor(private store: Store<fromApp.AppState>) { }
 

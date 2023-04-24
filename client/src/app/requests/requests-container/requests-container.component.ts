@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { selectOrderRequests } from '../store/requests.selectors';
+import { Roles } from 'src/app/core/resources/roles';
 
 @Component({
   selector: 'app-requests-container',
@@ -16,6 +17,7 @@ import { selectOrderRequests } from '../store/requests.selectors';
 export class RequestsContainerComponent implements OnInit {
   user$: Observable<User>;
   orderRequests$: Observable<number[]>;
+  Roles = Roles;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
