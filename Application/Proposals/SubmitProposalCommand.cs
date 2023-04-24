@@ -10,7 +10,7 @@ using Persistence;
 
 namespace Application.Proposals
 {
-    public class SubmitProposalCommand : IRequest<Result<int>>
+    public class SubmitProposalCommand : IRequest<Result<Unit>>
     {
         public int? ProposalId { get; set; }
         public int OrderId { get; set; }
@@ -24,7 +24,7 @@ namespace Application.Proposals
         public AddressDto ShipmentAddress { get; set; }
     }
 
-    public class SubmitProposalCommandHandler : IRequestHandler<SubmitProposalCommand, Result<int>>
+    public class SubmitProposalCommandHandler : IRequestHandler<SubmitProposalCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
@@ -34,22 +34,21 @@ namespace Application.Proposals
             _context = context;
             _mapper = mapper;
         }
-        public async Task<Result<int>> Handle(SubmitProposalCommand command, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(SubmitProposalCommand command, CancellationToken cancellationToken)
         {   
             if (command.ShipmentAddress != null) {
                 var address = _mapper.Map<Address>(command.ShipmentAddress);
                 _context.Addresses.Add(address);
                 var addressResult = await _context.SaveChangesAsync() > 0;
-                if (!addressResult) return Result<int>.Failure("Не вдалось додати адресу відвантаження. Спробуйте, будь ласка, пізніше");
+                if (!addressResult) return Result<Unit>.Failure("Не вдалось додати адресу відвантаження. Спробуйте, будь ласка, пізніше");
                 command.ShipmentAddressId = address.Id;
             }
 
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
-            Proposal proposal;
             if (role == UserRoles.Supplier) {
-                proposal = new Proposal {
+                var proposal = new Proposal {
                     OrderId = command.OrderId,
                     SupplierId = userId,
                     SupplierPrice = command.SupplierPrice.Value,
@@ -58,21 +57,39 @@ namespace Application.Proposals
                 };
                 _context.Proposals.Add(proposal);
             } else {
-                proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == command.ProposalId.Value);
+                var proposal = await _context.Proposals.Include(p => p.Transporter).FirstOrDefaultAsync(p => p.Id == command.ProposalId.Value);
 
-                if (proposal == null) return Result<int>.Failure("Не вдалось подати пропозицію. Спробуйте, будь ласка, пізніше");
+                if (proposal == null) return Result<Unit>.Failure("Не вдалось подати пропозицію. Спробуйте, будь ласка, пізніше");
                 
-                proposal.TransporterId = userId;
-                proposal.TransporterSum = command.TransporterSum;
-                proposal.TransporterAdditionalInfo = command.TransporterAdditionalInfo;
-                _context.Proposals.Update(proposal);
+                if (proposal.Transporter == null) {
+                    proposal.TransporterId = userId;
+                    proposal.TransporterSum = command.TransporterSum;
+                    proposal.TransporterAdditionalInfo = command.TransporterAdditionalInfo;
+                    _context.Proposals.Update(proposal);
+                } else {
+                    _context.Proposals.Add(CreateProposal(proposal, userId, command.TransporterSum, command.TransporterAdditionalInfo));
+                }
             }
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (!result) return Result<int>.Failure("Не вдалось подати пропозицію. Спробуйте, будь ласка, пізніше");
+            if (!result) return Result<Unit>.Failure("Не вдалось подати пропозицію. Спробуйте, будь ласка, пізніше");
 
-            return Result<int>.Success(proposal.Id);
+            return Result<Unit>.Success(Unit.Value);
+        }
+
+        private Proposal CreateProposal(Proposal proposal, int transporterId, 
+            decimal? transporterSum, string transporterAdditionalInfo) {
+            return new Proposal {
+                OrderId = proposal.OrderId,
+                SupplierId = proposal.SupplierId,
+                SupplierPrice = proposal.SupplierPrice,
+                SupplierAdditionalInfo = proposal.SupplierAdditionalInfo,
+                ShipmentAddressId = proposal.ShipmentAddressId,
+                TransporterId = transporterId,
+                TransporterSum = transporterSum,
+                TransporterAdditionalInfo = transporterAdditionalInfo
+            };
         }
     }
 }

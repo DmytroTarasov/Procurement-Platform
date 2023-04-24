@@ -1,8 +1,10 @@
 using Application.ProcurementItems;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class ProcurementItemsController : BaseApiController
     { 
         [HttpGet]

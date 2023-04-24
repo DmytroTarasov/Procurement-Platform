@@ -1,14 +1,16 @@
 using API.Extensions;
+using API.Helpers;
 using Application.Common.Helpers;
 using Application.Requests;
-using Microsoft.AspNetCore.Authorization;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize]
+    [AuthorizeRoles(UserRoles.Applicant, UserRoles.Customer)]
     public class RequestsController : BaseApiController
     {
+        [AuthorizeRoles(UserRoles.Applicant)]
         [HttpPost]
         public async Task<IActionResult> CreateRequest([FromBody] CreateRequestCommand command) {
             return HandleResult(await Mediator.Send(command));
@@ -22,11 +24,13 @@ namespace API.Controllers
             return HandleResult(requestsResult);
         }
 
+        [AuthorizeRoles(UserRoles.Applicant)]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditRequest([FromBody] EditRequestCommand command) {
             return HandleResult(await Mediator.Send(command));
         }
 
+        [AuthorizeRoles(UserRoles.Applicant)]
         [HttpPut("{id}/cancel")]
         public async Task<IActionResult> CancelRequest(int id) {
             return HandleResult(await Mediator.Send(new CancelRequestCommand { Id = id }));

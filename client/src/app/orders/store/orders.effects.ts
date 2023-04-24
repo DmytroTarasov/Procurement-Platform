@@ -136,7 +136,6 @@ export class OrdersEffects {
       switchMap((action) => {
         return this.addressService.getCompanyOrderAddresses().pipe(
           map((addresses) => {
-            console.log(addresses);
             return OrdersActions.setCompanyOrderAddresses({ addresses });
           }),
           catchError((errorRes) => {

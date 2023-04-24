@@ -1,12 +1,17 @@
 using API.Extensions;
+using API.Helpers;
 using Application.Common.Helpers;
 using Application.Orders;
+using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class OrdersController : BaseApiController
-    {
+    {   
+        [AuthorizeRoles(UserRoles.Customer)]
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command) {
             return HandleResult(await Mediator.Send(command));
@@ -20,6 +25,7 @@ namespace API.Controllers
             return HandleResult(ordersResult);
         }
         
+        [AuthorizeRoles(UserRoles.Customer)]
         [HttpPut("{id}/cancel")]
         public async Task<IActionResult> CancelOrder(int id) {
             return HandleResult(await Mediator.Send(new CancelOrderCommand { Id = id }));

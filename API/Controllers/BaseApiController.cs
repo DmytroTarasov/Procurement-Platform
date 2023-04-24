@@ -1,4 +1,3 @@
-using System.Net;
 using Application.Common.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
