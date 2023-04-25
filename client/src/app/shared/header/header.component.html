@@ -1,4 +1,4 @@
-<div class="h-14 bg-[#5FCFF7] text-white text-base flex justify-between items-center px-8 font-medium">
+<!-- <div class="h-14 bg-[#5FCFF7] text-white text-base flex justify-between items-center px-8 font-medium">
   <div class="w-[25%]">
 
   </div>
@@ -14,5 +14,21 @@
       </ng-template>
     </div>
     <span class="cursor-pointer" (click)="logout()">Вийти</span>
+  </div>
+</div> -->
+
+<div class="w-full h-14 bg-[#5FCFF7] text-white text-base flex items-center px-8 font-medium">
+  <div class="w-2/5">
+
+  </div>
+  <div class="w-full grid grid-cols-[60%_40%]" *ngIf="(user$ | async) as user">
+    <div class="flex justify-center gap-x-24">
+      <a [routerLink]="['requests']" class="cursor-pointer" *ngIf="user.role === Roles.Applicant || user.role === Roles.Customer">Заявки</a>
+      <a [routerLink]="['orders']" class="cursor-pointer">Замовлення</a>
+    </div>
+    <div class="flex justify-end gap-x-12">
+      <p class="cursor-default">{{user.lastName}} {{user.firstName}} {{user.middleName}}</p>
+      <span class="cursor-pointer" (click)="logout()">Вийти</span>
+    </div>
   </div>
 </div>

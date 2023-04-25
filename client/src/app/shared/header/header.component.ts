@@ -7,6 +7,7 @@ import * as fromApp from 'src/app/store/app.reducer';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
 import * as AuthActions from 'src/app/auth/store/auth.actions';
+import { Roles } from 'src/app/core/resources/roles';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ import * as AuthActions from 'src/app/auth/store/auth.actions';
 export class HeaderComponent implements OnInit {
   user$: Observable<User>;
   loading$: Observable<boolean>;
+  Roles = Roles;
 
   constructor(private store: Store<fromApp.AppState>) { }
 

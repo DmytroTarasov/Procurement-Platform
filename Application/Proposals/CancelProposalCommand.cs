@@ -42,16 +42,12 @@ namespace Application.Proposals
                 proposal.TransporterId = null;
                 proposal.TransporterSum = null;
                 proposal.TransporterAdditionalInfo = null;
+
+                await _context.Proposals
+                    .Where(p => p.SupplierId == proposal.SupplierId && p.TransporterId == null && p.Id != proposal.Id)
+                    .ForEachAsync(p => _context.Proposals.Remove(p));
             }
             _context.Proposals.Update(proposal);
-
-            // var proposals = await _context.Proposals
-            //     .Where(p => p.SupplierId == proposal.SupplierId && p.TransporterId == null)
-            //     .OrderBy(p => p.Id)
-            //     .Skip(1)
-            //     .ToListAsync();
-            
-            // proposals.ForEach(p => _context.Proposals.Remove(p));
 
             var result = await _context.SaveChangesAsync() > 0;
 
