@@ -171,7 +171,7 @@ export class DialogEffects {
         withLatestFrom(this.store.select(selectUser)),
         map(([action, user]) => {
           const data: SubmitProposalData = {
-            submitTransportProposalAsSupplier: action.submitTransportProposalAsSupplier,
+            // submitTransportProposalAsSupplier: action.submitTransportProposalAsSupplier,
             userRole: user.role,
             proposalId: action.proposalId
           };

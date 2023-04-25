@@ -36,6 +36,7 @@ export class OrdersEffects {
               successfull: true,
             };
             return OrdersActions.createOrderSuccess({
+              pageNumber: 1,
               data,
             });
           }),
@@ -177,7 +178,7 @@ export class OrdersEffects {
       ofType(OrdersActions.cancelProposal),
       withLatestFrom(this.store.pipe(select(selectOrder))),
       switchMap(([action, order]) => {
-        return this.proposalService.cancelProposal(action.id).pipe(
+        return this.proposalService.cancelProposal(action.id, action.cancelTransportProposal).pipe(
           map(_ => {
             return OrdersActions.cancelProposalSuccess({ orderId: order.id });
           }),

@@ -75,7 +75,7 @@ export const submitProposalSuccess = createAction(
 );
 export const cancelProposal = createAction(
   '[Orders] Cancel Proposal',
-  props<{ id: number }>()
+  props<{ id: number, cancelTransportProposal: boolean }>()
 );
 export const cancelProposalSuccess = createAction(
   '[Orders] Cancel Proposal Success',

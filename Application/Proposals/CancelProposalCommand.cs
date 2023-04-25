@@ -11,6 +11,7 @@ namespace Application.Proposals
     public class CancelProposalCommand : IRequest<Result<int>>
     {
         public int Id { get; set; }
+        public bool CancelTransportProposal { get; set; }
     }
     public class CancelProposalCommandHandler : IRequestHandler<CancelProposalCommand, Result<int>>
     {
@@ -35,7 +36,7 @@ namespace Application.Proposals
                 return Result<int>.Forbidden();
             }
 
-            if (role == UserRoles.Supplier) {
+            if (role == UserRoles.Supplier && !command.CancelTransportProposal) {
                 proposal.Status = ProposalStatus.Cancelled;
             } else {
                 proposal.TransporterId = null;
@@ -43,6 +44,14 @@ namespace Application.Proposals
                 proposal.TransporterAdditionalInfo = null;
             }
             _context.Proposals.Update(proposal);
+
+            // var proposals = await _context.Proposals
+            //     .Where(p => p.SupplierId == proposal.SupplierId && p.TransporterId == null)
+            //     .OrderBy(p => p.Id)
+            //     .Skip(1)
+            //     .ToListAsync();
+            
+            // proposals.ForEach(p => _context.Proposals.Remove(p));
 
             var result = await _context.SaveChangesAsync() > 0;
 

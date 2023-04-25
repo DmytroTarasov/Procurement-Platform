@@ -68,17 +68,19 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   anySupplierProposals(order: Order) {
-    return order.proposals.some(p => p.supplierContactPerson.companyId === this.user.companyId);
+    return order.proposals.some(p => p.supplierContactPerson.companyId === this.user.companyId
+      && ProposalStatuses[p.status] === ProposalStatuses.Active);
   }
 
   anyTransporterProposals(order: Order, supplierCompanyId: number) {
     return order.proposals.some(p =>
       p.supplierContactPerson.companyId === supplierCompanyId &&
-      p.transporterContactPerson?.companyId === this.user.companyId);
+      p.transporterContactPerson?.companyId === this.user.companyId &&
+      ProposalStatuses[p.status] === ProposalStatuses.Active);
   }
 
-  cancelProposal(id: number) {
-    this.store.dispatch(OrdersActions.cancelProposal({ id }));
+  cancelProposal(id: number, cancelTransportProposal?: boolean) {
+    this.store.dispatch(OrdersActions.cancelProposal({ id, cancelTransportProposal }));
   }
 
   ngOnDestroy() {

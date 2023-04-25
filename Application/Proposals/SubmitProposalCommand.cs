@@ -47,7 +47,7 @@ namespace Application.Proposals
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
-            if (role == UserRoles.Supplier) {
+            if (role == UserRoles.Supplier && command.ProposalId == null) {
                 var proposal = new Proposal {
                     OrderId = command.OrderId,
                     SupplierId = userId,
@@ -57,15 +57,20 @@ namespace Application.Proposals
                 };
                 _context.Proposals.Add(proposal);
             } else {
-                var proposal = await _context.Proposals.Include(p => p.Transporter).FirstOrDefaultAsync(p => p.Id == command.ProposalId.Value);
+                var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == command.ProposalId.Value);
 
                 if (proposal == null) return Result<Unit>.Failure("Не вдалось подати пропозицію. Спробуйте, будь ласка, пізніше");
+
+                var anotherSupplierProposal = await _context.Proposals
+                    .FirstOrDefaultAsync(p => p.SupplierId == proposal.SupplierId && p.TransporterId == null && 
+                    p.Id != proposal.Id);
                 
-                if (proposal.Transporter == null) {
-                    proposal.TransporterId = userId;
-                    proposal.TransporterSum = command.TransporterSum;
-                    proposal.TransporterAdditionalInfo = command.TransporterAdditionalInfo;
-                    _context.Proposals.Update(proposal);
+                if (proposal.TransporterId == null || anotherSupplierProposal != null) {
+                    var proposalToUpdate = proposal.TransporterId == null ? proposal : anotherSupplierProposal;
+                    proposalToUpdate.TransporterId = userId;
+                    proposalToUpdate.TransporterSum = command.TransporterSum;
+                    proposalToUpdate.TransporterAdditionalInfo = command.TransporterAdditionalInfo;
+                    _context.Proposals.Update(proposalToUpdate);
                 } else {
                     _context.Proposals.Add(CreateProposal(proposal, userId, command.TransporterSum, command.TransporterAdditionalInfo));
                 }

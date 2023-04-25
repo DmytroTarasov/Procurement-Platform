@@ -15,7 +15,7 @@ import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { Roles } from 'src/app/core/resources/roles';
 
 export interface SubmitProposalData {
-  submitTransportProposalAsSupplier: boolean;
+  // submitTransportProposalAsSupplier: boolean;
   userRole: string;
   proposalId: number;
 }
@@ -36,12 +36,12 @@ export class SubmitProposalModalComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>, @Inject(MAT_DIALOG_DATA) public data: SubmitProposalData) { }
 
   ngOnInit() {
-    if (this.data.userRole === Roles.Supplier) {
+    if (this.data.userRole === Roles.Supplier && !this.data.proposalId) {
       this.store.dispatch(OrdersActions.getCompanyOrderAddresses());
     }
 
     this.proposalForm = new FormGroup({
-      shipmentAddressId: new FormControl('', (this.shipmentAddressExists && this.data.userRole === Roles.Supplier)
+      shipmentAddressId: new FormControl('', (this.shipmentAddressExists && this.data.userRole === Roles.Supplier && !this.data.proposalId)
         ? Validators.required : null),
       price: new FormControl('', Validators.required),
       additionalInfo: new FormControl(''),
@@ -62,7 +62,7 @@ export class SubmitProposalModalComponent implements OnInit {
   }
 
   get label() {
-    return this.data.userRole === Roles.Supplier ? 'Ціна (грн.)' : 'Ціна за доставку (грн.)';
+    return (this.data.userRole === Roles.Supplier && !this.data.proposalId) ? 'Ціна (грн.)' : 'Ціна за доставку (грн.)';
   }
 
   tranformAddress(address: Address) {
@@ -99,7 +99,7 @@ export class SubmitProposalModalComponent implements OnInit {
     const { shipmentAddressId, price, additionalInfo, ...address } = this.proposalForm.value;
 
     let proposal: SubmitProposal;
-    if (this.data.userRole === Roles.Supplier) {
+    if (this.data.userRole === Roles.Supplier && !this.data.proposalId) {
       proposal = { shipmentAddressId, supplierPrice: price, supplierAdditionalInfo: additionalInfo };
       proposal.shipmentAddressId = !!proposal.shipmentAddressId ? proposal.shipmentAddressId : null;
       proposal.shipmentAddress = !this.shipmentAddressExists ? address : null;

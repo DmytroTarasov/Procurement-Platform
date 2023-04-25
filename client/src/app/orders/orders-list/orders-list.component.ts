@@ -23,12 +23,10 @@ export class OrdersListComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
+    this.store.dispatch(OrdersActions.getOrders({}));
+
     this.ordersSubscription = this.store.pipe(select(selectOrders)).subscribe(orders => {
-      if (!orders) {
-        this.store.dispatch(OrdersActions.getOrders({}));
-      } else {
-        this.orders = orders;
-      }
+      this.orders = orders;
     });
 
     this.loading$ = this.store.pipe(select(selectLoading));

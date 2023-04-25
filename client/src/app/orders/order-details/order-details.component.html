@@ -56,8 +56,12 @@
             <p>ПІБ: {{ getFullName(proposal.supplierContactPerson) }}</p>
             <p>Пошта: {{ proposal.supplierContactPerson.email }}</p>
             <p [ngClass]="['absolute', 'right-3', 'top-3', StatusesColors[proposal.status]]">{{ ProposalStatuses[proposal.status] }}</p>
-            <app-button *ngIf="user?.id === proposal.supplierContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-3', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id)"></app-button>
-            <app-button *ngIf="user?.role === Roles.Transporter && ProposalStatuses[proposal.status] === ProposalStatuses.Active && !anyTransporterProposals(order, proposal.supplierContactPerson.companyId)" text="Подати пропозицію" type="button" [classList]="['absolute', 'bottom-5', 'right-3', 'border', 'border-[#2FCB80]', 'h-[45px]', 'w-auto']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog(proposal.id)"></app-button>
+            <div class="absolute bottom-5 right-5 grid grid-flow-row gap-y-4 min-w-[172px]">
+              <app-button *ngIf="(user?.role === Roles.Transporter || proposal.supplierContactPerson.id === user?.id) && ProposalStatuses[proposal.status] === ProposalStatuses.Active && !anyTransporterProposals(order, proposal.supplierContactPerson.companyId)" text="Подати пропозицію" type="button" [classList]="['border', 'border-[#2FCB80]', 'h-[45px]', 'w-full']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog(proposal.id)"></app-button>
+
+              <app-button *ngIf="user?.id === proposal.supplierContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['border', 'border-[#E74C3C]', 'h-[45px]', 'w-full']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id)"></app-button>
+            </div>
+
           </div>
           <div class="flex flex-col gap-y-2 border border-[#2FCB80] rounded-lg p-3 relative" *ngIf="proposal.transporterContactPerson">
             <p class="font-semibold text-[#2FCB80]">Інформація про перевізника</p>
@@ -68,7 +72,7 @@
             <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
             <p>ПІБ: {{ getFullName(proposal.transporterContactPerson) }}</p>
             <p>Пошта: {{ proposal.transporterContactPerson.email }}</p>
-            <app-button *ngIf="user?.id === proposal.transporterContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-3', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id)"></app-button>
+            <app-button *ngIf="user?.id === proposal.transporterContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-5', 'border', 'border-[#E74C3C]', 'h-[45px]', 'min-w-[172px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id, proposal.transporterContactPerson.id === user?.id ? true : false)"></app-button>
           </div>
         </div>
       </div>

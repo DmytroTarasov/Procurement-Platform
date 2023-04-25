@@ -14,8 +14,8 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}/cancel")]
-        public async Task<IActionResult> CancelProposal(int id) {
-            return HandleResult(await Mediator.Send(new CancelProposalCommand { Id = id }));
+        public async Task<IActionResult> CancelProposal(int id, [FromBody] bool cancelTransportProposal) {
+            return HandleResult(await Mediator.Send(new CancelProposalCommand { Id = id, CancelTransportProposal = cancelTransportProposal}));
         }
     }
 }
