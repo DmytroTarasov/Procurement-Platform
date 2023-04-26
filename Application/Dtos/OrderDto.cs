@@ -14,5 +14,7 @@ namespace Application.Dtos
         public string Status { get; set; }
         public AddressDto DeliveryAddress { get; set; }
         public AddressDto ShipmentAddress { get; set; }
+        public decimal? SupplierPrice { get; set; }
+        public decimal? TransporterSum { get; set; } 
     }
 }

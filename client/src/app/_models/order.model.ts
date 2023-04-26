@@ -12,6 +12,8 @@ export interface Order {
   status: string;
   deliveryAddress: Address;
   shipmentAddress: Address;
+  supplierPrice?: number;
+  transporterSum?: number;
 }
 
 export interface OrderRequest {

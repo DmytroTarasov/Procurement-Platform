@@ -18,5 +18,7 @@ namespace Domain
         public Address DeliveryAddress { get; set; }
         public int? ShipmentAddressId { get; set; }
         public Address ShipmentAddress { get; set; }
+        public decimal? SupplierPrice { get; set; }
+        public decimal? TransporterSum { get; set; } 
     }
 }

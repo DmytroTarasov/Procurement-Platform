@@ -33,6 +33,7 @@ namespace API.Extensions
 
             services.AddOptions<EmailOptions>().Bind(config.GetSection("EmailOptions"));
             services.AddScoped(typeof(IEmailService), typeof(EmailService));
+            services.AddScoped(typeof(IDocumentGeneratorService), typeof(DocumentGeneratorService));
 
             return services;
         }

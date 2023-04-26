@@ -18,28 +18,24 @@ namespace Application.Common.Services.Implementations
         }
         public async Task<Result<Unit>> SendEmailAsync(EmailDto email)
         {
-            try {
-                var client = new SendGridClient(_emailOptions.ApiKey);
+            var client = new SendGridClient(_emailOptions.ApiKey);
 
-                var message = new SendGridMessage()
-                {
-                    From = new EmailAddress(_emailOptions.SenderEmail, _emailOptions.SenderName),
-                    Subject = email.Subject,
-                    HtmlContent = email.HtmlContent
-                };
+            var message = new SendGridMessage()
+            {
+                From = new EmailAddress(_emailOptions.SenderEmail, _emailOptions.SenderName),
+                Subject = email.Subject,
+                HtmlContent = email.HtmlContent
+            };
 
-                message.AddTos(email.Receivers.Select(re => new EmailAddress(re)).ToList());
+            message.AddTos(email.Receivers.Select(re => new EmailAddress(re)).ToList());
 
-                message.AddAttachment("order.pdf", Convert.ToBase64String(email.FileStream));
+            message.AddAttachment("order.pdf", Convert.ToBase64String(email.FileStream));
 
-                var response = await client.SendEmailAsync(message);
+            var response = await client.SendEmailAsync(message);
 
-                if (!response.IsSuccessStatusCode) return Result<Unit>.Failure("Не вдалось надіслати листа");
+            if (!response.IsSuccessStatusCode) return Result<Unit>.Failure("Не вдалось надіслати листа");
 
-                return Result<Unit>.Success(Unit.Value);
-            } catch (ArgumentNullException) {
-                return Result<Unit>.Failure("Виникла помилка при надсиланні листа");
-            }
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

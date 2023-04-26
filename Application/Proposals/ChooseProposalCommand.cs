@@ -1,13 +1,9 @@
-using System.Security.Claims;
 using Application.Common.Helpers;
 using Application.Common.Services.Interfaces;
-using Application.Documents;
 using Application.Dtos;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Domain;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -22,12 +18,12 @@ namespace Application.Proposals
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        private readonly PdfGenerator _documentGenerator;
+        private readonly IDocumentGeneratorService _documentService;
         private readonly IEmailService _emailService;
-        public ChooseProposalCommandHandler(DataContext context, IMapper mapper, PdfGenerator documentGenerator, IEmailService emailService) {
+        public ChooseProposalCommandHandler(DataContext context, IMapper mapper, IDocumentGeneratorService documentService, IEmailService emailService) {
             _context = context;
             _mapper = mapper;
-            _documentGenerator = documentGenerator;
+            _documentService = documentService;
             _emailService = emailService;
         }
         public async Task<Result<Unit>> Handle(ChooseProposalCommand command, CancellationToken cancellationToken)
@@ -45,6 +41,8 @@ namespace Application.Proposals
             order.SupplierContactPersonId = proposal.SupplierId;
             order.TransporterContactPersonId = proposal.TransporterId;
             order.ShipmentAddressId = proposal.ShipmentAddressId;
+            order.SupplierPrice = proposal.SupplierPrice;
+            order.TransporterSum = proposal.TransporterSum;
             // order.Status = OrderStatus.Processed;
             // order.Requests.ToList().ForEach(r => r.Status = RequestStatus.Processed);
             // order.Proposals.ToList().ForEach(p => p.Status = ProposalStatus.Processed);
@@ -59,20 +57,21 @@ namespace Application.Proposals
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(o => o.Id == proposal.OrderId);
 
-            var documentResult = _documentGenerator.GeneratePdfDocument(orderDto);
+            var documentResult = _documentService.GenerateDocument(orderDto);
 
             if (!documentResult.IsSuccess) return Result<Unit>.Failure(documentResult.Error);
 
             var email = new EmailDto {
-                Subject = "Замовлення", 
-                Receivers = new List<string> { "dtarasov892@gmail.com", "dtarasov890@gmail.com" },
-                HtmlContent = $"Вітаємо! Ваша пропозиція на замовлення №{order.Id} «{order.Title}» була обрана замовником. Деталі Ви можете переглянути у вкладеному файлі.",
+                Subject = $"Замовлення №{order.Id}", 
+                // Receivers = new List<string> { "dtarasov892@gmail.com", "dtarasov890@gmail.com" },
+                Receivers = new List<string> { "dtarasov892@gmail.com" },
+                HtmlContent = $"Вітаємо! <br> Вашу пропозицію на замовлення №{order.Id} «{order.Title}» було обрано замовником. <br> Деталі Ви можете переглянути у вкладеному файлі.",
                 FileStream = documentResult.Value
             };
 
             var emailResult = await _emailService.SendEmailAsync(email);
 
-            if (!emailResult.IsSuccess) return Result<Unit>.Failure(emailResult.Error);
+            if (!emailResult.IsSuccess) return emailResult;
 
             return Result<Unit>.Success(Unit.Value);
         }
