@@ -1,29 +1,30 @@
 <div class="container relative">
   <div class="w-4/5 bg-white rounded-xl shadow-gray-400 p-6 mx-auto mt-10" *ngIf="(order$ | async) as order">
     <h3 class="font-semibold text-2xl text-[#2FCB80]">{{ order.title }}</h3>
+    <p class="mt-2 italic text-[#A9A9A9] text-base">
+      Дата створення: {{ order.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA' }}
+    </p>
     <div class="mt-4 grid grid-cols-2 gap-x-12 text-base">
-      <div class="grid grid-rows-[auto_1fr]">
-        <p class="italic text-[#A9A9A9] text-base">
-          Дата створення: {{ order.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA' }}
-        </p>
-        <div class="flex flex-col justify-center gap-y-4">
-          <p>Номер замовлення: {{ order.id }}</p>
-          <p>Статус: {{ OrderStatuses[order.status] }}</p>
-          <p>Бюджет: {{ order.budget }} (грн.)</p>
-          <p class="font-semibold text-[#2FCB80]">Адреса доставки</p>
-          <p>{{ tranformCompanyAddress(order.deliveryAddress) }}</p>
+      <div class="flex flex-col justify-center gap-y-2">
+        <p>Номер замовлення: {{ order.id }}</p>
+        <p>Статус: {{ OrderStatuses[order.status] }}</p>
+        <p>Бюджет: {{ order.budget }} (грн.)</p>
+        <div class="flex flex-col justify-center gap-y-2" >
+          <p>Ціна від постачальника: {{ order.supplierPrice }} (грн.)</p>
+          <p>Ціна від перевізника: {{ order.transporterSum }} (грн.)</p>
+          <p>Сума: {{ order.supplierPrice + order.transporterSum }} (грн.)</p>
+        </div>
+        <p class="font-semibold text-[#2FCB80]">Адреса доставки</p>
+        <p>{{ tranformCompanyAddress(order.deliveryAddress) }}</p>
+        <div class="flex flex-col justify-center gap-y-2" >
+          <p class="font-semibold text-[#2FCB80]" *ngIf="OrderStatuses[order.status] === OrderStatuses.Processed">Адреса відвантаження</p>
+          <p>{{ tranformCompanyAddress(order.shipmentAddress) }}</p>
         </div>
       </div>
 
-      <div class="flex flex-col justify-center gap-y-4">
+      <app-order-info [person]="order.buyerContactPerson" [getFullName]="getFullName" [tranformCompanyAddress]="tranformCompanyAddress" [showCompanyAddress]="true">
         <p class="font-semibold text-[#2FCB80]">Інформація про замовника</p>
-        <p>{{ order.buyerContactPerson.companyName }}</p>
-        <p>Код ЄДРПОУ: {{ order.buyerContactPerson.companyEdrpou }}</p>
-        <p>Адреса: {{ tranformCompanyAddress(order.buyerContactPerson.companyAddress) }}</p>
-        <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
-        <p>ПІБ: {{ getFullName(order.buyerContactPerson) }}</p>
-        <p>Пошта: {{ order.buyerContactPerson.email }}</p>
-      </div>
+      </app-order-info>
     </div>
     <div class="mt-6">
       <h3 class="font-semibold text-xl text-[#2FCB80]">Заявки</h3>
@@ -34,56 +35,63 @@
         <p *ngIf="request.quantity && request.measurementUnit">Кількість: {{ request.quantity }} {{getShortenMeasurementUnit(request.measurementUnit)}}</p>
       </div>
     </div>
-    <div class="mt-6">
-      <h3 class="font-semibold text-xl text-[#2FCB80]">Пропозиції</h3>
-      <p class="mt-4" *ngIf="order.proposals.length === 0">Пропозицій немає</p>
-      <div class="mt-4" *ngIf="user && user.role === Roles.Supplier && !anySupplierProposals(order) && OrderStatuses[order.status] === OrderStatuses.Active">
-        <app-button text="Подати пропозицію" type="button" [classList]="['border', 'border-[#2FCB80]', 'h-[45px]', 'w-auto']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog()"></app-button>
-        <!-- <app-button text="Подати пропозицію" type="button" [classList]="['h-[45px]', 'w-auto']" [colors]="['bg-[#2FCB80]', 'text-white']" (click)="openSubmitProposalDialog()"></app-button> -->
+
+    <div class="mt-6" *ngIf="OrderStatuses[order.status] === OrderStatuses.Processed; else proposals">
+      <div class="grid grid-cols-2 gap-x-12">
+        <app-order-info [person]="order.supplierContactPerson" [getFullName]="getFullName" [tranformCompanyAddress]="tranformCompanyAddress" [showCompanyAddress]="true">
+          <p class="font-semibold text-[#2FCB80]">Інформація про постачальника</p>
+        </app-order-info>
+
+        <app-order-info *ngIf="order.transporterContactPerson" [person]="order.transporterContactPerson" [getFullName]="getFullName" [tranformCompanyAddress]="tranformCompanyAddress" [showCompanyAddress]="true">
+          <p class="font-semibold text-[#2FCB80]">Інформація про перевізника</p>
+        </app-order-info>
       </div>
+    </div>
 
-      <div class="mt-3" *ngFor="let proposal of order.proposals; let i = index">
-        <div class="grid gap-x-4 text-base" [ngClass]="user?.role === Roles.Customer ? 'grid-cols-[40%_40%_1fr]': 'grid-cols-2'">
-          <div class="flex flex-col justify-center gap-y-2 border border-[#2FCB80] rounded-lg p-3 relative">
-            <!-- <p>{{ i+1 }}. Постачальник: {{ proposal.supplierContactPerson.companyName }}</p> -->
-            <p>{{ i+1 }}. <span class="font-semibold text-[#2FCB80]">Інформація про постачальника</span></p>
-            <p>{{ proposal.supplierContactPerson.companyName }}</p>
-            <p>Код ЄДРПОУ: {{ proposal.supplierContactPerson.companyEdrpou }}</p>
-            <p>Адреса відвантаження: {{ tranformCompanyAddress(proposal.shipmentAddress) }}</p>
-            <p class="italic text-[#A9A9A9]">{{ proposal.supplierAdditionalInfo }}</p>
-            <p>Ціна: {{ proposal.supplierPrice }} (грн.)</p>
-            <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
-            <p>ПІБ: {{ getFullName(proposal.supplierContactPerson) }}</p>
-            <p>Пошта: {{ proposal.supplierContactPerson.email }}</p>
-            <p [ngClass]="['absolute', 'right-3', 'top-3', StatusesColors[proposal.status]]">{{ ProposalStatuses[proposal.status] }}</p>
-            <div class="absolute bottom-5 right-5 grid grid-flow-row gap-y-4 min-w-[172px]">
-              <app-button *ngIf="(user?.role === Roles.Transporter || proposal.supplierContactPerson.id === user?.id) && ProposalStatuses[proposal.status] === ProposalStatuses.Active && !anyTransporterProposals(order, proposal.supplierContactPerson.companyId)" text="Подати пропозицію" type="button" [classList]="['border', 'border-[#2FCB80]', 'h-[45px]', 'w-full']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog(proposal.id)"></app-button>
+    <ng-template #proposals>
+      <div class="mt-6">
+        <h3 class="font-semibold text-xl text-[#2FCB80]">Пропозиції</h3>
+        <p class="mt-4" *ngIf="order.proposals.length === 0">Пропозицій немає</p>
+        <div class="mt-4" *ngIf="user && user.role === Roles.Supplier && !anySupplierProposals(order) && OrderStatuses[order.status] === OrderStatuses.Active">
+          <app-button text="Подати пропозицію" type="button" [classList]="['border', 'border-[#2FCB80]', 'h-[45px]', 'w-auto']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog()"></app-button>
+        </div>
 
-              <app-button *ngIf="user?.id === proposal.supplierContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['border', 'border-[#E74C3C]', 'h-[45px]', 'w-full']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id)"></app-button>
+        <div class="mt-3" *ngFor="let proposal of order.proposals; let i = index">
+          <div class="grid gap-x-4 text-base" [ngClass]="user?.role === Roles.Customer ? 'grid-cols-[40%_40%_1fr]': 'grid-cols-2'">
+            <div class="flex flex-col justify-center gap-y-2 border border-[#2FCB80] rounded-lg p-3 relative">
+
+              <app-order-info [person]="proposal.supplierContactPerson" [getFullName]="getFullName" [tranformCompanyAddress]="tranformCompanyAddress" [shipmentAddress]="proposal.shipmentAddress" [additionalInfo]="proposal.supplierAdditionalInfo" [price]="proposal.supplierPrice">
+                <p>{{ i+1 }}. <span class="font-semibold text-[#2FCB80]">Інформація про постачальника</span></p>
+              </app-order-info>
+
+              <p [ngClass]="['absolute', 'right-3', 'top-3', StatusesColors[proposal.status]]">{{ ProposalStatuses[proposal.status] }}</p>
+              <div class="absolute bottom-5 right-5 grid grid-flow-row gap-y-4 min-w-[172px]">
+                <app-button *ngIf="(user?.role === Roles.Transporter || proposal.supplierContactPerson.id === user?.id) && ProposalStatuses[proposal.status] === ProposalStatuses.Active && !anyTransporterProposals(order, proposal.supplierContactPerson.companyId)" text="Подати пропозицію" type="button" [classList]="['border', 'border-[#2FCB80]', 'h-[45px]', 'w-full']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog(proposal.id)"></app-button>
+
+                <app-button *ngIf="user?.id === proposal.supplierContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['border', 'border-[#E74C3C]', 'h-[45px]', 'w-full']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id)"></app-button>
+              </div>
             </div>
 
-          </div>
-          <div class="flex flex-col gap-y-2 border border-[#2FCB80] rounded-lg p-3 relative" *ngIf="proposal.transporterContactPerson">
-            <p class="font-semibold text-[#2FCB80]">Інформація про перевізника</p>
-            <p>{{ proposal.transporterContactPerson.companyName }}</p>
-            <p>Код ЄДРПОУ: {{ proposal.transporterContactPerson.companyEdrpou }}</p>
-            <p class="italic text-[#A9A9A9]">{{ proposal.transporterAdditionalInfo }}</p>
-            <p>Ціна за доставку: {{ proposal.transporterSum }} (грн.)</p>
-            <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
-            <p>ПІБ: {{ getFullName(proposal.transporterContactPerson) }}</p>
-            <p>Пошта: {{ proposal.transporterContactPerson.email }}</p>
-            <app-button *ngIf="user?.id === proposal.transporterContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-5', 'border', 'border-[#E74C3C]', 'h-[45px]', 'min-w-[172px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id, proposal.transporterContactPerson.id === user?.id ? true : false)"></app-button>
-          </div>
-          <div *ngIf="user?.role === Roles.Customer && ProposalStatuses[proposal.status] === ProposalStatuses.Active && proposal.transporterContactPerson?.id" class="flex flex-col items-center justify-center gap-y-4">
-            <p>Загальна сума: <br>{{ getProposalTotalSum(proposal) }} (грн.)</p>
-            <app-button text="Обрати пропозицію" type="button" [classList]="['h-[45px]', 'w-auto']" (click)="chooseProposal()"></app-button>
+            <div class="flex flex-col gap-y-2 border border-[#2FCB80] rounded-lg p-3 relative" *ngIf="proposal.transporterContactPerson">
+
+              <app-order-info [person]="proposal.transporterContactPerson" [getFullName]="getFullName" [tranformCompanyAddress]="tranformCompanyAddress" [additionalInfo]="proposal.transporterAdditionalInfo" [price]="proposal.transporterSum">
+                <p class="font-semibold text-[#2FCB80]">Інформація про перевізника</p>
+              </app-order-info>
+
+              <app-button *ngIf="user?.id === proposal.transporterContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-5', 'border', 'border-[#E74C3C]', 'h-[45px]', 'min-w-[172px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id, proposal.transporterContactPerson.id === user?.id ? true : false)"></app-button>
+            </div>
+
+            <div *ngIf="user?.role === Roles.Customer && ProposalStatuses[proposal.status] === ProposalStatuses.Active && proposal.transporterContactPerson?.id" class="flex flex-col items-center justify-center gap-y-4">
+              <p>Загальна сума: <br>{{ getProposalTotalSum(proposal) }} (грн.)</p>
+              <app-button text="Обрати пропозицію" type="button" [classList]="['h-[45px]', 'w-auto']" (click)="chooseProposal(proposal.id)"></app-button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-template>
   </div>
 
-  <div class="absolute inset-x-[49%] inset-y-[45%]" *ngIf="(loading$ | async)">
+  <div class="fixed inset-x-[49%] inset-y-[45%]" *ngIf="(loading$ | async)">
     <mat-spinner diameter="70"></mat-spinner>
   </div>
 </div>

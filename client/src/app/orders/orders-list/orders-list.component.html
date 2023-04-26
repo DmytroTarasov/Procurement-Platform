@@ -12,8 +12,11 @@
       <pagination-controls class="order-pagination" id="orders" previousLabel="Попередня" nextLabel="Наступна" (pageChange)="pageChanged($event)"></pagination-controls>
     </div>
   </div>
-  <div class="absolute inset-x-[45%] inset-y-[45%]">
+  <!-- <div class="absolute inset-x-[45%] inset-y-[45%]">
     <mat-spinner *ngIf="(loading$ | async) || !orders" diameter="70"></mat-spinner>
+  </div> -->
+  <div class="fixed inset-x-[60%] inset-y-[45%]" *ngIf="(loading$ | async) || !orders">
+    <mat-spinner diameter="70"></mat-spinner>
   </div>
 </div>
 

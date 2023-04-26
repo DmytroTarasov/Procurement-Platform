@@ -64,7 +64,6 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   }
 
   openSubmitProposalDialog(proposalId?: number) {
-    // const submitTransportProposalAsSupplier =
     this.store.dispatch(DialogActions.openSubmitProposalDialog({ proposalId }));
   }
 
@@ -88,8 +87,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     return proposal.supplierPrice + proposal.transporterSum;
   }
 
-  chooseProposal() {
-
+  chooseProposal(id: number) {
+    this.store.dispatch(OrdersActions.chooseProposal({ id }));
   }
 
   ngOnDestroy() {

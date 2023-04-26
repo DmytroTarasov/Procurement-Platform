@@ -116,7 +116,8 @@ export class OrdersEffects {
       ofType(
         OrdersActions.getOrderDetails,
         OrdersActions.submitProposalSuccess,
-        OrdersActions.cancelProposalSuccess
+        OrdersActions.cancelProposalSuccess,
+        OrdersActions.chooseProposalSuccess
       ),
       switchMap((action) => {
         return this.orderService.getOrderDetails(action.orderId).pipe(
@@ -181,6 +182,32 @@ export class OrdersEffects {
         return this.proposalService.cancelProposal(action.id, action.cancelTransportProposal).pipe(
           map(_ => {
             return OrdersActions.cancelProposalSuccess({ orderId: order.id });
+          }),
+          catchError((errorRes) => {
+            return of(OrdersActions.failure({ error: errorRes?.error }));
+          })
+        );
+      })
+    )
+  );
+
+  chooseProposal$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(OrdersActions.chooseProposal),
+      withLatestFrom(this.store.pipe(select(selectOrder))),
+      switchMap(([action, order]) => {
+        return this.proposalService.chooseProposal(action.id).pipe(
+          map(_ => {
+            const data: ModalRedirectData = {
+              title: 'Успішно!',
+              text: 'Пропозиція успішно обрана.',
+              primaryBtn: {
+                text: 'Ок',
+                route: `orders/${order.id}`,
+              },
+              successfull: true
+            };
+            return OrdersActions.chooseProposalSuccess({ orderId: order.id, data });
           }),
           catchError((errorRes) => {
             return of(OrdersActions.failure({ error: errorRes?.error }));

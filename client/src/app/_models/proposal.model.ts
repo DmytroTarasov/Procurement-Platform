@@ -21,7 +21,7 @@ export interface Proposal {
   supplierPrice: number;
   supplierAdditionalInfo?: string;
   transporterSum?: number;
-  transporterAdditionalInfo?: number;
+  transporterAdditionalInfo?: string;
   shipmentAddress: Address;
   status: string;
 }

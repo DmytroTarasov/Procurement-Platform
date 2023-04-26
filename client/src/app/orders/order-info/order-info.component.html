@@ -1,0 +1,14 @@
+<div class="flex flex-col justify-center gap-y-2">
+  <!-- <p class="font-semibold text-[#2FCB80]">{{ label }}</p> -->
+  <ng-content></ng-content>
+  <p>{{ person.companyName }}</p>
+  <p>Код ЄДРПОУ: {{ person.companyEdrpou }}</p>
+  <p *ngIf="showCompanyAddress">Адреса: {{ tranformCompanyAddress(person.companyAddress) }}</p>
+  <p *ngIf="shipmentAddress">Адреса відвантаження: {{ tranformCompanyAddress(shipmentAddress) }}</p>
+  <p class="italic text-[#A9A9A9]" *ngIf="additionalInfo">{{ additionalInfo }}</p>
+  <p *ngIf="price">Ціна: {{ price }} (грн.)</p>
+  <p class="font-semibold text-[#2FCB80]">Контактна особа</p>
+  <p>ПІБ: {{ getFullName(person) }}</p>
+  <p>Пошта: {{ person.email }}</p>
+</div>
+

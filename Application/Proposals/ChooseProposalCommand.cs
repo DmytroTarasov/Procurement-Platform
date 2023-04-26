@@ -3,6 +3,7 @@ using Application.Common.Services.Interfaces;
 using Application.Dtos;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -38,14 +39,15 @@ namespace Application.Proposals
             if (proposal == null) return Result<Unit>.Failure("Такої пропозиції не існує");
 
             var order = proposal.Order;
+            
             order.SupplierContactPersonId = proposal.SupplierId;
             order.TransporterContactPersonId = proposal.TransporterId;
             order.ShipmentAddressId = proposal.ShipmentAddressId;
             order.SupplierPrice = proposal.SupplierPrice;
             order.TransporterSum = proposal.TransporterSum;
-            // order.Status = OrderStatus.Processed;
-            // order.Requests.ToList().ForEach(r => r.Status = RequestStatus.Processed);
-            // order.Proposals.ToList().ForEach(p => p.Status = ProposalStatus.Processed);
+            order.Status = OrderStatus.Processed;
+            order.Requests.ToList().ForEach(r => r.Status = RequestStatus.Processed);
+            order.Proposals.ToList().ForEach(p => p.Status = ProposalStatus.Processed);
 
             _context.Orders.Update(order);
 

@@ -110,7 +110,8 @@ export class DialogEffects {
           RequestsActions.createRequestSuccess,
           RequestsActions.editRequestSuccess,
           OrdersActions.createOrderSuccess,
-          OrdersActions.submitProposalSuccess
+          OrdersActions.submitProposalSuccess,
+          OrdersActions.chooseProposalSuccess
         ),
         map((action) => {
           this.dialog.closeAll();

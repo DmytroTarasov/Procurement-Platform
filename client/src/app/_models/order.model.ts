@@ -7,6 +7,8 @@ export interface Order {
   createdAt: Date;
   budget: number;
   buyerContactPerson: ContactPerson;
+  supplierContactPerson: ContactPerson;
+  transporterContactPerson: ContactPerson;
   requests: OrderRequest[];
   proposals: Proposal[];
   status: string;
