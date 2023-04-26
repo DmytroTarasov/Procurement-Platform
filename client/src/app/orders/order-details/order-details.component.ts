@@ -15,6 +15,7 @@ import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
 import { ProposalStatuses, StatusesColors } from 'src/app/core/resources/statuses';
 import { Roles } from 'src/app/core/resources/roles';
+import { Proposal } from 'src/app/_models/proposal.model';
 
 @Component({
   selector: 'app-order-details',
@@ -81,6 +82,14 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
   cancelProposal(id: number, cancelTransportProposal?: boolean) {
     this.store.dispatch(OrdersActions.cancelProposal({ id, cancelTransportProposal }));
+  }
+
+  getProposalTotalSum(proposal: Proposal) {
+    return proposal.supplierPrice + proposal.transporterSum;
+  }
+
+  chooseProposal() {
+
   }
 
   ngOnDestroy() {

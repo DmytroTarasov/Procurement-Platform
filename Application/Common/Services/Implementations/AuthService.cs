@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Application.Common.Models;
+using Application.Common.Helpers;
 using Application.Common.Services.Interfaces;
 using Application.Dtos;
 using AutoMapper;

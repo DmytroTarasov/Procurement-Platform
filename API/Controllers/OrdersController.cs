@@ -26,7 +26,7 @@ namespace API.Controllers
         }
         
         [AuthorizeRoles(UserRoles.Customer)]
-        [HttpPut("{id}/cancel")]
+        [HttpPatch("{id}/cancel")]
         public async Task<IActionResult> CancelOrder(int id) {
             return HandleResult(await Mediator.Send(new CancelOrderCommand { Id = id }));
         }

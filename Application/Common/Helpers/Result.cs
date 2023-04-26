@@ -1,4 +1,4 @@
-namespace Application.Common.Models
+namespace Application.Common.Helpers
 {
     public class Result<T>
     {

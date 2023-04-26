@@ -43,7 +43,7 @@
       </div>
 
       <div class="mt-3" *ngFor="let proposal of order.proposals; let i = index">
-        <div class="grid grid-cols-2 gap-x-4 text-base">
+        <div class="grid gap-x-4 text-base" [ngClass]="user?.role === Roles.Customer ? 'grid-cols-[40%_40%_1fr]': 'grid-cols-2'">
           <div class="flex flex-col justify-center gap-y-2 border border-[#2FCB80] rounded-lg p-3 relative">
             <!-- <p>{{ i+1 }}. Постачальник: {{ proposal.supplierContactPerson.companyName }}</p> -->
             <p>{{ i+1 }}. <span class="font-semibold text-[#2FCB80]">Інформація про постачальника</span></p>
@@ -73,6 +73,10 @@
             <p>ПІБ: {{ getFullName(proposal.transporterContactPerson) }}</p>
             <p>Пошта: {{ proposal.transporterContactPerson.email }}</p>
             <app-button *ngIf="user?.id === proposal.transporterContactPerson.id && ProposalStatuses[proposal.status] === ProposalStatuses.Active" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-5', 'border', 'border-[#E74C3C]', 'h-[45px]', 'min-w-[172px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id, proposal.transporterContactPerson.id === user?.id ? true : false)"></app-button>
+          </div>
+          <div *ngIf="user?.role === Roles.Customer && ProposalStatuses[proposal.status] === ProposalStatuses.Active && proposal.transporterContactPerson?.id" class="flex flex-col items-center justify-center gap-y-4">
+            <p>Загальна сума: <br>{{ getProposalTotalSum(proposal) }} (грн.)</p>
+            <app-button text="Обрати пропозицію" type="button" [classList]="['h-[45px]', 'w-auto']" (click)="chooseProposal()"></app-button>
           </div>
         </div>
       </div>

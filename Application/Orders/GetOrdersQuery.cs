@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using Application.Common.Helpers;
-using Application.Common.Models;
 using Application.Dtos;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;

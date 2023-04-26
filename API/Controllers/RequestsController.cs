@@ -25,13 +25,13 @@ namespace API.Controllers
         }
 
         [AuthorizeRoles(UserRoles.Applicant)]
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> EditRequest([FromBody] EditRequestCommand command) {
             return HandleResult(await Mediator.Send(command));
         }
 
         [AuthorizeRoles(UserRoles.Applicant)]
-        [HttpPut("{id}/cancel")]
+        [HttpPatch("{id}/cancel")]
         public async Task<IActionResult> CancelRequest(int id) {
             return HandleResult(await Mediator.Send(new CancelRequestCommand { Id = id }));
         }

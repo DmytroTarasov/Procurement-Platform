@@ -1,4 +1,4 @@
-using Application.Common.Models;
+using Application.Common.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

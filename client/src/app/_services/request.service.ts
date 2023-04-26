@@ -23,11 +23,11 @@ export class RequestService {
   }
 
   editRequest(data: EditRequest) {
-    return this.http.put<number>(`${environment.serverUrl}/requests/${data.id}`, data);
+    return this.http.patch<number>(`${environment.serverUrl}/requests/${data.id}`, data);
   }
 
   cancelRequest(id: number) {
-    return this.http.put<number>(`${environment.serverUrl}/requests/${id}/cancel`, {});
+    return this.http.patch<number>(`${environment.serverUrl}/requests/${id}/cancel`, {});
   }
 
   private createRequestParams(page?: number, requestParams?: RequestParams) {

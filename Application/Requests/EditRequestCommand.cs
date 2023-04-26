@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Application.Common.Models;
+using Application.Common.Helpers;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;

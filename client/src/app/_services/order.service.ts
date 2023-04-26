@@ -22,7 +22,7 @@ export class OrderService {
   }
 
   cancelOrder(id: number) {
-    return this.http.put<number>(`${environment.serverUrl}/orders/${id}/cancel`, {});
+    return this.http.patch<number>(`${environment.serverUrl}/orders/${id}/cancel`, {});
   }
 
   getOrderDetails(id: number) {

@@ -15,6 +15,6 @@ export class ProposalService {
   }
 
   cancelProposal(id: number, cancelTransportProposal = false) {
-    return this.http.put<number>(`${environment.serverUrl}/proposals/${id}/cancel`, cancelTransportProposal);
+    return this.http.patch<number>(`${environment.serverUrl}/proposals/${id}/cancel`, cancelTransportProposal);
   }
 }
