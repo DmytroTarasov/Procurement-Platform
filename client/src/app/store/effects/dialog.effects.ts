@@ -174,6 +174,7 @@ export class DialogEffects {
           const data: SubmitProposalData = {
             // submitTransportProposalAsSupplier: action.submitTransportProposalAsSupplier,
             userRole: user.role,
+            orderCategoryType: action.orderCategoryType,
             proposalId: action.proposalId
           };
           this.dialog.open(SubmitProposalModalComponent, {

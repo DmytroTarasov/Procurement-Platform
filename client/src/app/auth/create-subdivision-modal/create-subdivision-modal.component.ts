@@ -27,9 +27,9 @@ export class CreateSubdivisionModalComponent implements OnInit {
     this.subdivisionForm = new FormGroup({
       title: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
-      region: new FormControl(''),
+      region: new FormControl(null),
       street: new FormControl('', Validators.required),
-      buildingNumber: new FormControl(''),
+      buildingNumber: new FormControl(null),
       zipCode: new FormControl('', Validators.required)
     });
 

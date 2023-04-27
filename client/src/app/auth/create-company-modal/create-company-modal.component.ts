@@ -23,9 +23,9 @@ export class CreateCompanyModalComponent implements OnInit {
       title: new FormControl('', Validators.required),
       edrpou: new FormControl('', [Validators.required, Validators.pattern(/^\d{8}$/)]),
       city: new FormControl('', Validators.required),
-      region: new FormControl(''),
+      region: new FormControl(null),
       street: new FormControl('', Validators.required),
-      buildingNumber: new FormControl(''),
+      buildingNumber: new FormControl(null),
       zipCode: new FormControl('', Validators.required)
     });
 

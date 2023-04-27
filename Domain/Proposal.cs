@@ -12,7 +12,7 @@ namespace Domain
         public string SupplierAdditionalInfo { get; set; } 
         public decimal? TransporterSum { get; set; } 
         public string TransporterAdditionalInfo { get; set; }
-        public int ShipmentAddressId { get; set; }
+        public int? ShipmentAddressId { get; set; }
         public Address ShipmentAddress { get; set; }
         public ProposalStatus Status { get; set; } = ProposalStatus.Active;
     }

@@ -16,6 +16,7 @@ import * as DialogActions from 'src/app/store/actions/dialog.actions';
 import { ProposalStatuses, StatusesColors } from 'src/app/core/resources/statuses';
 import { Roles } from 'src/app/core/resources/roles';
 import { Proposal } from 'src/app/_models/proposal.model';
+import { CategoryTypes } from 'src/app/core/resources/category-types';
 
 @Component({
   selector: 'app-order-details',
@@ -33,6 +34,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   user: User;
   userSubscription: Subscription;
   Roles = Roles;
+  CategoryTypes = CategoryTypes;
 
   constructor(private store: Store<fromApp.AppState>, private route: ActivatedRoute) { }
 
@@ -63,8 +65,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     return `${person.lastName} ${person.firstName} ${person.middleName}`;
   }
 
-  openSubmitProposalDialog(proposalId?: number) {
-    this.store.dispatch(DialogActions.openSubmitProposalDialog({ proposalId }));
+  openSubmitProposalDialog(orderCategoryType: string, proposalId?: number) {
+    this.store.dispatch(DialogActions.openSubmitProposalDialog({ orderCategoryType, proposalId }));
   }
 
   anySupplierProposals(order: Order) {
@@ -85,6 +87,14 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
   getProposalTotalSum(proposal: Proposal) {
     return proposal.supplierPrice + proposal.transporterSum;
+  }
+
+  isCategoryTypeGoods(order: Order) {
+    return CategoryTypes[order.categoryType] === CategoryTypes.Goods;
+  }
+
+  isProposalStatusActive(proposal: Proposal) {
+    return ProposalStatuses[proposal.status] === ProposalStatuses.Active;
   }
 
   chooseProposal(id: number) {

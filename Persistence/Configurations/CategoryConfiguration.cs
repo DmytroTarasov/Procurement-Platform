@@ -9,6 +9,9 @@ namespace Persistence.Configurations
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.Property(c => c.Title).IsRequired();
+
+            builder.Property(c => c.Type)
+                .HasConversion(ct => ct.ToString(), s => (CategoryType)Enum.Parse(typeof(CategoryType), s));
             
             builder 
                 .HasMany(c => c.ProcurementItems)

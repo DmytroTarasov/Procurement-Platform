@@ -53,7 +53,7 @@ namespace Application.Proposals
                     SupplierId = userId,
                     SupplierPrice = command.SupplierPrice.Value,
                     SupplierAdditionalInfo = command.SupplierAdditionalInfo,
-                    ShipmentAddressId = command.ShipmentAddressId.Value
+                    ShipmentAddressId = command.ShipmentAddressId
                 };
                 _context.Proposals.Add(proposal);
             } else {

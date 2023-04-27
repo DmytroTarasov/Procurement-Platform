@@ -8,6 +8,7 @@ export const measurementUnits = [
   { key: 'Grams', value: 'Грами', shorten: 'г' },
   { key: 'Liters', value: 'Літри', shorten: 'л' },
   { key: 'Milliliters', value: 'Мілілітри', shorten: 'мл' },
+  { key: 'Service', value: 'Послуга', shorten: 'послуга' }
 ];
 
 export const getShortenMeasurementUnit = (title: string) => {

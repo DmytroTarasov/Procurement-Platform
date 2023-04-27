@@ -26,10 +26,7 @@ export class EditRequestModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.requestForm = new FormGroup({
-      description: new FormControl(
-        this.request.description,
-        Validators.required
-      ),
+      description: new FormControl(this.request.description, Validators.required),
       quantity: new FormControl(this.request.quantity, Validators.required),
       budget: new FormControl(this.request.budget, Validators.required),
     });

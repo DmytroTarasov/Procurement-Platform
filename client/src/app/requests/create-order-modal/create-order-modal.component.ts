@@ -30,11 +30,10 @@ export class CreateOrderModalComponent implements OnInit {
     this.orderForm = new FormGroup({
       title: new FormControl('', Validators.required),
       deliveryAddressId: new FormControl('', this.deliveryAddressExists ? Validators.required : null),
-
       city: new FormControl('', !this.deliveryAddressExists ? Validators.required : null),
-      region: new FormControl(''),
+      region: new FormControl(null),
       street: new FormControl('', !this.deliveryAddressExists ? Validators.required : null),
-      buildingNumber: new FormControl(''),
+      buildingNumber: new FormControl(null),
       zipCode: new FormControl('', !this.deliveryAddressExists ? Validators.required : null),
     });
 

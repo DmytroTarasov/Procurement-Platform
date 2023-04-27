@@ -192,6 +192,67 @@ namespace Persistence
                                 }
                             }
                         }
+                    },
+                    new Company {
+                        Title = "АТ 'Страхова компанія 'УкрСтрах''",
+                        Edrpou = "31826406",
+                        Address = new Address {
+                            City = "Луцьк",
+                            Street = "Вул. Кривий Вал",
+                            BuildingNumber = "51",
+                            ZipCode = "43000"
+                        },
+                        Subdivisions = new List<Subdivision> {
+                            new Subdivision {
+                                Title = "Білоцерківська Філія",
+                                Address = new Address {
+                                    City = "Біла Церква",
+                                    Region = "Київська",
+                                    Street = "Вул. Лесі Українки",
+                                    BuildingNumber = "32",
+                                    ZipCode = "09100"
+                                },
+                            },
+                            new Subdivision {
+                                Title = "Вінницька Філія",
+                                Address = new Address {
+                                    City = "Вінниця",
+                                    Street = "Вул. Соборна",
+                                    BuildingNumber = "24",
+                                    ZipCode = "21000"
+                                },
+                            }
+                        }
+                    },
+                    new Company {
+                        Title = "ТОВ 'НадЗахист'",
+                        Edrpou = "36719285",
+                        Address = new Address {
+                            City = "Тернопіль",
+                            Street = "Вул. Вільхова",
+                            BuildingNumber = "39",
+                            ZipCode = "46001"
+                        },
+                        Subdivisions = new List<Subdivision> {
+                            new Subdivision {
+                                Title = "Чернівецька Філія",
+                                Address = new Address {
+                                    City = "Чернівці",
+                                    Street = "Вул. Григорія Сковороди",
+                                    BuildingNumber = "10",
+                                    ZipCode = "58000"
+                                },
+                            },
+                            new Subdivision {
+                                Title = "Одеська Філія",
+                                Address = new Address {
+                                    City = "Одеса",
+                                    Street = "Вул. Космонавтів",
+                                    BuildingNumber = "4",
+                                    ZipCode = "65000"
+                                },
+                            }
+                        }
                     }
                 };
 
@@ -204,6 +265,7 @@ namespace Persistence
                 var categories = new List<Category> {
                     new Category {
                         Title = "Комп'ютерна техніка",
+                        Type = CategoryType.Goods,
                         ProcurementItems = new List<ProcurementItem> {
                             new ProcurementItem {
                                 Title = "Джерело безперебійного живлення"
@@ -224,6 +286,7 @@ namespace Persistence
                     },
                     new Category {
                         Title = "Одяг та взуття",
+                        Type = CategoryType.Goods,
                         ProcurementItems = new List<ProcurementItem> {
                             new ProcurementItem {
                                 Title = "Кросівки"
@@ -244,6 +307,7 @@ namespace Persistence
                     },
                     new Category {
                         Title = "Меблі",
+                        Type = CategoryType.Goods,
                         ProcurementItems = new List<ProcurementItem> {
                             new ProcurementItem {
                                 Title = "Стіл"
@@ -261,6 +325,7 @@ namespace Persistence
                     },
                     new Category {
                         Title = "Транспорт",
+                        Type = CategoryType.Goods,
                         ProcurementItems = new List<ProcurementItem> {
                             new ProcurementItem {
                                 Title = "Амортизатор"
@@ -270,6 +335,33 @@ namespace Persistence
                             },
                             new ProcurementItem {
                                 Title = "Шини"
+                            }
+                        }
+                    },
+                    new Category {
+                        Title = "Страхові послуги",
+                        Type = CategoryType.Services,
+                        ProcurementItems = new List<ProcurementItem> {
+                            new ProcurementItem {
+                                Title = "Медичне страхування"
+                            },
+                            new ProcurementItem {
+                                Title = "Страхування від нещасних випадків"
+                            },
+                            new ProcurementItem {
+                                Title = "Страхування життя"
+                            }
+                        }
+                    },
+                    new Category {
+                        Title = "Охоронні послуги",
+                        Type = CategoryType.Services,
+                        ProcurementItems = new List<ProcurementItem> {
+                            new ProcurementItem {
+                                Title = "Охорона приміщення"
+                            },
+                            new ProcurementItem {
+                                Title = "Охорона території"
                             }
                         }
                     }
@@ -361,6 +453,23 @@ namespace Persistence
                         Quantity = 10,
                         MeasurementUnit = MeasurementUnit.Pieces,
                         Budget = 57000
+                    },
+                    
+                    new Request {
+                        Description = "Послуги медичного страхування працівників (100 осіб)",
+                        SubdivisionId = 3,
+                        ProcurementItemId = 18,
+                        Quantity = 1,
+                        MeasurementUnit = MeasurementUnit.Service,
+                        Budget = 16000
+                    },
+                    new Request {
+                        Description = "Цілодобова охорона приміщення з 01-06-2023 до 31-12-2023.",
+                        SubdivisionId = 6,
+                        ProcurementItemId = 21,
+                        Quantity = 1,
+                        MeasurementUnit = MeasurementUnit.Service,
+                        Budget = 56000
                     },
                 };
 

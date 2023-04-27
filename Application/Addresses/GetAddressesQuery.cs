@@ -49,6 +49,7 @@ namespace Application.Addresses
                     .ThenInclude(s => s.Subdivision)
                     .Where(p => p.Supplier.Subdivision.CompanyId == companyId)
                     .Select(p => p.ShipmentAddress)
+                    .Where(a => a != null)
                     .Distinct()
                     .ToListAsync();
             }

@@ -12,6 +12,7 @@ namespace Persistence.Configurations
             builder.Property(p => p.SupplierAdditionalInfo).IsRequired(false);
             builder.Property(p => p.TransporterSum).IsRequired(false);
             builder.Property(p => p.TransporterAdditionalInfo).IsRequired(false);
+            builder.Property(p => p.ShipmentAddressId).IsRequired(false);
             builder.Property(p => p.Status)
                 .HasConversion(ps => ps.ToString(), s => (ProposalStatus)Enum.Parse(typeof(ProposalStatus), s));
         }

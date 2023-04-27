@@ -10,7 +10,7 @@ export const openEditRequestDialog = createAction('[Dialog] Open Edit Request Di
 export const openCreateOrderDialog = createAction('[Dialog] Open Create Order Dialog');
 export const openSubmitProposalDialog = createAction(
   '[Dialog] Open Submit Proposal Dialog',
-  props<{ proposalId?: number }>()
+  props<{ orderCategoryType: string, proposalId?: number }>()
 );
 export const noAction = createAction('[Dialog] No Action');
 // export const openRedirectDialog = createAction('[Dialog] Open Redirect Dialog', props<{ data: ModalRedirectData }>());

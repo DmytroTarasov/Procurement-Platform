@@ -2,7 +2,7 @@
   <div mat-dialog-content>
     <form class="w-full mt-3" [formGroup]="orderForm" (ngSubmit)="onSubmit()">
       <app-textarea label="Назва" [control]="getFormControl('title')"></app-textarea>
-      <p class="mb-2">Адреса доставки <span class="text-red-600">*</span></p>
+      <p class="mb-2">Адреса доставки/постачання <span class="text-red-600">*</span></p>
       <app-dropdown *ngIf="deliveryAddressExists" [control]="getFormControl('deliveryAddressId')" [displayPropFunc]="tranformAddress" [displayLabel]="false" [items]="(addresses$ | async)" errorMessage="Адреса доставки має бути обрана">
         <p class="text-sm italic">Не знайшли адресу у списку? <span class="underline text-[#2CA9D5] cursor-pointer" (click)="toggleDeliveryAddressExistence()">Натисність,</span> щоб додати нову</p>
       </app-dropdown>

@@ -16,11 +16,13 @@ namespace Application.Common.Mapping
                 .ForMember(ud => ud.CompanyId, o => o.MapFrom(u => u.Subdivision.CompanyId));
             CreateMap<Role, RoleDto>();
             CreateMap<ProcurementItem, ProcurementItemDto>()
-                .ForMember(gd => gd.CategoryTitle, o => o.MapFrom(g => g.Category.Title));
+                .ForMember(gd => gd.CategoryTitle, o => o.MapFrom(g => g.Category.Title))
+                .ForMember(gd => gd.CategoryType, o => o.MapFrom(g => g.Category.Type));
             CreateMap<ProcurementItemDto, ProcurementItem>();
             CreateMap<Category, CategoryDto>();
             CreateMap<Request, RequestDto>().ReverseMap();
-            CreateMap<Order, OrderDto>();
+            CreateMap<Order, OrderDto>()
+                .ForMember(od => od.CategoryType, o => o.MapFrom(o => o.Requests.First().ProcurementItem.Category.Type));
             CreateMap<Request, OrderRequestDto>()
                 .ForMember(ord => ord.ProcurementItemTitle, o => o.MapFrom(r => r.ProcurementItem.Title))
                 .ForMember(ord => ord.SubdivisionTitle, o => o.MapFrom(r => r.Subdivision.Title));

@@ -11,6 +11,7 @@ export interface Order {
   transporterContactPerson: ContactPerson;
   requests: OrderRequest[];
   proposals: Proposal[];
+  categoryType: string;
   status: string;
   deliveryAddress: Address;
   shipmentAddress: Address;

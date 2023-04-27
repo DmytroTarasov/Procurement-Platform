@@ -11,6 +11,7 @@ import * as DialogActions from 'src/app/store/actions/dialog.actions';
 import * as RequestsActions from '../store/requests.actions';
 import { selectOrderRequests } from '../store/requests.selectors';
 import { Roles } from 'src/app/core/resources/roles';
+import { CategoryTypes } from 'src/app/core/resources/category-types';
 
 @Component({
   selector: 'app-requests-list-item',
@@ -26,6 +27,7 @@ export class RequestsListItemComponent implements OnInit {
   user$: Observable<User>;
   orderRequests$: Observable<number[]>;
   Roles = Roles;
+  CategoryTypes = CategoryTypes;
 
   constructor(private store: Store<fromApp.AppState>) { }
 

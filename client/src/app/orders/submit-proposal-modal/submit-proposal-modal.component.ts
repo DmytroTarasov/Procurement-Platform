@@ -13,10 +13,12 @@ import { SubmitProposal } from 'src/app/_models/proposal.model';
 import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { Roles } from 'src/app/core/resources/roles';
+import { CategoryTypes } from 'src/app/core/resources/category-types';
 
 export interface SubmitProposalData {
   // submitTransportProposalAsSupplier: boolean;
   userRole: string;
+  orderCategoryType: string;
   proposalId: number;
 }
 
@@ -32,6 +34,7 @@ export class SubmitProposalModalComponent implements OnInit {
   user$: Observable<User>;
   shipmentAddressExists = true;
   Roles = Roles;
+  CategoryTypes = CategoryTypes;
 
   constructor(private store: Store<fromApp.AppState>, @Inject(MAT_DIALOG_DATA) public data: SubmitProposalData) { }
 
@@ -41,14 +44,14 @@ export class SubmitProposalModalComponent implements OnInit {
     }
 
     this.proposalForm = new FormGroup({
-      shipmentAddressId: new FormControl('', (this.shipmentAddressExists && this.data.userRole === Roles.Supplier && !this.data.proposalId)
-        ? Validators.required : null),
+      shipmentAddressId: new FormControl(null, (this.shipmentAddressExists && this.data.userRole === Roles.Supplier &&
+        !this.data.proposalId && CategoryTypes[this.data.orderCategoryType] === CategoryTypes.Goods) ? Validators.required : null),
       price: new FormControl('', Validators.required),
-      additionalInfo: new FormControl(''),
+      additionalInfo: new FormControl(null),
       city: new FormControl('', !this.shipmentAddressExists ? Validators.required : null),
-      region: new FormControl(''),
+      region: new FormControl(null),
       street: new FormControl('', !this.shipmentAddressExists ? Validators.required : null),
-      buildingNumber: new FormControl(''),
+      buildingNumber: new FormControl(null),
       zipCode: new FormControl('', !this.shipmentAddressExists ? Validators.required : null),
     });
 
@@ -101,7 +104,7 @@ export class SubmitProposalModalComponent implements OnInit {
     let proposal: SubmitProposal;
     if (this.data.userRole === Roles.Supplier && !this.data.proposalId) {
       proposal = { shipmentAddressId, supplierPrice: price, supplierAdditionalInfo: additionalInfo };
-      proposal.shipmentAddressId = !!proposal.shipmentAddressId ? proposal.shipmentAddressId : null;
+      // proposal.shipmentAddressId = !!proposal.shipmentAddressId ? proposal.shipmentAddressId : null;
       proposal.shipmentAddress = !this.shipmentAddressExists ? address : null;
     } else {
       proposal = { proposalId: this.data.proposalId, transporterSum: price, transporterAdditionalInfo: additionalInfo };

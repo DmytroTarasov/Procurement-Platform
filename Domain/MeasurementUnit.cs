@@ -10,6 +10,7 @@ namespace Domain
         Kilograms,
         Grams,
         Liters,
-        Milliliters
+        Milliliters,
+        Service
     }
 }

@@ -65,6 +65,10 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -187,7 +191,7 @@ namespace Persistence.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ShipmentAddressId")
+                    b.Property<int?>("ShipmentAddressId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Status")
@@ -582,9 +586,7 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Address", "ShipmentAddress")
                         .WithMany()
-                        .HasForeignKey("ShipmentAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShipmentAddressId");
 
                     b.HasOne("Domain.User", "Supplier")
                         .WithMany()

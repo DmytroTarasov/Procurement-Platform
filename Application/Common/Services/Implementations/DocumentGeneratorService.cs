@@ -31,8 +31,12 @@ namespace Application.Common.Services.Implementations
 
                     var color = new DeviceRgb(47, 203, 128);
 
-                    document.Add(new Paragraph("Адреса доставки: " + TransformAddress(order.DeliveryAddress)).SetMargin(2));
-                    document.Add(new Paragraph("Адреса відвантаження: " + TransformAddress(order.ShipmentAddress)).SetMargin(2));
+                    // document.Add(new Paragraph("Адреса доставки: " + TransformAddress(order.DeliveryAddress)).SetMargin(2));
+                    document.Add(new Paragraph($"{(order.TransporterContactPerson != null ? "Адреса доставки" : "Адреса постачання")}: {TransformAddress(order.DeliveryAddress)}").SetMargin(2));
+
+                    if (order.ShipmentAddress != null) {
+                        document.Add(new Paragraph($"Адреса відвантаження: {TransformAddress(order.ShipmentAddress)}").SetMargin(2));
+                    }       
                     
                     document.Add(new Paragraph("Інформація про замовника").SetBold().SetFontColor(color));          
                     document.Add(GenerateCompanyTable(order.BuyerContactPerson));
@@ -40,9 +44,11 @@ namespace Application.Common.Services.Implementations
                     document.Add(new Paragraph("Інформація про постачальника").SetBold().SetFontColor(color));       
                     document.Add(GenerateCompanyTable(order.SupplierContactPerson));
 
-                    document.Add(new Paragraph("Інформація про перевізника").SetBold().SetFontColor(color));       
-                    document.Add(GenerateCompanyTable(order.TransporterContactPerson));
-
+                    if (order.TransporterContactPerson != null) {
+                        document.Add(new Paragraph("Інформація про перевізника").SetBold().SetFontColor(color));       
+                        document.Add(GenerateCompanyTable(order.TransporterContactPerson));
+                    }
+                   
                     document.Add(new Paragraph("Предмет(и) закупівель").SetBold().SetFontColor(color));
                     var requests = order.Requests.ToList();
 
@@ -54,7 +60,7 @@ namespace Application.Common.Services.Implementations
 
                     // document.Add(new LineSeparator(new SolidLine()));
 
-                    document.Add(GeneratePriceTable(order.SupplierPrice.Value, order.TransporterSum.Value));
+                    document.Add(GeneratePriceTable(order.SupplierPrice, order.TransporterSum));
                 } catch (Exception) {
                     return Result<byte[]>.Failure("Не вдалось згенерувати PDF-файл");
                 } finally {
@@ -73,23 +79,25 @@ namespace Application.Common.Services.Implementations
             table.AddCell(new Cell().Add(new Paragraph("Контактна особа").SetBold()).SetBorder(Border.NO_BORDER));
             table.AddCell(new Cell().Add(new Paragraph(person.CompanyName)).SetBorder(Border.NO_BORDER));
             table.AddCell(new Cell().Add(new Paragraph(getFullName(person))).SetBorder(Border.NO_BORDER));
-            table.AddCell(new Cell().Add(new Paragraph("Код ЄДРПОУ: " + person.CompanyEdrpou)).SetBorder(Border.NO_BORDER));
-            table.AddCell(new Cell().Add(new Paragraph("Пошта: " + person.Email)).SetBorder(Border.NO_BORDER));
-            table.AddCell(new Cell().Add(new Paragraph("Адреса: " + TransformAddress(person.CompanyAddress))).SetBorder(Border.NO_BORDER));
+            table.AddCell(new Cell().Add(new Paragraph($"Код ЄДРПОУ: {person.CompanyEdrpou}")).SetBorder(Border.NO_BORDER));
+            table.AddCell(new Cell().Add(new Paragraph($"Пошта: {person.Email}")).SetBorder(Border.NO_BORDER));
+            table.AddCell(new Cell().Add(new Paragraph($"Адреса: {TransformAddress(person.CompanyAddress)}")).SetBorder(Border.NO_BORDER));
             return table;
         }   
 
-        private Table GeneratePriceTable(decimal supplierPrice, decimal transporterSum) {
+        private Table GeneratePriceTable(decimal? supplierPrice, decimal? transporterSum) {
             var table = new Table(UnitValue.CreatePercentArray(new float[] {4, 3}));
             table.SetWidth(UnitValue.CreatePercentValue(60));
             table.SetTextAlignment(TextAlignment.LEFT);
 
             table.AddCell(new Cell().Add(new Paragraph("Ціна від постачальника:").SetBold()).SetBorder(Border.NO_BORDER));
-            table.AddCell(new Cell().Add(new Paragraph($"{supplierPrice} (грн.)")).SetBorder(Border.NO_BORDER));
-            table.AddCell(new Cell().Add(new Paragraph("Ціна від перевізника:").SetBold()).SetBorder(Border.NO_BORDER));
-            table.AddCell(new Cell().Add(new Paragraph($"{transporterSum} (грн.)")).SetBorder(Border.NO_BORDER));
+            table.AddCell(new Cell().Add(new Paragraph($"{supplierPrice.Value} (грн.)")).SetBorder(Border.NO_BORDER));
+            if (transporterSum != null) {
+                table.AddCell(new Cell().Add(new Paragraph("Ціна від перевізника:").SetBold()).SetBorder(Border.NO_BORDER));
+                table.AddCell(new Cell().Add(new Paragraph($"{transporterSum.Value} (грн.)")).SetBorder(Border.NO_BORDER));
+            }
             table.AddCell(new Cell().Add(new Paragraph("Сума:")).SetBorder(Border.NO_BORDER).SetBold());
-            table.AddCell(new Cell().Add(new Paragraph($"{supplierPrice + transporterSum} (грн.)")).SetBorder(Border.NO_BORDER));
+            table.AddCell(new Cell().Add(new Paragraph($"{supplierPrice.Value + (transporterSum != null ? transporterSum.Value : 0)} (грн.)")).SetBorder(Border.NO_BORDER));
             return table;
         }
 
