@@ -5,12 +5,13 @@ import { RequestStatuses } from 'src/app/core/resources/statuses';
 import * as fromApp from 'src/app/store/app.reducer';
 import * as RequestsActions from '../store/requests.actions';
 import { Observable, Subscription, map } from 'rxjs';
-import { selectCategories, selectRequestParams } from '../store/requests.selectors';
+import { selectRequestParams } from '../store/requests.selectors';
 import { RequestParams } from 'src/app/_models/request-params.model';
-import { selectProcurementItems } from '../store/requests.selectors';
+import { selectCategories, selectProcurementItems } from 'src/app/categories/store/categories.selectors';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/_models/user.model';
 import { Roles } from 'src/app/core/resources/roles';
+import * as CategoriesActions from 'src/app/categories/store/categories.actions';
 
 export interface Model {
   key: string;
@@ -39,8 +40,8 @@ export class RequestsActionsComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
-    this.store.dispatch(RequestsActions.getCategories());
-    this.store.dispatch(RequestsActions.getProcurementItems({}));
+    this.store.dispatch(CategoriesActions.getCategories());
+    this.store.dispatch(CategoriesActions.getProcurementItems({}));
 
     this.actionsForm = new FormGroup({
       status: new FormControl(''),
@@ -74,7 +75,7 @@ export class RequestsActionsComponent implements OnInit, OnDestroy {
   }
 
   setRequestParamsCategory(categoryTitle: string) {
-    this.store.dispatch(RequestsActions.getProcurementItems({ categoryTitle }));
+    this.store.dispatch(CategoriesActions.getProcurementItems({ categoryTitle }));
     this.store.dispatch(RequestsActions.setRequestParams({ requestParams: { ...this.requestParams, categoryTitle, procurementItemTitle: '' }}));
     this.getFormControl('procurementItemTitle').setValue('');
   }

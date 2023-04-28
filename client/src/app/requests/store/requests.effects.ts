@@ -16,32 +16,6 @@ import * as OrdersActions from 'src/app/orders/store/orders.actions';
 
 @Injectable()
 export class RequestsEffects {
-  getProcurementItems$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(RequestsActions.getProcurementItems),
-      switchMap((action) => {
-        return this.procurementItemService.getProcurementItems(action.categoryTitle).pipe(
-          map((procurementItems) => {
-            return RequestsActions.setProcurementItems({ procurementItems });
-          })
-        );
-      })
-    )
-  );
-
-  getCategories$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(RequestsActions.getCategories),
-      switchMap((action) => {
-        return this.categoryService.getCategories().pipe(
-          map((categories) => {
-            return RequestsActions.setCategories({ categories });
-          })
-        );
-      })
-    )
-  );
-
   getCompanyRequests$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
@@ -67,20 +41,6 @@ export class RequestsEffects {
               requests: response.body,
               pagination,
             });
-          })
-        );
-      })
-    )
-  );
-
-  refreshProcurementItems$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(RequestsActions.createRequestSuccess),
-      withLatestFrom(this.store.pipe(select(selectRequestParams))),
-      switchMap(([action, requestParams]) => {
-        return this.procurementItemService.getProcurementItems(requestParams.categoryTitle).pipe(
-          map((procurementItems) => {
-            return RequestsActions.setProcurementItems({ procurementItems });
           })
         );
       })

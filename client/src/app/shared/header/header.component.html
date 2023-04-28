@@ -23,6 +23,7 @@
   </div>
   <div class="w-full grid grid-cols-[60%_40%]" *ngIf="(user$ | async) as user">
     <div class="flex justify-center gap-x-24">
+      <a [routerLink]="['categories']" class="cursor-pointer" *ngIf="user.role === Roles.Administrator">Категорії</a>
       <a [routerLink]="['requests']" class="cursor-pointer" *ngIf="user.role === Roles.Applicant || user.role === Roles.Customer">Заявки</a>
       <a [routerLink]="['orders']" class="cursor-pointer">Замовлення</a>
     </div>

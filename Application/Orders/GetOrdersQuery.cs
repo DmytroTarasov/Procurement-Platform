@@ -30,8 +30,8 @@ namespace Application.Orders
         }
 
         public async Task<Result<PagedList<OrderDto>>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
-        {
-            var companyId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("companyId"));
+        {        
+            var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
             var query = _context.Orders
                 .Include(o => o.Requests)
@@ -43,7 +43,8 @@ namespace Application.Orders
                 query = query.Where(o => o.Status == status);
             }
 
-            if (request.OrdersParams.CompanyOrders) {
+            if (request.OrdersParams.CompanyOrders && role != UserRoles.Administrator) {
+                var companyId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("companyId"));
                 query = query.Where(o => o.BuyerContactPerson.Subdivision.CompanyId == companyId);
             }
 

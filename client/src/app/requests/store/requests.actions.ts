@@ -1,26 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { Category } from 'src/app/_models/category.model';
 import { CreateRequest } from 'src/app/_models/create-request.model';
 import { EditRequest } from 'src/app/_models/edit-request.model';
-import { ProcurementItem } from 'src/app/_models/procurement-item.model';
 import { Pagination } from 'src/app/_models/pagination.model';
 import { RequestParams } from 'src/app/_models/request-params.model';
 import { RequestModel } from 'src/app/_models/request.model';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 
-export const getProcurementItems = createAction(
-  '[Requests] Get Procurement Items',
-  props<{ categoryTitle?: string }>()
-);
-export const setProcurementItems = createAction(
-  '[Requests] Set Procurement Item',
-  props<{ procurementItems: ProcurementItem[] }>()
-);
-export const getCategories = createAction('[Requests] Get Categories');
-export const setCategories = createAction(
-  '[Requests] Set Categories',
-  props<{ categories: Category[] }>()
-);
 export const createRequest = createAction(
   '[Requests] Create Request',
   props<{ createRequest: CreateRequest }>()

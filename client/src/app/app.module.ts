@@ -19,6 +19,7 @@ import { DialogEffects } from './store/effects/dialog.effects';
 import { RouteEffects } from './store/effects/route.effects';
 import { RequestsEffects } from './requests/store/requests.effects';
 import { OrdersEffects } from './orders/store/orders.effects';
+import { CategoriesEffects } from './categories/store/categories.effects';
 import { DashboardComponent } from './core/dashboard/dashboard.component';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import localeUk from '@angular/common/locales/uk';
@@ -36,7 +37,7 @@ import { registerLocaleData } from '@angular/common';
     BrowserAnimationsModule,
     SharedModule,
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects, DialogEffects, RouteEffects, RequestsEffects, OrdersEffects]),
+    EffectsModule.forRoot([AuthEffects, DialogEffects, RouteEffects, RequestsEffects, OrdersEffects, CategoriesEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production })
   ],
   providers: [

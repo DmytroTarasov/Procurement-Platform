@@ -13,4 +13,5 @@ export const openSubmitProposalDialog = createAction(
   props<{ orderCategoryType: string, proposalId?: number }>()
 );
 export const noAction = createAction('[Dialog] No Action');
+export const openCreateCategoryDialog = createAction('[Dialog] Open Create Category Dialog');
 // export const openRedirectDialog = createAction('[Dialog] Open Redirect Dialog', props<{ data: ModalRedirectData }>());

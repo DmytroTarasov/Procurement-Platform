@@ -7,9 +7,10 @@ import { selectError } from '../store/requests.selectors';
 
 import * as fromApp from 'src/app/store/app.reducer';
 import * as RequestsActions from '../store/requests.actions';
-import { selectProcurementItems, selectCategories } from '../store/requests.selectors';
+import { selectProcurementItems, selectCategories } from 'src/app/categories/store/categories.selectors';
 import { Category } from 'src/app/_models/category.model';
 import { measurementUnits } from 'src/app/core/resources/measurement-units';
+import * as CategoriesActions from 'src/app/categories/store/categories.actions';
 
 @Component({
   selector: 'app-create-request-modal',
@@ -27,7 +28,7 @@ export class CreateRequestModalComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
-    this.store.dispatch(RequestsActions.getProcurementItems({}));
+    this.store.dispatch(CategoriesActions.getProcurementItems({}));
 
     this.requestForm = new FormGroup({
       description: new FormControl('', Validators.required),
@@ -74,6 +75,6 @@ export class CreateRequestModalComponent implements OnInit {
       control.updateValueAndValidity();
     }
 
-    if (!this.procurementItemExists) this.store.dispatch(RequestsActions.getCategories());
+    if (!this.procurementItemExists) this.store.dispatch(CategoriesActions.getCategories());
   }
 }

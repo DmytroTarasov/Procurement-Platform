@@ -22,6 +22,8 @@ import { selectRequestParams } from 'src/app/requests/store/requests.selectors';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { SubmitProposalData, SubmitProposalModalComponent } from 'src/app/orders/submit-proposal-modal/submit-proposal-modal.component';
 import { Roles } from 'src/app/core/resources/roles';
+import { CreateCategoryModalComponent } from 'src/app/categories/create-category-modal/create-category-modal.component';
+import * as CategoriesActions from 'src/app/categories/store/categories.actions';
 
 @Injectable()
 export class DialogEffects {
@@ -33,7 +35,7 @@ export class DialogEffects {
         map(([action, requestParams]) => {
           this.dialog.closeAll();
           if (requestParams.categoryTitle) {
-            return RequestsActions.getProcurementItems({ categoryTitle: requestParams.categoryTitle });
+            return CategoriesActions.getProcurementItems({ categoryTitle: requestParams.categoryTitle });
           }
           return DialogActions.noAction();
         })
@@ -111,7 +113,8 @@ export class DialogEffects {
           RequestsActions.editRequestSuccess,
           OrdersActions.createOrderSuccess,
           OrdersActions.submitProposalSuccess,
-          OrdersActions.chooseProposalSuccess
+          OrdersActions.chooseProposalSuccess,
+          CategoriesActions.createCategorySuccess
         ),
         map((action) => {
           this.dialog.closeAll();
@@ -172,7 +175,6 @@ export class DialogEffects {
         withLatestFrom(this.store.select(selectUser)),
         map(([action, user]) => {
           const data: SubmitProposalData = {
-            // submitTransportProposalAsSupplier: action.submitTransportProposalAsSupplier,
             userRole: user.role,
             orderCategoryType: action.orderCategoryType,
             proposalId: action.proposalId
@@ -182,6 +184,19 @@ export class DialogEffects {
             data
           });
           this.ref.tick();
+        })
+      ),
+    { dispatch: false }
+  );
+
+  openCreateCategoryDialog$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(DialogActions.openCreateCategoryDialog),
+        map((action) => {
+          this.dialog.open(CreateCategoryModalComponent, {
+            disableClose: true
+          });
         })
       ),
     { dispatch: false }

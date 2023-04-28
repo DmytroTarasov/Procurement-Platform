@@ -13,4 +13,8 @@ export class CategoryService {
   getCategories() {
     return this.http.get<Category[]>(`${environment.serverUrl}/categories`);
   }
+
+  createCategory(title: string, type: string) {
+    return this.http.post<number>(`${environment.serverUrl}/categories`, { title, type });
+  }
 }

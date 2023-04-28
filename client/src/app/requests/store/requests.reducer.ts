@@ -7,8 +7,6 @@ import { Pagination } from 'src/app/_models/pagination.model';
 import { RequestParams } from 'src/app/_models/request-params.model';
 
 export interface State {
-  procurementItems: ProcurementItem[] | null;
-  categories: Category[] | null;
   requests: RequestModel[] | null;
   pagination: Pagination;
   requestParams: RequestParams;
@@ -17,8 +15,6 @@ export interface State {
 }
 
 export const initialState: State = {
-  procurementItems: null,
-  categories: null,
   requests: null,
   pagination: null,
   orderRequests: [],
@@ -28,8 +24,8 @@ export const initialState: State = {
 
 export const requestsReducer = createReducer(
   initialState,
-  on(RequestsActions.setProcurementItems, (state, { procurementItems }) => ({ ...state, procurementItems: [...procurementItems] })),
-  on(RequestsActions.setCategories, (state, { categories }) => ({ ...state, categories: [...categories] })),
+  // on(RequestsActions.setProcurementItems, (state, { procurementItems }) => ({ ...state, procurementItems: [...procurementItems] })),
+  // on(RequestsActions.setCategories, (state, { categories }) => ({ ...state, categories: [...categories] })),
   on(RequestsActions.setCompanyRequests, (state, { requests, pagination }) => ({ ...state, requests: [...requests],
     pagination: {...pagination} })),
   // on(RequestsActions.cancelRequestSuccess, (state, { id }) => {
