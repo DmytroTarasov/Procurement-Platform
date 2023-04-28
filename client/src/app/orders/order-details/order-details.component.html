@@ -60,7 +60,7 @@
           <div class="grid gap-x-4 text-base" [ngClass]="{'grid-cols-[40%_40%_1fr]': user?.role === Roles.Customer && isCategoryTypeGoods(order), 'grid-cols-[40%_15%] gap-x-8': user?.role === Roles.Customer && !isCategoryTypeGoods(order), 'grid-cols-2': user?.role !== Roles.Customer}">
             <div class="flex flex-col justify-center gap-y-2 border border-[#2FCB80] rounded-lg p-3 relative">
 
-              <app-order-info [person]="proposal.supplierContactPerson" [getFullName]="getFullName" [tranformCompanyAddress]="tranformCompanyAddress" [shipmentAddress]="proposal.shipmentAddress" [additionalInfo]="proposal.supplierAdditionalInfo" [price]="proposal.supplierPrice">
+              <app-order-info [person]="proposal.supplierContactPerson" [getFullName]="getFullName" [tranformCompanyAddress]="tranformCompanyAddress" [shipmentAddress]="proposal.shipmentAddress" [additionalInfo]="proposal.supplierAdditionalInfo" [price]="showProposalPrice(order, proposal, true) ? proposal.supplierPrice : null">
                 <p>{{ i+1 }}. <span class="font-semibold text-[#2FCB80]">Інформація про постачальника</span></p>
               </app-order-info>
 
@@ -74,7 +74,7 @@
 
             <div class="flex flex-col gap-y-2 border border-[#2FCB80] rounded-lg p-3 relative" *ngIf="proposal.transporterContactPerson && isCategoryTypeGoods(order)">
 
-              <app-order-info [person]="proposal.transporterContactPerson" [getFullName]="getFullName" [tranformCompanyAddress]="tranformCompanyAddress" [additionalInfo]="proposal.transporterAdditionalInfo" [price]="proposal.transporterSum">
+              <app-order-info [person]="proposal.transporterContactPerson" [getFullName]="getFullName" [tranformCompanyAddress]="tranformCompanyAddress" [additionalInfo]="proposal.transporterAdditionalInfo" [price]="showProposalPrice(order, proposal, false) ? proposal.transporterSum : null">
                 <p class="font-semibold text-[#2FCB80]">Інформація про перевізника</p>
               </app-order-info>
 

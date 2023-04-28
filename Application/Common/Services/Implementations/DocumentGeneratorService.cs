@@ -77,7 +77,7 @@ namespace Application.Common.Services.Implementations
             
             table.AddCell(new Cell().Add(new Paragraph("Компанія").SetBold()).SetBorder(Border.NO_BORDER));
             table.AddCell(new Cell().Add(new Paragraph("Контактна особа").SetBold()).SetBorder(Border.NO_BORDER));
-            table.AddCell(new Cell().Add(new Paragraph(person.CompanyName)).SetBorder(Border.NO_BORDER));
+            table.AddCell(new Cell().Add(new Paragraph(person.CompanyTitle)).SetBorder(Border.NO_BORDER));
             table.AddCell(new Cell().Add(new Paragraph(getFullName(person))).SetBorder(Border.NO_BORDER));
             table.AddCell(new Cell().Add(new Paragraph($"Код ЄДРПОУ: {person.CompanyEdrpou}")).SetBorder(Border.NO_BORDER));
             table.AddCell(new Cell().Add(new Paragraph($"Пошта: {person.Email}")).SetBorder(Border.NO_BORDER));

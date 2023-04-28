@@ -28,7 +28,7 @@ namespace Application.Common.Mapping
                 .ForMember(ord => ord.SubdivisionTitle, o => o.MapFrom(r => r.Subdivision.Title));
             CreateMap<User, ContactPersonDto>()
                 .ForMember(cpd => cpd.CompanyId, o => o.MapFrom(u => u.Subdivision.CompanyId))
-                .ForMember(cpd => cpd.CompanyName, o => o.MapFrom(u => u.Subdivision.Company.Title))
+                .ForMember(cpd => cpd.CompanyTitle, o => o.MapFrom(u => u.Subdivision.Company.Title))
                 .ForMember(cpd => cpd.CompanyEdrpou, o => o.MapFrom(u => u.Subdivision.Company.Edrpou))
                 .ForMember(cpd => cpd.CompanyAddress, o => o.MapFrom(u => u.Subdivision.Company.Address));  
             CreateMap<Proposal, ProposalDto>()

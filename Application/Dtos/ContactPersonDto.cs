@@ -8,7 +8,7 @@ namespace Application.Dtos
         public string MiddleName { get; set; }   
         public string Email { get; set; }
         public int CompanyId { get; set; }
-        public string CompanyName { get; set; }
+        public string CompanyTitle { get; set; }
         public string CompanyEdrpou { get; set; }
         public AddressDto CompanyAddress { get; set; }
     }

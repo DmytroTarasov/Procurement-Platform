@@ -35,7 +35,7 @@ export interface ContactPerson {
   middleName: string;
   email: string;
   companyId: number;
-  companyName: string;
+  companyTitle: string;
   companyEdrpou: string;
   companyAddress: Address;
 }

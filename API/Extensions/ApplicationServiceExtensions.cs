@@ -2,7 +2,6 @@ using Application.Common.Mapping;
 using Application.Common.Services.Implementations;
 using Application.Common.Services.Interfaces;
 using Application.Companies;
-using Application.Documents;
 using Application.Common.Helpers;
 using Application.Users;
 using FluentValidation;
@@ -23,17 +22,16 @@ namespace API.Extensions
             });
 
             services.AddHttpContextAccessor();
-            services.AddSingleton<PdfGenerator>();
             services.AddScoped(typeof(ITokenService), typeof(TokenService));
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
+            services.AddScoped(typeof(IEmailService), typeof(EmailService));
+            services.AddScoped(typeof(IDocumentGeneratorService), typeof(DocumentGeneratorService));
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddMediatR(typeof(CreateCompanyCommandHandler).Assembly);
 
             services.AddValidatorsFromAssembly(typeof(RegisterUserDtoValidator).Assembly);
 
             services.AddOptions<EmailOptions>().Bind(config.GetSection("EmailOptions"));
-            services.AddScoped(typeof(IEmailService), typeof(EmailService));
-            services.AddScoped(typeof(IDocumentGeneratorService), typeof(DocumentGeneratorService));
 
             return services;
         }

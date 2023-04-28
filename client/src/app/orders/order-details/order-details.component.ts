@@ -97,6 +97,15 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     return ProposalStatuses[proposal.status] === ProposalStatuses.Active;
   }
 
+  showProposalPrice(order: Order, proposal: Proposal, isSupplierProposal: boolean) {
+    return ((this.user?.role === Roles.Applicant || this.user?.role === Roles.Customer)
+      && order.buyerContactPerson.companyId === this.user?.companyId)
+      || (this.user?.role === Roles.Supplier && proposal.supplierContactPerson.id === this.user?.id && isSupplierProposal)
+      || (this.user?.role === Roles.Transporter && proposal.transporterContactPerson?.id === this.user?.id && !isSupplierProposal);
+      // || ((this.user?.role === Roles.Supplier || this.user?.role === Roles.Transporter)
+      // && (proposal.supplierContactPerson.id === this.user?.id || proposal.transporterContactPerson?.id === this.user?.id));
+  }
+
   chooseProposal(id: number) {
     this.store.dispatch(OrdersActions.chooseProposal({ id }));
   }
