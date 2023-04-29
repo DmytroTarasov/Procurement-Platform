@@ -16,9 +16,9 @@
         Створене {{order.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA'}}
       </p>
       <div class="grid justify-center items-center" *ngIf="(user$ | async) as user">
-        <app-button text="Деталі" type="button" [classList]="['h-[45px]', 'w-[152px]']" (click)="openOrderDetails()"></app-button>
+        <app-button text="Деталі" type="button" [classList]="['h-[45px]', 'w-[155px]']" (click)="openOrderDetails()"></app-button>
         <div *ngIf="user.id === order.buyerContactPerson.id && OrderStatuses[order.status] === OrderStatuses.Active && user.role === Roles.Customer">
-          <app-button text="Скасувати" type="button" [classList]="['border', 'border-[#E74C3C]', 'h-[45px]', 'w-[152px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelOrder()"></app-button>
+          <app-button text="Скасувати" type="button" [classList]="['border', 'border-[#E74C3C]', 'h-[45px]', 'w-[155px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelOrder()"></app-button>
         </div>
       </div>
     </div>

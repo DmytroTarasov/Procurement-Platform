@@ -48,10 +48,9 @@ export class DialogEffects {
       this.actions$.pipe(
         ofType(DialogActions.openCreateCompanyDialog),
         map((action) => {
-          const dialogRef = this.dialog.open(CreateCompanyModalComponent, {
+          this.dialog.open(CreateCompanyModalComponent, {
             disableClose: true
           });
-          return dialogRef.afterClosed();
         })
       ),
     { dispatch: false }
@@ -62,11 +61,10 @@ export class DialogEffects {
       this.actions$.pipe(
         ofType(DialogActions.openCreateRequestDialog),
         map((action) => {
-          const dialogRef = this.dialog.open(CreateRequestModalComponent, {
+          this.dialog.open(CreateRequestModalComponent, {
             disableClose: true
           });
           this.ref.tick();
-          return dialogRef.afterClosed();
         })
       ),
     { dispatch: false }
@@ -91,13 +89,12 @@ export class DialogEffects {
       this.actions$.pipe(
         ofType(DialogActions.openCreateSubdivisionDialog),
         map((action) => {
-          const dialogRef = this.dialog.open(CreateSubdivisionModalComponent, {
+          this.dialog.open(CreateSubdivisionModalComponent, {
             disableClose: true,
             data: {
               companyId: action.companyId
             }
           });
-          return dialogRef.afterClosed();
         })
       ),
     { dispatch: false }
@@ -134,7 +131,6 @@ export class DialogEffects {
         ofType(AuthActions.registerSuccess),
         withLatestFrom(this.store.pipe(select(selectUser))),
         map(([action, user]) => {
-          this.dialog.closeAll();
           const data: ModalRedirectData = {
             title: 'Успішно!',
             text: 'Вітаємо! Ви успішно зареєструвались.',

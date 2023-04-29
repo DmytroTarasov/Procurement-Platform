@@ -65,7 +65,7 @@
               </app-order-info>
 
               <p [ngClass]="['absolute', 'right-3', 'top-3', StatusesColors[proposal.status]]">{{ ProposalStatuses[proposal.status] }}</p>
-              <div class="absolute bottom-5 right-5 grid grid-flow-row gap-y-4 min-w-[172px]">
+              <div class="absolute bottom-5 right-5 grid grid-flow-row gap-y-4 min-w-[175px]">
                 <app-button *ngIf="(user?.role === Roles.Transporter || proposal.supplierContactPerson.id === user?.id) && isProposalStatusActive(proposal) && !anyTransporterProposals(order, proposal.supplierContactPerson.companyId) && isCategoryTypeGoods(order)" text="Подати пропозицію" type="button" [classList]="['border', 'border-[#2FCB80]', 'h-[45px]', 'w-full']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog(order.categoryType, proposal.id)"></app-button>
 
                 <app-button *ngIf="user?.id === proposal.supplierContactPerson.id && isProposalStatusActive(proposal)" text="Скасувати" type="button" [classList]="['border', 'border-[#E74C3C]', 'h-[45px]', 'w-full']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id)"></app-button>
@@ -78,7 +78,7 @@
                 <p class="font-semibold text-[#2FCB80]">Інформація про перевізника</p>
               </app-order-info>
 
-              <app-button *ngIf="user?.id === proposal.transporterContactPerson.id && isProposalStatusActive(proposal)" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-5', 'border', 'border-[#E74C3C]', 'h-[45px]', 'min-w-[172px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id, proposal.transporterContactPerson.id === user?.id ? true : false)"></app-button>
+              <app-button *ngIf="user?.id === proposal.transporterContactPerson.id && isProposalStatusActive(proposal)" text="Скасувати" type="button" [classList]="['absolute', 'bottom-5', 'right-5', 'border', 'border-[#E74C3C]', 'h-[45px]', 'min-w-[175px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelProposal(proposal.id, proposal.transporterContactPerson.id === user?.id ? true : false)"></app-button>
             </div>
 
             <div *ngIf="user?.role === Roles.Customer && isProposalStatusActive(proposal) && (proposal.transporterContactPerson || (proposal.supplierContactPerson && !isCategoryTypeGoods(order)))" class="flex flex-col items-center justify-center gap-y-4">

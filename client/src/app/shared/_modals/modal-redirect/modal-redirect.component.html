@@ -13,7 +13,7 @@
   <div class="mt-3 flex justify-around items-center" mat-dialog-actions>
     <app-button *ngIf="data.secondaryBtn" [text]="data.secondaryBtn.text" [mat-dialog-close]
       [routerLink]="data.secondaryBtn.route" [classList]="['w-[180px]']"></app-button>
-    <app-button *ngIf="data.primaryBtn" [text]="data.primaryBtn.text" [mat-dialog-close]
+    <app-button [text]="data.primaryBtn.text" [mat-dialog-close]
       [routerLink]="data.primaryBtn.route" [classList]="['w-[180px]']"></app-button>
   </div>
 </app-modal-container>
