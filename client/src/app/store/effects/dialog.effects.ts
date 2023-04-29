@@ -45,7 +45,6 @@ export class DialogEffects {
           return DialogActions.noAction();
         })
       )
-    // { dispatch: false }
   );
 
   openCreateCompanyDialog$ = createEffect(

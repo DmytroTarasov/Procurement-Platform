@@ -7,10 +7,8 @@ import { selectCompanyRequests } from '../store/requests.selectors';
 import { Observable, Subscription } from 'rxjs';
 import { RequestModel } from 'src/app/_models/request.model';
 import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
-import { PaginationInstance } from 'ngx-pagination';
 import { selectPagination } from '../store/requests.selectors';
 import { Pagination } from 'src/app/_models/pagination.model';
-import { selectUser } from 'src/app/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-requests-list',
@@ -18,26 +16,17 @@ import { selectUser } from 'src/app/auth/store/auth.selectors';
   styleUrls: ['./requests-list.component.scss']
 })
 export class RequestsListComponent implements OnInit, OnDestroy {
-  // requests$: Observable<RequestModel[]>;
   loading$: Observable<boolean>;
   pagination: Pagination;
   paginationSubscription: Subscription;
   requestsSubscription: Subscription;
   requests: RequestModel[] | null = null;
 
-  // public config: PaginationInstance = {
-  //     id: 'custom',
-  //     itemsPerPage: this.pagination.itemsPerPage,
-  //     currentPage: 1,
-  //     totalItems:
-  // };
-
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.store.dispatch(RequestsActions.getCompanyRequests({}));
 
-    // this.requests$ = this.store.pipe(select(selectCompanyRequests));
     this.requestsSubscription = this.store.pipe(select(selectCompanyRequests)).subscribe(requests => {
       this.requests = requests;
     });

@@ -4,5 +4,4 @@ export interface Subdivision {
   id?: number;
   title: string;
   address: Address;
-  // companyId?: number;
 }

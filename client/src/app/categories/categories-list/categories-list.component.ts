@@ -6,6 +6,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromApp from 'src/app/store/app.reducer';
 import { selectCategories } from '../store/categories.selectors';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
+import { CategoryTypes, CategoryTypesColors } from 'src/app/core/resources/category-types';
 
 @Component({
   selector: 'app-categories-list',
@@ -14,6 +15,8 @@ import * as DialogActions from 'src/app/store/actions/dialog.actions';
 })
 export class CategoriesListComponent implements OnInit {
   categories$: Observable<Category[]>;
+  CategoryTypes = CategoryTypes;
+  CategoryTypesColors = CategoryTypesColors;
 
   constructor(private store: Store<fromApp.AppState>) { }
 

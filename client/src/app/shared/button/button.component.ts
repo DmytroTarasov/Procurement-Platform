@@ -11,7 +11,6 @@ import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent implements OnInit {
-  // @Input() variant: 'outlined' | 'standard' = 'standard';
   @Input() text: string;
   @Input() disabled = false;
   @Output() onClick: EventEmitter<any> = new EventEmitter();
@@ -30,11 +29,4 @@ export class ButtonComponent implements OnInit {
   click() {
     this.onClick.emit();
   }
-
-  // getClasses() {
-  //   switch(this.variant) {
-  //     case 'standard':
-  //       return ['']
-  //   }
-  // }
 }

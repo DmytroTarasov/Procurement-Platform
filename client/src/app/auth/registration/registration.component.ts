@@ -5,8 +5,6 @@ import { Observable } from 'rxjs';
 import { Company } from 'src/app/_models/company.model';
 import { Role } from 'src/app/_models/role.model';
 import { Subdivision } from 'src/app/_models/subdivision.model';
-import { CompanyService } from 'src/app/_services/company.service';
-import { RoleService } from 'src/app/_services/role.service';
 
 import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../store/auth.actions';
@@ -26,10 +24,7 @@ export class RegistrationComponent implements OnInit {
   search: string;
   registrationError$: Observable<string>;
 
-  constructor(
-    private roleService: RoleService,
-    private companyService: CompanyService,
-    private store: Store<fromApp.AppState>) { }
+  constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.store.dispatch(AuthActions.getRoles());
@@ -54,16 +49,11 @@ export class RegistrationComponent implements OnInit {
 
     this.roles$ = this.store.pipe(select(selectRoles));
     this.companies$ = this.store.pipe(select(selectCompanies));
-    // this.subdivisions$ = this.store.pipe(select(selectCompanySubdivisions));
-    // this.subdivisions$ = this.store.pipe(select(selectCompanySubdivisions(this.getFormControl('companyId').value)));
     this.registrationError$ = this.store.pipe(select(selectError));
 
     this.getFormControl('companyId').valueChanges.subscribe(id => {
       this.subdivisions$ = this.store.pipe(select(selectCompanySubdivisions(id)));
-      // this.store.dispatch(AuthActions.setSelectedCompany({ id }));
     });
-    // this.roleService.getAllRoles().subscribe(roles => this.roles = roles);
-    // this.companyService.getAllCompanies().subscribe(companies => this.companies = companies);
   }
 
   getFormControl(controlName: string): FormControl {
@@ -89,11 +79,4 @@ export class RegistrationComponent implements OnInit {
       this.store.dispatch(DialogActions.openCreateSubdivisionDialog({ companyId: companyIdControl.value }));
     }
   }
-
-  // getFilteredCompanies() {
-  //   console.log(this.search);
-  //   return this.search
-  //   ? this.companies.filter(c => c.title.toLowerCase().includes(this.search.toLowerCase()))
-  //   : this.companies;
-  // }
 }

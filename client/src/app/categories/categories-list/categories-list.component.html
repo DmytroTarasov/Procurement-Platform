@@ -8,7 +8,10 @@
   <div *ngIf="(categories$ | async) as categories; else loading">
     <div class="grid grid-cols-2 gap-4" *ngIf="categories.length > 0">
       <div *ngFor="let category of categories" class="w-full bg-white rounded-xl shadow-gray-400 p-5">
-        {{ category.title }}
+        <div class="flex justify-between">
+          <span>{{ category.title }}</span>
+          <span class="w-20 p-1 border rounded-lg text-center" [ngClass]="CategoryTypesColors[category.type]">{{ CategoryTypes[category.type] }}</span>
+        </div>
       </div>
     </div>
 

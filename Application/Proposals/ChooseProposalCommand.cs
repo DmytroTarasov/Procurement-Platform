@@ -65,8 +65,8 @@ namespace Application.Proposals
 
             var email = new EmailDto {
                 Subject = $"Замовлення №{order.Id}", 
-                // Receivers = new List<string> { "dtarasov892@gmail.com", "dtarasov890@gmail.com" },
-                Receivers = new List<string> { "dtarasov892@gmail.com" },
+                // Receivers = new List<string> { order.SupplierContactPerson.Email, order.TransporterContactPerson?.Email },
+                Receivers = new List<string> { "dtarasov890@gmail.com", "dtarasov892@gmail.com" },
                 HtmlContent = $"Вітаємо! <br> Вашу пропозицію на замовлення №{order.Id} «{order.Title}» було обрано замовником. <br> Деталі Ви можете переглянути у вкладеному файлі.",
                 FileStream = documentResult.Value
             };

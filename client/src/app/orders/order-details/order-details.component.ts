@@ -30,7 +30,6 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   ProposalStatuses = ProposalStatuses;
   StatusesColors = StatusesColors;
   getShortenMeasurementUnit = getShortenMeasurementUnit;
-  user$: Observable<User>;
   user: User;
   userSubscription: Subscription;
   Roles = Roles;
@@ -44,7 +43,6 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
     this.order$ = this.store.pipe(select(selectOrder));
     this.loading$ = this.store.pipe(select(selectLoading));
-    // this.user$ = this.store.pipe(select(selectUser));
     this.userSubscription = this.store.pipe(select(selectUser)).subscribe(user => {
       this.user = user;
     });

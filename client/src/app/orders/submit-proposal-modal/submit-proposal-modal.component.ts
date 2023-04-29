@@ -16,7 +16,6 @@ import { Roles } from 'src/app/core/resources/roles';
 import { CategoryTypes } from 'src/app/core/resources/category-types';
 
 export interface SubmitProposalData {
-  // submitTransportProposalAsSupplier: boolean;
   userRole: string;
   orderCategoryType: string;
   proposalId: number;
@@ -104,7 +103,6 @@ export class SubmitProposalModalComponent implements OnInit {
     let proposal: SubmitProposal;
     if (this.data.userRole === Roles.Supplier && !this.data.proposalId) {
       proposal = { shipmentAddressId, supplierPrice: price, supplierAdditionalInfo: additionalInfo };
-      // proposal.shipmentAddressId = !!proposal.shipmentAddressId ? proposal.shipmentAddressId : null;
       proposal.shipmentAddress = !this.shipmentAddressExists ? address : null;
     } else {
       proposal = { proposalId: this.data.proposalId, transporterSum: price, transporterAdditionalInfo: additionalInfo };
