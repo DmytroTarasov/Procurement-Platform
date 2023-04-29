@@ -7,7 +7,6 @@ import { User } from 'src/app/_models/user.model';
 export interface State {
   roles: Role[] | null;
   companies: Company[] | null;
-  // selectedCompany: Company | null;
   user: User | null;
   error: string | null;
 }
@@ -15,7 +14,6 @@ export interface State {
 export const initialState: State = {
   roles: null,
   companies: null,
-  // selectedCompany: null,
   user: null,
   error: null
 };
@@ -24,10 +22,7 @@ export const authReducer = createReducer(
   initialState,
   on(AuthActions.setRoles, (state, { roles }) => ({ ...state, roles: [...roles] })),
   on(AuthActions.setCompanies, (state, { companies }) => ({ ...state, companies: [...companies] })),
-  // on(AuthActions.setSelectedCompany, (state, { id }) =>
-    // ({ ...state, selectedCompany: {...state.companies.find(c => c.id === id)}})),
   on(AuthActions.registerSuccess, AuthActions.loginSuccess, (state, { user }) => ({ ...state, user: {...user}, error: null })),
   on(AuthActions.logout, (state) => ({ ...initialState })),
-  on(AuthActions.failure, (state, { error }) => ({ ...state, error })),
-  // on(AuthActions.createCompanyFailure, (state, { error }) => ({ ...state, error })),
+  on(AuthActions.failure, (state, { error }) => ({ ...state, error }))
 );

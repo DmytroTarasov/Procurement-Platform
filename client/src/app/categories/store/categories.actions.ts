@@ -12,12 +12,10 @@ export const failure = createAction(
   '[Categories] Failure',
   props<{ error: string }>()
 );
-export const clearState = createAction(
-  '[Categories] Clear State'
-);
+export const clearState = createAction('[Categories] Clear State');
 export const createCategory = createAction(
   '[Categories] Create Category',
-  props<{ title: string, categoryType: string }>()
+  props<{ title: string; categoryType: string }>()
 );
 export const createCategorySuccess = createAction(
   '[Categories] Create Category Success',
@@ -31,4 +29,3 @@ export const setProcurementItems = createAction(
   '[Categories] Set Procurement Items',
   props<{ procurementItems: ProcurementItem[] }>()
 );
-

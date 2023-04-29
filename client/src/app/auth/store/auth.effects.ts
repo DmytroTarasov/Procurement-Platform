@@ -1,26 +1,18 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import * as AuthActions from './auth.actions';
-import * as fromApp from '../../store/app.reducer';
-import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import { RoleService } from 'src/app/_services/role.service';
 import { CompanyService } from 'src/app/_services/company.service';
 import { AuthService } from 'src/app/_services/auth.service';
-import { MatDialog } from '@angular/material/dialog';
-import {
-  ModalRedirectComponent,
-  ModalRedirectData,
-} from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
-import * as DialogActions from 'src/app/store/actions/dialog.actions';
+import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 
 @Injectable()
 export class AuthEffects {
   getRoles$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.getRoles),
-      switchMap((action) => {
+      switchMap(() => {
         return this.roleService.getAllRoles().pipe(
           map((roles) => {
             return AuthActions.setRoles({ roles });
@@ -37,7 +29,7 @@ export class AuthEffects {
         AuthActions.createCompanySuccess,
         AuthActions.createSubdivisionSuccess
       ),
-      switchMap((action) => {
+      switchMap(() => {
         return this.companyService.getAllCompanies().pipe(
           map((companies) => {
             return AuthActions.setCompanies({ companies });
@@ -69,15 +61,15 @@ export class AuthEffects {
       ofType(AuthActions.createCompany),
       switchMap((action) => {
         return this.companyService.createCompany(action.company).pipe(
-          map((_) => {
+          map(() => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
               text: 'Компанія успішно створена.',
               primaryBtn: {
                 text: 'Ок',
-                route: 'auth/register',
+                route: 'auth/register'
               },
-              successfull: true,
+              successfull: true
             };
             return AuthActions.createCompanySuccess({ data });
           }),
@@ -96,15 +88,15 @@ export class AuthEffects {
         return this.companyService
           .createCompanySubdivision(action.companyId, action.subdivision)
           .pipe(
-            map((_) => {
+            map(() => {
               const data: ModalRedirectData = {
                 title: 'Успішно!',
                 text: 'Підрозділ компанії успішно створений.',
                 primaryBtn: {
                   text: 'Ок',
-                  route: 'auth/register',
+                  route: 'auth/register'
                 },
-                successfull: true,
+                successfull: true
               };
               return AuthActions.createSubdivisionSuccess({ data });
             }),
@@ -151,12 +143,12 @@ export class AuthEffects {
   );
 
   logout$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.logout),
-      tap(() => {
-        localStorage.removeItem('token');
-      })
-    ),
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => {
+          localStorage.removeItem('token');
+        })
+      ),
     { dispatch: false }
   );
 
@@ -164,9 +156,6 @@ export class AuthEffects {
     private actions$: Actions,
     private roleService: RoleService,
     private companyService: CompanyService,
-    private authService: AuthService,
-    private router: Router,
-    private store: Store<fromApp.AppState>,
-    private dialog: MatDialog
+    private authService: AuthService
   ) {}
 }

@@ -8,11 +8,11 @@ using Persistence;
 
 namespace Application.Orders
 {
-    public class CancelOrderCommand : IRequest<Result<int>>
+    public class CancelOrderCommand : IRequest<Result<Unit>>
     {
         public int Id { get; set; }
     }
-    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Result<int>>
+    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
@@ -20,15 +20,15 @@ namespace Application.Orders
             _httpContextAccessor = httpContextAccessor;
             _context = context;
         }
-        public async Task<Result<int>> Handle(CancelOrderCommand command, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(CancelOrderCommand command, CancellationToken cancellationToken)
         {
             var order = await _context.Orders.Include(o => o.Requests).FirstOrDefaultAsync(r => r.Id == command.Id);
 
-            if (order == null) return Result<int>.Failure("Такого замовлення не існує");
+            if (order == null) return Result<Unit>.Failure("Такого замовлення не існує");
 
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            if (userId != order.BuyerContactPersonId) return Result<int>.Forbidden();
+            if (userId != order.BuyerContactPersonId) return Result<Unit>.Forbidden();
             
             order.Status = OrderStatus.Cancelled;
 
@@ -40,9 +40,9 @@ namespace Application.Orders
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (!result) return Result<int>.Failure("Не вдалось скасувати замовлення. Спробуйте, будь ласка, пізніше");
+            if (!result) return Result<Unit>.Failure("Не вдалось скасувати замовлення. Спробуйте, будь ласка, пізніше");
 
-            return Result<int>.Success(order.Id);
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

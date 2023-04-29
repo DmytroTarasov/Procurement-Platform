@@ -194,7 +194,7 @@ namespace Persistence
                         }
                     },
                     new Company {
-                        Title = "АТ 'Страхова компанія 'УкрСтрах''",
+                        Title = "АТ 'Страхова компанія 'СМЕРЕКА''",
                         Edrpou = "31826406",
                         Address = new Address {
                             City = "Луцьк",

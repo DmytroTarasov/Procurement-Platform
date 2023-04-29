@@ -9,12 +9,12 @@ using Persistence;
 
 namespace Application.Requests
 {
-    public class CreateRequestCommand : IRequest<Result<int>>
+    public class CreateRequestCommand : IRequest<Result<Unit>>
     {
         public RequestDto Request { get; set; }
         public ProcurementItemDto ProcurementItem { get; set; }
     }
-    public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand, Result<int>>
+    public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
@@ -24,13 +24,13 @@ namespace Application.Requests
             _context = context;
             _mapper = mapper;
         }
-        public async Task<Result<int>> Handle(CreateRequestCommand command, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(CreateRequestCommand command, CancellationToken cancellationToken)
         {
             if (command.ProcurementItem != null) {
                 var procurementItem = _mapper.Map<ProcurementItem>(command.ProcurementItem);
                 _context.ProcurementItems.Add(procurementItem);
                 var procurementItemResult = await _context.SaveChangesAsync() > 0;
-                if (!procurementItemResult) return Result<int>.Failure("Не вдалось створити предмет закупівлі. Спробуйте, будь ласка, пізніше");
+                if (!procurementItemResult) return Result<Unit>.Failure("Не вдалось створити предмет закупівлі. Спробуйте, будь ласка, пізніше");
                 command.Request.ProcurementItemId = procurementItem.Id;
             }
 
@@ -42,9 +42,9 @@ namespace Application.Requests
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (!result) return Result<int>.Failure("Не вдалось створити заявку. Спробуйте, будь ласка, пізніше");
+            if (!result) return Result<Unit>.Failure("Не вдалось створити заявку. Спробуйте, будь ласка, пізніше");
 
-            return Result<int>.Success(request.Id);
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

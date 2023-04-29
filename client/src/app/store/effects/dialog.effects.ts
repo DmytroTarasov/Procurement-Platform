@@ -12,7 +12,7 @@ import * as AuthActions from 'src/app/auth/store/auth.actions';
 import * as RequestsActions from 'src/app/requests/store/requests.actions';
 import {
   ModalRedirectData,
-  ModalRedirectComponent,
+  ModalRedirectComponent
 } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 import { CreateRequestModalComponent } from 'src/app/requests/create-request-modal/create-request-modal.component';
 import { EditRequestModalComponent } from 'src/app/requests/edit-request-modal/edit-request-modal.component';
@@ -20,7 +20,10 @@ import { CreateOrderModalComponent } from 'src/app/requests/create-order-modal/c
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
 import { selectRequestParams } from 'src/app/requests/store/requests.selectors';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
-import { SubmitProposalData, SubmitProposalModalComponent } from 'src/app/orders/submit-proposal-modal/submit-proposal-modal.component';
+import {
+  SubmitProposalData,
+  SubmitProposalModalComponent
+} from 'src/app/orders/submit-proposal-modal/submit-proposal-modal.component';
 import { Roles } from 'src/app/core/resources/roles';
 import { CreateCategoryModalComponent } from 'src/app/categories/create-category-modal/create-category-modal.component';
 import * as CategoriesActions from 'src/app/categories/store/categories.actions';
@@ -35,7 +38,9 @@ export class DialogEffects {
         map(([action, requestParams]) => {
           this.dialog.closeAll();
           if (requestParams.categoryTitle) {
-            return CategoriesActions.getProcurementItems({ categoryTitle: requestParams.categoryTitle });
+            return CategoriesActions.getProcurementItems({
+              categoryTitle: requestParams.categoryTitle
+            });
           }
           return DialogActions.noAction();
         })
@@ -136,7 +141,10 @@ export class DialogEffects {
             text: 'Вітаємо! Ви успішно зареєструвались.',
             primaryBtn: {
               text: 'На головну',
-              route: (user.role === Roles.Applicant || user.role === Roles.Customer) ? 'requests' : 'orders',
+              route:
+                user.role === Roles.Applicant || user.role === Roles.Customer
+                  ? 'requests'
+                  : 'orders'
             },
             successfull: true
           };

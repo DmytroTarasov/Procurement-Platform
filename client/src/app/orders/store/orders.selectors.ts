@@ -28,7 +28,6 @@ export const selectCompanyOrderAddresses = createSelector(
   (state: State) => state.addresses
 );
 
-
 export const selectError = createSelector(
   selectOrdersState,
   (state: State) => state.error

@@ -8,11 +8,11 @@ using Persistence;
 
 namespace Application.Requests
 {
-    public class CancelRequestCommand : IRequest<Result<int>>
+    public class CancelRequestCommand : IRequest<Result<Unit>>
     {
         public int Id { get; set; }
     }
-    public class CancelRequestCommandHandler : IRequestHandler<CancelRequestCommand, Result<int>>
+    public class CancelRequestCommandHandler : IRequestHandler<CancelRequestCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
@@ -20,24 +20,24 @@ namespace Application.Requests
             _httpContextAccessor = httpContextAccessor;
             _context = context;
         }
-        public async Task<Result<int>> Handle(CancelRequestCommand command, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(CancelRequestCommand command, CancellationToken cancellationToken)
         {
             var request = await _context.Requests.FirstOrDefaultAsync(r => r.Id == command.Id);
 
-            if (request == null) return Result<int>.Failure("Такої заявки не існує");
+            if (request == null) return Result<Unit>.Failure("Такої заявки не існує");
 
             var subdivisionId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("subdivisionId"));
 
-            if (subdivisionId != request.SubdivisionId) return Result<int>.Forbidden();
+            if (subdivisionId != request.SubdivisionId) return Result<Unit>.Forbidden();
             
             request.Status = RequestStatus.Cancelled;
             _context.Requests.Update(request);
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (!result) return Result<int>.Failure("Не вдалось скасувати заявку. Спробуйте, будь ласка, пізніше");
+            if (!result) return Result<Unit>.Failure("Не вдалось скасувати заявку. Спробуйте, будь ласка, пізніше");
 
-            return Result<int>.Success(request.Id);
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

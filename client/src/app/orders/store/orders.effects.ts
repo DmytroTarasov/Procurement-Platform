@@ -4,7 +4,6 @@ import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
 import * as OrdersActions from './orders.actions';
 import * as fromApp from '../../store/app.reducer';
 import { Store, select } from '@ngrx/store';
-import { MatDialog } from '@angular/material/dialog';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
 import { OrderService } from 'src/app/_services/order.service';
 import { selectOrderRequests } from 'src/app/requests/store/requests.selectors';
@@ -21,7 +20,7 @@ export class OrdersEffects {
       withLatestFrom(this.store.pipe(select(selectOrderRequests))),
       switchMap(([action, requestIds]) => {
         return this.orderService.createOrder({ ...action.order, requestIds }).pipe(
-          map((_) => {
+          map(() => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
               text: 'Замовлення було успішно сформоване.',
@@ -37,7 +36,7 @@ export class OrdersEffects {
             };
             return OrdersActions.createOrderSuccess({
               pageNumber: 1,
-              data,
+              data
             });
           }),
           catchError((errorRes) => {
@@ -66,7 +65,7 @@ export class OrdersEffects {
             const pagination = JSON.parse(response.headers.get('Pagination'));
             return OrdersActions.setOrders({
               orders: response.body,
-              pagination,
+              pagination
             });
           })
         );
@@ -79,8 +78,8 @@ export class OrdersEffects {
       ofType(OrdersActions.cancelOrder),
       switchMap((action) => {
         return this.orderService.cancelOrder(action.id).pipe(
-          map((id) => {
-            return OrdersActions.cancelOrderSuccess({ id });
+          map(() => {
+            return OrdersActions.cancelOrderSuccess({});
           }),
           catchError((errorRes) => {
             return of(OrdersActions.failure({ error: errorRes?.error }));
@@ -96,7 +95,7 @@ export class OrdersEffects {
       map((action) => {
         return OrdersActions.getOrders({
           pageNumber: 1,
-          orderParams: action.orderParams,
+          orderParams: action.orderParams
         });
       })
     )
@@ -154,13 +153,13 @@ export class OrdersEffects {
       withLatestFrom(this.store.pipe(select(selectOrder))),
       switchMap(([action, order]) => {
         return this.proposalService.submitProposal({ ...action.proposal, orderId: order.id }).pipe(
-          map(_ => {
+          map(() => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
               text: 'Ваша пропозиція успішно подана.',
               primaryBtn: {
                 text: 'Ок',
-                route: `orders/${order.id}`,
+                route: `orders/${order.id}`
               },
               successfull: true
             };
@@ -180,7 +179,7 @@ export class OrdersEffects {
       withLatestFrom(this.store.pipe(select(selectOrder))),
       switchMap(([action, order]) => {
         return this.proposalService.cancelProposal(action.id, action.cancelTransportProposal).pipe(
-          map(_ => {
+          map(() => {
             return OrdersActions.cancelProposalSuccess({ orderId: order.id });
           }),
           catchError((errorRes) => {
@@ -197,13 +196,13 @@ export class OrdersEffects {
       withLatestFrom(this.store.pipe(select(selectOrder))),
       switchMap(([action, order]) => {
         return this.proposalService.chooseProposal(action.id).pipe(
-          map(_ => {
+          map(() => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
               text: 'Пропозиція успішно обрана.',
               primaryBtn: {
                 text: 'Ок',
-                route: `orders/${order.id}`,
+                route: `orders/${order.id}`
               },
               successfull: true
             };
@@ -222,7 +221,6 @@ export class OrdersEffects {
     private orderService: OrderService,
     private addressService: AddressService,
     private proposalService: ProposalService,
-    private store: Store<fromApp.AppState>,
-    private dialog: MatDialog
+    private store: Store<fromApp.AppState>
   ) {}
 }

@@ -28,11 +28,7 @@ export const failure = createAction(
 );
 export const createRequestSuccess = createAction(
   '[Requests] Create Request Success',
-  props<{
-    data: ModalRedirectData;
-    pageNumber?: number;
-    requestParams?: RequestParams;
-  }>()
+  props<{ data: ModalRedirectData; pageNumber?: number; requestParams?: RequestParams }>()
 );
 export const noAction = createAction('[Requests] No Action');
 export const getCompanyRequests = createAction(
@@ -41,15 +37,11 @@ export const getCompanyRequests = createAction(
 );
 export const editRequestSuccess = createAction(
   '[Requests] Edit Request Success',
-  props<{
-    data: ModalRedirectData;
-    pageNumber?: number;
-    requestParams?: RequestParams;
-  }>()
+  props<{ data: ModalRedirectData; pageNumber?: number; requestParams?: RequestParams }>()
 );
 export const cancelRequestSuccess = createAction(
   '[Requests] Cancel Request Success',
-  props<{ id: number; pageNumber?: number; requestParams?: RequestParams }>()
+  props<{ pageNumber?: number; requestParams?: RequestParams }>()
 );
 export const setRequestParams = createAction(
   '[Requests] Set Request Params',

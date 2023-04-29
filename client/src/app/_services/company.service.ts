@@ -16,10 +16,10 @@ export class CompanyService {
   }
 
   createCompany(company: Company) {
-    return this.http.post<number>(`${environment.serverUrl}/companies`, company);
+    return this.http.post<void>(`${environment.serverUrl}/companies`, company);
   }
 
   createCompanySubdivision(companyId: number, subdivision: Subdivision) {
-    return this.http.post<number>(`${environment.serverUrl}/companies/${companyId}/subdivisions`, subdivision);
+    return this.http.post<void>(`${environment.serverUrl}/companies/${companyId}/subdivisions`, subdivision);
   }
 }

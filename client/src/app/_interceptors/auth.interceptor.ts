@@ -3,7 +3,7 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor,
+  HttpInterceptor
 } from '@angular/common/http';
 import { Observable, exhaustMap, take } from 'rxjs';
 import { Store, select } from '@ngrx/store';
@@ -15,10 +15,7 @@ import { selectUser } from '../auth/store/auth.selectors';
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private store: Store<fromApp.AppState>) {}
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.store.pipe(
       select(selectUser),
       take(1),
@@ -35,18 +32,5 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(req);
       })
     )
-    // const token = localStorage.getItem('token');
-
-    // if (!token) {
-    //   return next.handle(req);
-    // }
-
-    // const modifiedRequest = req.clone({
-    //   setHeaders: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-
-    // return next.handle(modifiedRequest);
   }
 }

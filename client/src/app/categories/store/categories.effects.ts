@@ -33,23 +33,25 @@ export class CategoriesEffects {
     this.actions$.pipe(
       ofType(CategoriesActions.createCategory),
       switchMap((action) => {
-        return this.categoryService.createCategory(action.title, action.categoryType).pipe(
-          map(id => {
-            const data: ModalRedirectData = {
-              title: 'Успішно!',
-              text: 'Категорія успішно створена.',
-              primaryBtn: {
-                text: 'Ок',
-                route: 'categories',
-              },
-              successfull: true
-            };
-            return CategoriesActions.createCategorySuccess({ data });
-          }),
-          catchError((errorRes) => {
-            return of(CategoriesActions.failure({ error: errorRes?.error }));
-          })
-        )
+        return this.categoryService
+          .createCategory(action.title, action.categoryType)
+          .pipe(
+            map(() => {
+              const data: ModalRedirectData = {
+                title: 'Успішно!',
+                text: 'Категорія успішно створена.',
+                primaryBtn: {
+                  text: 'Ок',
+                  route: 'categories'
+                },
+                successfull: true
+              };
+              return CategoriesActions.createCategorySuccess({ data });
+            }),
+            catchError((errorRes) => {
+              return of(CategoriesActions.failure({ error: errorRes?.error }));
+            })
+          );
       })
     )
   );
@@ -58,11 +60,13 @@ export class CategoriesEffects {
     this.actions$.pipe(
       ofType(CategoriesActions.getProcurementItems),
       switchMap((action) => {
-        return this.procurementItemService.getProcurementItems(action.categoryTitle).pipe(
-          map((procurementItems) => {
-            return CategoriesActions.setProcurementItems({ procurementItems });
-          })
-        );
+        return this.procurementItemService
+          .getProcurementItems(action.categoryTitle)
+          .pipe(
+            map((procurementItems) => {
+              return CategoriesActions.setProcurementItems({ procurementItems });
+            })
+          );
       })
     )
   );
@@ -72,11 +76,13 @@ export class CategoriesEffects {
       ofType(RequestsActions.createRequestSuccess),
       withLatestFrom(this.store.pipe(select(selectRequestParams))),
       switchMap(([action, requestParams]) => {
-        return this.procurementItemService.getProcurementItems(requestParams.categoryTitle).pipe(
-          map((procurementItems) => {
-            return CategoriesActions.setProcurementItems({ procurementItems });
-          })
-        );
+        return this.procurementItemService
+          .getProcurementItems(requestParams.categoryTitle)
+          .pipe(
+            map((procurementItems) => {
+              return CategoriesActions.setProcurementItems({ procurementItems });
+            })
+          );
       })
     )
   );

@@ -20,5 +20,5 @@ export const categoriesReducer = createReducer(
   on(CategoriesActions.setCategories, (state, { categories }) => ({ ...state, categories: [...categories] })),
   on(CategoriesActions.setProcurementItems, (state, { procurementItems }) => ({ ...state, procurementItems: [...procurementItems] })),
   on(CategoriesActions.clearState, (state) => ({ ...initialState })),
-  on(CategoriesActions.failure, (state, { error }) => ({ ...state, error })),
+  on(CategoriesActions.failure, (state, { error }) => ({ ...state, error }))
 );

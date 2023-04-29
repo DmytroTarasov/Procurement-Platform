@@ -18,7 +18,11 @@ export class RouteEffects {
         withLatestFrom(this.store.pipe(select(selectUser))),
         tap(([action, user]) => {
           if (action.redirect) {
-            this.router.navigateByUrl((user.role === Roles.Applicant || user.role === Roles.Customer) ? 'requests' : 'orders');
+            this.router.navigateByUrl(
+              user.role === Roles.Applicant || user.role === Roles.Customer
+                ? 'requests'
+                : 'orders'
+            );
           }
         })
       ),
@@ -29,7 +33,7 @@ export class RouteEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.logout),
-        tap(_ => {
+        tap((_) => {
           this.router.navigateByUrl('auth/login');
         })
       ),
@@ -40,7 +44,7 @@ export class RouteEffects {
     () =>
       this.actions$.pipe(
         ofType(RouteActions.redirectToOrderDetails),
-        tap(action => {
+        tap((action) => {
           this.router.navigateByUrl(`orders/${action.orderId}`);
         })
       ),

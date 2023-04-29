@@ -31,11 +31,10 @@ namespace Application.Orders
         public async Task<Result<OrderDto>> Handle(GetOrderDetailsQuery request, CancellationToken cancellationToken)
         {   
             var order = await _context.Orders
-                // .Include(o => o.Requests)
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(o => o.Id == request.Id);
             
-            if (order == null) return Result<OrderDto>.Failure("Замовлення з таким ідентифікатором не існує.");
+            if (order == null) return Result<OrderDto>.Failure("Замовлення з таким ідентифікатором не існує");
         
             return Result<OrderDto>.Success(order);
         }

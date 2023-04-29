@@ -6,13 +6,13 @@ using Persistence;
 
 namespace Application.Categories
 {
-    public class CreateCategoryCommand : IRequest<Result<int>>
+    public class CreateCategoryCommand : IRequest<Result<Unit>>
     {
         public string Title { get; set; }
         public string Type { get; set; }
     }
 
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result<int>>
+    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result<Unit>>
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ namespace Application.Categories
             _context = context;
             _mapper = mapper;
         }
-        public async Task<Result<int>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {   
             var category = new Category {
                 Title = request.Title,
@@ -31,9 +31,9 @@ namespace Application.Categories
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (!result) return Result<int>.Failure("Не вдалось створити категорію. Спробуйте, будь ласка, пізніше");
+            if (!result) return Result<Unit>.Failure("Не вдалось створити категорію. Спробуйте, будь ласка, пізніше");
 
-            return Result<int>.Success(category.Id);
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

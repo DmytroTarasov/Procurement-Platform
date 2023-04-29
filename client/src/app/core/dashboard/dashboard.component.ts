@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import * as fromApp from 'src/app/store/app.reducer';
 import * as AuthActions from 'src/app/auth/store/auth.actions';
-import { selectUser } from 'src/app/auth/store/auth.selectors';
-import { Observable, map, take, tap } from 'rxjs';
-import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,8 +10,6 @@ import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  loading$: Observable<boolean>;
-
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
@@ -27,6 +22,5 @@ export class DashboardComponent implements OnInit {
     //   })
     // );
     this.store.dispatch(AuthActions.autoLogin());
-    this.loading$ = this.store.pipe(select(selectLoading));
   }
 }

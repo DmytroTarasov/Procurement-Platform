@@ -13,7 +13,7 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   createOrder(order: CreateOrder) {
-    return this.http.post<number>(`${environment.serverUrl}/orders`, order);
+    return this.http.post<void>(`${environment.serverUrl}/orders`, order);
   }
 
   getOrders(page?: number, orderParams?: OrderParams) {
@@ -22,7 +22,7 @@ export class OrderService {
   }
 
   cancelOrder(id: number) {
-    return this.http.patch<number>(`${environment.serverUrl}/orders/${id}/cancel`, {});
+    return this.http.patch<void>(`${environment.serverUrl}/orders/${id}/cancel`, {});
   }
 
   getOrderDetails(id: number) {

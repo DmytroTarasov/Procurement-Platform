@@ -5,11 +5,7 @@ import * as RequestsActions from './requests.actions';
 import * as fromApp from '../../store/app.reducer';
 import { Store, select } from '@ngrx/store';
 import * as AuthActions from 'src/app/auth/store/auth.actions';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { ModalRedirectData } from 'src/app/shared/_modals/modal-redirect/modal-redirect.component';
-import { ProcurementItemService } from 'src/app/_services/procurement-item.service';
-import { CategoryService } from 'src/app/_services/category.service';
 import { RequestService } from 'src/app/_services/request.service';
 import { selectPagination, selectRequestParams } from './requests.selectors';
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
@@ -39,7 +35,7 @@ export class RequestsEffects {
             const pagination = JSON.parse(response.headers.get('Pagination'));
             return RequestsActions.setCompanyRequests({
               requests: response.body,
-              pagination,
+              pagination
             });
           })
         );
@@ -47,24 +43,13 @@ export class RequestsEffects {
     )
   );
 
-  // setRequestParams$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(
-  //       RequestsActions.getCompanyRequests
-  //     ),
-  //     map((action) => {
-  //       if (action.requestParams) return RequestsActions.setRequestParams({ requestParams: action.requestParams });
-  //       return RequestsActions.noAction();
-  //     })
-  //   )
-  // );
   setRequestParams$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RequestsActions.setRequestParams),
       map((action) => {
         return RequestsActions.getCompanyRequests({
           pageNumber: 1,
-          requestParams: action.requestParams,
+          requestParams: action.requestParams
         });
       })
     )
@@ -75,19 +60,19 @@ export class RequestsEffects {
       ofType(RequestsActions.createRequest),
       switchMap((action) => {
         return this.requestService.createRequest(action.createRequest).pipe(
-          map((_) => {
+          map(() => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
               text: 'Ваша заявка успішно створена.',
               primaryBtn: {
                 text: 'Ок',
-                route: 'requests',
+                route: 'requests'
               },
-              successfull: true,
+              successfull: true
             };
             return RequestsActions.createRequestSuccess({
               data,
-              pageNumber: 1,
+              pageNumber: 1
             });
           }),
           catchError((errorRes) => {
@@ -101,7 +86,7 @@ export class RequestsEffects {
   clearState$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.logout),
-      map((action) => {
+      map(() => {
         return RequestsActions.clearState();
       })
     )
@@ -112,15 +97,15 @@ export class RequestsEffects {
       ofType(RequestsActions.editRequest),
       switchMap((action) => {
         return this.requestService.editRequest(action.data).pipe(
-          map((_) => {
+          map(() => {
             const data: ModalRedirectData = {
               title: 'Успішно!',
               text: 'Заявка була успішно відредагована.',
               primaryBtn: {
                 text: 'Ок',
-                route: 'requests',
+                route: 'requests'
               },
-              successfull: true,
+              successfull: true
             };
             return RequestsActions.editRequestSuccess({ data });
           }),
@@ -137,8 +122,8 @@ export class RequestsEffects {
       ofType(RequestsActions.cancelRequest),
       switchMap((action) => {
         return this.requestService.cancelRequest(action.id).pipe(
-          map((id) => {
-            return RequestsActions.cancelRequestSuccess({ id });
+          map(() => {
+            return RequestsActions.cancelRequestSuccess({});
           }),
           catchError((errorRes) => {
             return of(RequestsActions.failure({ error: errorRes?.error }));
@@ -151,7 +136,7 @@ export class RequestsEffects {
   clearOrderRequests$ = createEffect(() =>
     this.actions$.pipe(
       ofType(OrdersActions.createOrderSuccess),
-      map((action) => {
+      map(() => {
         return RequestsActions.clearOrderRequests();
       })
     )
@@ -159,11 +144,7 @@ export class RequestsEffects {
 
   constructor(
     private actions$: Actions,
-    private procurementItemService: ProcurementItemService,
-    private categoryService: CategoryService,
     private requestService: RequestService,
-    private router: Router,
-    private store: Store<fromApp.AppState>,
-    private dialog: MatDialog
+    private store: Store<fromApp.AppState>
   ) {}
 }

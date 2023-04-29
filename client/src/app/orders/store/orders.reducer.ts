@@ -31,20 +31,6 @@ export const ordersReducer = createReducer(
   on(OrdersActions.clearState, (state) => ({ ...initialState })),
   on(OrdersActions.setSelectedOrder, (state, { order }) => ({ ...state, selectedOrder: {...order} })),
   on(OrdersActions.setCompanyOrderAddresses, (state, { addresses }) => ({ ...state, addresses: [...addresses] })),
-  // on(OrdersActions.cancelProposalSuccess, (state, { id }) => {
-  //   const proposalToUpdate = state.selectedOrder.proposals.find(p => p.id === id);
-  //   const updatedProposal = { ...proposalToUpdate, status: 'Cancelled' };
-  //   const updatedProposalIndex = state.selectedOrder.proposals.indexOf(proposalToUpdate);
-  //   const updatedProposals = [
-  //     ...state.selectedOrder.proposals.slice(0, updatedProposalIndex),
-  //     updatedProposal,
-  //     ...state.selectedOrder.proposals.slice(updatedProposalIndex + 1)
-  //   ]
-  //   return {
-  //     ...state,
-  //     selectedOrder: { ...state.selectedOrder, proposals: updatedProposals }
-  //   };
-  // }),
   on(OrdersActions.resetSelectedOrder, (state) => ({ ...state, selectedOrder: null })),
-  on(OrdersActions.failure, (state, { error }) => ({ ...state, error })),
+  on(OrdersActions.failure, (state, { error }) => ({ ...state, error }))
 );

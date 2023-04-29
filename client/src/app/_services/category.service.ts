@@ -15,6 +15,6 @@ export class CategoryService {
   }
 
   createCategory(title: string, type: string) {
-    return this.http.post<number>(`${environment.serverUrl}/categories`, { title, type });
+    return this.http.post<void>(`${environment.serverUrl}/categories`, { title, type });
   }
 }

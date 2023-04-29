@@ -14,7 +14,7 @@ export class RequestService {
   constructor(private http: HttpClient) { }
 
   createRequest(createRequest: CreateRequest) {
-    return this.http.post<number>(`${environment.serverUrl}/requests`, createRequest);
+    return this.http.post<void>(`${environment.serverUrl}/requests`, createRequest);
   }
 
   getCompanyRequests(page?: number, requestParams?: RequestParams) {
@@ -23,11 +23,11 @@ export class RequestService {
   }
 
   editRequest(data: EditRequest) {
-    return this.http.patch<number>(`${environment.serverUrl}/requests/${data.id}`, data);
+    return this.http.patch<void>(`${environment.serverUrl}/requests/${data.id}`, data);
   }
 
   cancelRequest(id: number) {
-    return this.http.patch<number>(`${environment.serverUrl}/requests/${id}/cancel`, {});
+    return this.http.patch<void>(`${environment.serverUrl}/requests/${id}/cancel`, {});
   }
 
   private createRequestParams(page?: number, requestParams?: RequestParams) {

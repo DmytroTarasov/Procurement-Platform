@@ -10,7 +10,7 @@ using Persistence;
 
 namespace Application.Orders
 {
-    public class CreateOrderCommand : IRequest<Result<int>>
+    public class CreateOrderCommand : IRequest<Result<Unit>>
     {
         public string Title { get; set; }
         public ICollection<int> RequestIds { get; set; }
@@ -18,7 +18,7 @@ namespace Application.Orders
         public AddressDto DeliveryAddress { get; set; }
     }
 
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Result<int>>
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
@@ -28,13 +28,13 @@ namespace Application.Orders
             _context = context;
             _mapper = mapper;
         }
-        public async Task<Result<int>> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {   
             if (command.DeliveryAddress != null) {
                 var address = _mapper.Map<Address>(command.DeliveryAddress);
                 _context.Addresses.Add(address);
                 var addressResult = await _context.SaveChangesAsync() > 0;
-                if (!addressResult) return Result<int>.Failure("Не вдалось додати адресу доставки. Спробуйте, будь ласка, пізніше");
+                if (!addressResult) return Result<Unit>.Failure("Не вдалось додати адресу доставки. Спробуйте, будь ласка, пізніше");
                 command.DeliveryAddressId = address.Id;
             }
 
@@ -42,7 +42,7 @@ namespace Application.Orders
             var requests = await _context.Requests.Where(r => command.RequestIds.Contains(r.Id)).ToListAsync();
 
             if (requests.Count == 0) 
-                return Result<int>.Failure("Замовлення не може бути створене, оскільки до нього не входить жодна заявка");
+                return Result<Unit>.Failure("Замовлення не може бути створене, оскільки до нього не входить жодна заявка");
 
             var order = new Order {
                 Title = command.Title,
@@ -61,9 +61,9 @@ namespace Application.Orders
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (!result) return Result<int>.Failure("Не вдалось створити замовлення. Спробуйте, будь ласка, пізніше");
+            if (!result) return Result<Unit>.Failure("Не вдалось створити замовлення. Спробуйте, будь ласка, пізніше");
 
-            return Result<int>.Success(order.Id);
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }
