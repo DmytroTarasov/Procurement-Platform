@@ -24,7 +24,7 @@ namespace Application.Orders
         {
             var order = await _context.Orders.Include(o => o.Requests).FirstOrDefaultAsync(r => r.Id == command.Id);
 
-            if (order == null) return Result<Unit>.Failure("Такого замовлення не існує");
+            if (order == null) return Result<Unit>.Failure("Замовлення з таким ідентифікатором немає");
 
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 

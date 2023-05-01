@@ -21,7 +21,14 @@ export class CreateCompanyModalComponent implements OnInit {
   ngOnInit() {
     this.companyForm = new FormGroup({
       title: new FormControl('', Validators.required),
-      edrpou: new FormControl('', [Validators.required, Validators.pattern(/^\d{8}$/)]),
+      edrpou: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^\d{8}$/)
+      ]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9]+\\.[a-z]{2,4}$')
+      ]),
       city: new FormControl('', Validators.required),
       region: new FormControl(null),
       street: new FormControl('', Validators.required),
@@ -39,9 +46,9 @@ export class CreateCompanyModalComponent implements OnInit {
   onSubmit() {
     if (!this.companyForm.valid) return;
 
-    const { title, edrpou, ...address } = this.companyForm.value;
+    const { title, edrpou, email, ...address } = this.companyForm.value;
 
-    this.store.dispatch(AuthActions.createCompany({ company: { title, edrpou, address } }));
+    this.store.dispatch(AuthActions.createCompany({ company: { title, edrpou, email, address } }));
   }
 
 }

@@ -46,6 +46,7 @@ namespace Persistence
                     new Company {
                         Title = "ТОВ 'Каштан'",
                         Edrpou = "34225325",
+                        Email = "kashtan@gmail.com",
                         Address = new Address {
                             City = "Київ",
                             Street = "Вул. Петра Сагайдачного",
@@ -76,6 +77,7 @@ namespace Persistence
                     new Company {
                         Title = "ТОВ 'ЛьвівМаркет'",
                         Edrpou = "40475821",
+                        Email = "lvivmarket@ukr.net",
                         Address = new Address {
                             City = "Львів",
                             Street = "Вул. Івана Богуна",
@@ -106,6 +108,7 @@ namespace Persistence
                     new Company {
                         Title = "ТОВ 'Виробниче Підприємство 'Стандарт''",
                         Edrpou = "35387194",
+                        Email = "standart@gmail.com",
                         Address = new Address {
                             City = "Івано-Франківськ",
                             Street = "Вул. Дмитра Вітовського",
@@ -145,6 +148,7 @@ namespace Persistence
                     new Company {
                         Title = "ТОВ 'КомпТех'",
                         Edrpou = "32906120",
+                        Email = "compteh@ukr.net",
                         Address = new Address {
                             City = "Вінниця",
                             Street = "Вул. Академіка Янгеля",
@@ -175,6 +179,7 @@ namespace Persistence
                     new Company {
                         Title = "ТОВ 'Транс-Експрес'",
                         Edrpou = "42589102",
+                        Email = "transexpress@gmail.com",
                         Address = new Address {
                             City = "Дніпро",
                             Street = "Вул. Михайла Грушевського",
@@ -196,6 +201,7 @@ namespace Persistence
                     new Company {
                         Title = "АТ 'Страхова компанія 'СМЕРЕКА''",
                         Edrpou = "31826406",
+                        Email = "smereka@gmail.com",
                         Address = new Address {
                             City = "Луцьк",
                             Street = "Вул. Кривий Вал",
@@ -227,6 +233,7 @@ namespace Persistence
                     new Company {
                         Title = "ТОВ 'НадЗахист'",
                         Edrpou = "36719285",
+                        Email = "nadzakhyst@ukr.net",
                         Address = new Address {
                             City = "Тернопіль",
                             Street = "Вул. Вільхова",

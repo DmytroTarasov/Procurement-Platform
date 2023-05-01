@@ -24,7 +24,7 @@ namespace Application.Requests
         {
             var request = await _context.Requests.FirstOrDefaultAsync(r => r.Id == command.Id);
 
-            if (request == null) return Result<Unit>.Failure("Такої заявки не існує");
+            if (request == null) return Result<Unit>.Failure("Заявки з таким ідентифікатором немає");
 
             var subdivisionId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("subdivisionId"));
 

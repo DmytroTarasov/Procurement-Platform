@@ -26,7 +26,7 @@ namespace Application.Proposals
         {
             var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == command.Id);
 
-            if (proposal == null) return Result<Unit>.Failure("Такої пропозиції не існує");
+            if (proposal == null) return Result<Unit>.Failure("Пропозиції з таким ідентифікатором немає");
 
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);

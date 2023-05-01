@@ -3,6 +3,7 @@
     <form class="w-full mt-3" [formGroup]="companyForm" (ngSubmit)="onSubmit()">
       <app-input label="Назва" [control]="getFormControl('title')"></app-input>
       <app-input label="Код ЄДРПОУ" [control]="getFormControl('edrpou')"></app-input>
+      <app-input label="Пошта" [control]="getFormControl('email')"></app-input>
       <app-input label="Місто" [control]="getFormControl('city')"></app-input>
       <app-input label="Область" [control]="getFormControl('region')" [required]="false"></app-input>
       <app-input label="Вулиця" [control]="getFormControl('street')"></app-input>

@@ -36,7 +36,7 @@ namespace Application.Proposals
                 .ThenInclude(o => o.Proposals)
                 .FirstOrDefaultAsync(p => p.Id == command.ProposalId);
 
-            if (proposal == null) return Result<Unit>.Failure("Такої пропозиції не існує");
+            if (proposal == null) return Result<Unit>.Failure("Пропозиції з таким ідентифікатором немає");
 
             var order = proposal.Order;
             

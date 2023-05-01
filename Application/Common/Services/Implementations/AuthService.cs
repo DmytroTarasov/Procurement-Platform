@@ -8,6 +8,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace Application.Common.Services.Implementations
 {
@@ -19,8 +20,9 @@ namespace Application.Common.Services.Implementations
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly IValidator<RegisterDto> _validator;
+        private readonly DataContext _context;
         public AuthService(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager, SignInManager<User> signInManager, 
-            ITokenService tokenService, IMapper mapper, IValidator<RegisterDto> validator)
+            ITokenService tokenService, IMapper mapper, IValidator<RegisterDto> validator, DataContext context)
         {
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
@@ -28,6 +30,7 @@ namespace Application.Common.Services.Implementations
             _tokenService = tokenService;
             _mapper = mapper;
             _validator = validator;
+            _context = context;
         }
         public async Task<Result<UserDto>> RegisterAsync(RegisterDto registerDto)
         {
@@ -37,6 +40,14 @@ namespace Application.Common.Services.Implementations
             {
                 return Result<UserDto>.ValidationFailure(validationResult.ToDictionary());
             }
+
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == registerDto.CompanyId);
+
+            if (company == null) 
+                return Result<UserDto>.Failure("Вказаної компанії немає серед зареєстрованих компаній на платформі");
+
+            if (company.Email.Split("@")[1] != registerDto.Email.Split("@")[1]) 
+                return Result<UserDto>.Failure("Назва домену у пошті не співпадає з назвою домену у пошті компанії");
 
             if (await _userManager.FindByEmailAsync(registerDto.Email) != null) 
                 return Result<UserDto>.Failure("Дана пошта зайнята");

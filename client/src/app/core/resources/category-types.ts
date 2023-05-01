@@ -5,5 +5,5 @@ export enum CategoryTypes {
 
 export enum CategoryTypesColors {
   Goods = "border-[#2FCB80] text-[#2FCB80]",
-  Services = "border-[#E74C3C] text-[#E74C3C]"
+  Services = "border-[#5FCFF7] text-[#5FCFF7]"
 }

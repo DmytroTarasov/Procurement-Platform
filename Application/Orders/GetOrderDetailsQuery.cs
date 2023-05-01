@@ -34,7 +34,7 @@ namespace Application.Orders
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(o => o.Id == request.Id);
             
-            if (order == null) return Result<OrderDto>.Failure("Замовлення з таким ідентифікатором не існує");
+            if (order == null) return Result<OrderDto>.Failure("Замовлення з таким ідентифікатором немає");
         
             return Result<OrderDto>.Success(order);
         }

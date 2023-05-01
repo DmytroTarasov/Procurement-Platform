@@ -5,6 +5,7 @@ export interface Company {
   id?: number;
   title: string;
   edrpou: number;
+  email: string;
   address: Address;
   subdivisions?: Subdivision[]
 }

@@ -5,6 +5,7 @@ namespace Application.Dtos
         public int Id { get; set; }
         public string Title { get; set; }
         public string Edrpou { get; set; }
+        public string Email { get; set; }
         public AddressDto Address { get; set; }
         public ICollection<SubdivisionDto> Subdivisions { get; set; }
     }

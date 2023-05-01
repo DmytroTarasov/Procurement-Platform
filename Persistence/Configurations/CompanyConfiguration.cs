@@ -10,6 +10,7 @@ namespace Persistence.Configurations
         {
             builder.Property(c => c.Title).IsRequired();
             builder.Property(c => c.Edrpou).IsRequired();
+            builder.Property(c => c.Email).IsRequired();
 
             builder
                 .HasMany(c => c.Subdivisions)

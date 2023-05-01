@@ -9,5 +9,6 @@ namespace Application.Dtos
         public string Role { get; set; } 
         public string Password { get; set; }
         public int? SubdivisionId { get; set; }
+        public int? CompanyId { get; set; }
     }
 }
