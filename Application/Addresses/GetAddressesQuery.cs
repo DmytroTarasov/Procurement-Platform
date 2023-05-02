@@ -5,8 +5,7 @@ using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Addresses
 {
@@ -16,13 +15,13 @@ namespace Application.Addresses
 
     public class GetAddressesQueryHandler : IRequestHandler<GetAddressesQuery, Result<List<AddressDto>>>
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GetAddressesQueryHandler(DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public GetAddressesQueryHandler(IUnitOfWork uof, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            _context = context;
+            _uof = uof;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -32,27 +31,9 @@ namespace Application.Addresses
             var companyId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("companyId"));
             var role = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
 
-            List<Address> orderAddresses;
-            if (role == UserRoles.Customer) {
-                orderAddresses = await _context.Orders
-                    .Include(o => o.DeliveryAddress)
-                    .Include(o => o.BuyerContactPerson)
-                    .ThenInclude(p => p.Subdivision)
-                    .Where(o => o.BuyerContactPerson.Subdivision.CompanyId == companyId)
-                    .Select(o => o.DeliveryAddress)
-                    .Distinct()
-                    .ToListAsync();
-            } else {
-                orderAddresses = await _context.Proposals
-                    .Include(p => p.ShipmentAddress)
-                    .Include(p => p.Supplier)
-                    .ThenInclude(s => s.Subdivision)
-                    .Where(p => p.Supplier.Subdivision.CompanyId == companyId)
-                    .Select(p => p.ShipmentAddress)
-                    .Where(a => a != null)
-                    .Distinct()
-                    .ToListAsync();
-            }
+            var orderAddresses = role == UserRoles.Customer
+                ? await _uof.OrderRepository.GetCustomerDeliveryAddressesByOrdersAsync(companyId)
+                : await _uof.ProposalRepository.GetSupplierShipmentAddressesByProposalsAsync(companyId);
 
             return Result<List<AddressDto>>.Success(_mapper.Map<List<AddressDto>>(orderAddresses));
         }

@@ -5,7 +5,7 @@ using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Requests
 {
@@ -17,19 +17,19 @@ namespace Application.Requests
     public class CreateRequestCommandHandler : IRequestHandler<CreateRequestCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
-        public CreateRequestCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext context, IMapper mapper) {
+        public CreateRequestCommandHandler(IHttpContextAccessor httpContextAccessor, IUnitOfWork uof, IMapper mapper) {
             _httpContextAccessor = httpContextAccessor;
-            _context = context;
+            _uof = uof;
             _mapper = mapper;
         }
         public async Task<Result<Unit>> Handle(CreateRequestCommand command, CancellationToken cancellationToken)
         {
             if (command.ProcurementItem != null) {
                 var procurementItem = _mapper.Map<ProcurementItem>(command.ProcurementItem);
-                _context.ProcurementItems.Add(procurementItem);
-                var procurementItemResult = await _context.SaveChangesAsync() > 0;
+                _uof.ProcurementItemRepository.Add(procurementItem);
+                var procurementItemResult = await _uof.Complete();
                 if (!procurementItemResult) return Result<Unit>.Failure("Не вдалось створити предмет закупівлі. Спробуйте, будь ласка, пізніше");
                 command.Request.ProcurementItemId = procurementItem.Id;
             }
@@ -38,9 +38,9 @@ namespace Application.Requests
             request.CreatedAt = DateTime.UtcNow;
             request.SubdivisionId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("subdivisionId"));
 
-            _context.Requests.Add(request);
+            _uof.RequestRepository.Add(request);
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _uof.Complete();
 
             if (!result) return Result<Unit>.Failure("Не вдалось створити заявку. Спробуйте, будь ласка, пізніше");
 

@@ -4,10 +4,9 @@ using System.Text;
 using Application.Common.Services.Interfaces;
 using Domain;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Common.Services.Implementations
 {
@@ -15,19 +14,19 @@ namespace Application.Common.Services.Implementations
     {
         private readonly IConfiguration _config;
         private readonly UserManager<User> _userManager;
-        private readonly DataContext _context;
-        public TokenService(UserManager<User> userManager, IConfiguration config, DataContext context)
+        private readonly IUnitOfWork _uof;
+        public TokenService(UserManager<User> userManager, IConfiguration config, IUnitOfWork uof)
         {
             _userManager = userManager;
             _config = config;
-            _context = context;
+            _uof = uof;
         }
 
         public async Task<string> CreateTokenAsync(User user)
         {
             var roles = await _userManager.GetRolesAsync(user);
             var subdivision = user.SubdivisionId.HasValue 
-                ? await _context.Subdivisions.Include(s => s.Company).FirstAsync(s => s.Id == user.SubdivisionId)
+                ? await _uof.SubdivisionRepository.GetSubdivisionByIdWithCompanyAsync(user.SubdivisionId.Value)
                 : null;
 
             var claims = new List<Claim> {

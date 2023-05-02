@@ -2,8 +2,7 @@ using Application.Common.Helpers;
 using Application.Dtos;
 using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Categories
 {
@@ -13,18 +12,18 @@ namespace Application.Categories
 
     public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, Result<List<CategoryDto>>>
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
 
-        public GetCategoriesQueryHandler(DataContext context, IMapper mapper)
+        public GetCategoriesQueryHandler(IUnitOfWork uof, IMapper mapper)
         {
-            _context = context; 
+            _uof = uof;
             _mapper = mapper;
         }
 
         public async Task<Result<List<CategoryDto>>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var categories = await _context.Categories.OrderBy(c => c.Title).ToListAsync();
+            var categories = await _uof.CategoryRepository.GetAllCategoriesAsync();
             return Result<List<CategoryDto>>.Success(_mapper.Map<List<CategoryDto>>(categories));
         }
     }

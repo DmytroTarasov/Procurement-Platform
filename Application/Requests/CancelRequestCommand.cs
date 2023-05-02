@@ -3,8 +3,7 @@ using Application.Common.Helpers;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Requests
 {
@@ -15,14 +14,14 @@ namespace Application.Requests
     public class CancelRequestCommandHandler : IRequestHandler<CancelRequestCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly DataContext _context;
-        public CancelRequestCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext context) {
+        private readonly IUnitOfWork _uof;
+        public CancelRequestCommandHandler(IHttpContextAccessor httpContextAccessor, IUnitOfWork uof) {
             _httpContextAccessor = httpContextAccessor;
-            _context = context;
+            _uof = uof;
         }
         public async Task<Result<Unit>> Handle(CancelRequestCommand command, CancellationToken cancellationToken)
         {
-            var request = await _context.Requests.FirstOrDefaultAsync(r => r.Id == command.Id);
+            var request = await _uof.RequestRepository.GetByIdAsync(command.Id); 
 
             if (request == null) return Result<Unit>.Failure("Заявки з таким ідентифікатором немає");
 
@@ -31,9 +30,9 @@ namespace Application.Requests
             if (subdivisionId != request.SubdivisionId) return Result<Unit>.Forbidden();
             
             request.Status = RequestStatus.Cancelled;
-            _context.Requests.Update(request);
+            _uof.RequestRepository.Update(request);
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _uof.Complete();
 
             if (!result) return Result<Unit>.Failure("Не вдалось скасувати заявку. Спробуйте, будь ласка, пізніше");
 

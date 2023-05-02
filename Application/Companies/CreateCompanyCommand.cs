@@ -4,7 +4,7 @@ using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Companies
 {
@@ -14,11 +14,11 @@ namespace Application.Companies
     }
     public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IValidator<CompanyDto> _validator;
         private readonly IMapper _mapper;
-        public CreateCompanyCommandHandler(DataContext context, IValidator<CompanyDto> validator, IMapper mapper) {
-            _context = context;
+        public CreateCompanyCommandHandler(IUnitOfWork uof, IValidator<CompanyDto> validator, IMapper mapper) {
+            _uof = uof;
             _validator = validator;
             _mapper = mapper;
         }
@@ -33,9 +33,9 @@ namespace Application.Companies
 
             var company = _mapper.Map<Company>(request.Company);
 
-            _context.Companies.Add(company);
-
-            var result = await _context.SaveChangesAsync() > 0;
+            _uof.CompanyRepository.Add(company);
+            
+            var result = await _uof.Complete();
 
             if (!result) return Result<Unit>.Failure("Не вдалось створити компанію. Спробуйте, будь ласка, пізніше");
 

@@ -3,8 +3,7 @@ using Application.Common.Helpers;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Proposals
 {
@@ -16,15 +15,15 @@ namespace Application.Proposals
     public class CancelProposalCommandHandler : IRequestHandler<CancelProposalCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly DataContext _context;
-        public CancelProposalCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext context)
+        private readonly IUnitOfWork _uof;
+        public CancelProposalCommandHandler(IHttpContextAccessor httpContextAccessor, IUnitOfWork uof)
         {
             _httpContextAccessor = httpContextAccessor;
-            _context = context;
+            _uof = uof;
         }
         public async Task<Result<Unit>> Handle(CancelProposalCommand command, CancellationToken cancellationToken)
         {
-            var proposal = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == command.Id);
+            var proposal = await _uof.ProposalRepository.GetByIdAsync(command.Id);
 
             if (proposal == null) return Result<Unit>.Failure("Пропозиції з таким ідентифікатором немає");
 
@@ -43,13 +42,11 @@ namespace Application.Proposals
                 proposal.TransporterSum = null;
                 proposal.TransporterAdditionalInfo = null;
 
-                await _context.Proposals
-                    .Where(p => p.SupplierId == proposal.SupplierId && p.TransporterId == null && p.Id != proposal.Id)
-                    .ForEachAsync(p => _context.Proposals.Remove(p));
+                await _uof.ProposalRepository.DeleteOtherSupplierProposalsAsync(proposal.Id, proposal.SupplierId);
             }
-            _context.Proposals.Update(proposal);
+            _uof.ProposalRepository.Update(proposal);
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _uof.Complete();
 
             if (!result) return Result<Unit>.Failure("Не вдалось скасувати пропозицію. Спробуйте, будь ласка, пізніше");
 

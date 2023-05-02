@@ -3,8 +3,7 @@ using Application.Common.Helpers;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Orders
 {
@@ -15,14 +14,14 @@ namespace Application.Orders
     public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly DataContext _context;
-        public CancelOrderCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext context) {
+        private readonly IUnitOfWork _uof;
+        public CancelOrderCommandHandler(IHttpContextAccessor httpContextAccessor, IUnitOfWork uof) {
             _httpContextAccessor = httpContextAccessor;
-            _context = context;
+            _uof = uof;
         }
         public async Task<Result<Unit>> Handle(CancelOrderCommand command, CancellationToken cancellationToken)
         {
-            var order = await _context.Orders.Include(o => o.Requests).FirstOrDefaultAsync(r => r.Id == command.Id);
+            var order = await _uof.OrderRepository.GetOrderByIdWithRequestsAsync(command.Id);
 
             if (order == null) return Result<Unit>.Failure("Замовлення з таким ідентифікатором немає");
 
@@ -36,9 +35,9 @@ namespace Application.Orders
                 r.Status = RequestStatus.Active;
             });
 
-            _context.Orders.Update(order);
+            _uof.OrderRepository.Update(order);
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _uof.Complete();
 
             if (!result) return Result<Unit>.Failure("Не вдалось скасувати замовлення. Спробуйте, будь ласка, пізніше");
 

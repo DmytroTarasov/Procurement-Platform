@@ -5,7 +5,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Orders
 {
@@ -17,20 +17,20 @@ namespace Application.Orders
 
     public class GetOrderDetailsQueryHandler : IRequestHandler<GetOrderDetailsQuery, Result<OrderDto>>
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GetOrderDetailsQueryHandler(DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public GetOrderDetailsQueryHandler(IUnitOfWork uof, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            _context = context; 
+            _uof = uof; 
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Result<OrderDto>> Handle(GetOrderDetailsQuery request, CancellationToken cancellationToken)
         {   
-            var order = await _context.Orders
+            var order = await _uof.OrderRepository.GetAll()
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(o => o.Id == request.Id);
             

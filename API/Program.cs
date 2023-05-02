@@ -4,7 +4,7 @@ using Domain;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -3,8 +3,7 @@ using Application.Common.Helpers;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Requests
 {
@@ -18,16 +17,16 @@ namespace Application.Requests
     public class EditRequestCommandHandler : IRequestHandler<EditRequestCommand, Result<Unit>>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
-        public EditRequestCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext context, IMapper mapper) {
+        public EditRequestCommandHandler(IHttpContextAccessor httpContextAccessor, IUnitOfWork uof, IMapper mapper) {
             _httpContextAccessor = httpContextAccessor;
-            _context = context;
+            _uof = uof;
             _mapper = mapper;
         }
         public async Task<Result<Unit>> Handle(EditRequestCommand command, CancellationToken cancellationToken)
         {
-            var request = await _context.Requests.FirstOrDefaultAsync(r => r.Id == command.Id);
+            var request = await _uof.RequestRepository.GetByIdAsync(command.Id);
 
             if (request == null) return Result<Unit>.Failure("Заявки з таким ідентифікатором немає");
 
@@ -39,9 +38,9 @@ namespace Application.Requests
             request.Quantity = command.Quantity;
             request.Budget = command.Budget;
 
-            _context.Requests.Update(request);
+            _uof.RequestRepository.Update(request);
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _uof.Complete();
 
             if (!result) return Result<Unit>.Failure("Не вдалось редагувати заявку. Спробуйте, будь ласка, пізніше");
 

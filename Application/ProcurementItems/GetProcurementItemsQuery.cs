@@ -2,8 +2,7 @@ using Application.Common.Helpers;
 using Application.Dtos;
 using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.ProcurementItems
 {
@@ -14,24 +13,18 @@ namespace Application.ProcurementItems
 
     public class GetProcurementItemsQueryHandler : IRequestHandler<GetProcurementItemsQuery, Result<List<ProcurementItemDto>>>
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
 
-        public GetProcurementItemsQueryHandler(DataContext context, IMapper mapper)
+        public GetProcurementItemsQueryHandler(IUnitOfWork uof, IMapper mapper)
         {
-            _context = context; 
+            _uof = uof; 
             _mapper = mapper;
         }
 
         public async Task<Result<List<ProcurementItemDto>>> Handle(GetProcurementItemsQuery request, CancellationToken cancellationToken)
         {
-            var query = _context.ProcurementItems.Include(p => p.Category).AsQueryable();
-
-            if (!string.IsNullOrEmpty(request.CategoryTitle)) {
-                query = query.Where(p => p.Category.Title == request.CategoryTitle);
-            }
-
-            var procurementItems = await query.OrderBy(p => p.Title).ToListAsync();
+            var procurementItems = await _uof.ProcurementItemRepository.GetProcurementItemsByCategoryAsync(request.CategoryTitle);
             return Result<List<ProcurementItemDto>>.Success(_mapper.Map<List<ProcurementItemDto>>(procurementItems));
         }
     }

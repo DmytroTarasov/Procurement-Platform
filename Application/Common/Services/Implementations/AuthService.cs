@@ -8,7 +8,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Common.Services.Implementations
 {
@@ -20,9 +20,9 @@ namespace Application.Common.Services.Implementations
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly IValidator<RegisterDto> _validator;
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         public AuthService(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager, SignInManager<User> signInManager, 
-            ITokenService tokenService, IMapper mapper, IValidator<RegisterDto> validator, DataContext context)
+            ITokenService tokenService, IMapper mapper, IValidator<RegisterDto> validator, IUnitOfWork uof)
         {
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
@@ -30,7 +30,7 @@ namespace Application.Common.Services.Implementations
             _tokenService = tokenService;
             _mapper = mapper;
             _validator = validator;
-            _context = context;
+            _uof = uof;
         }
         public async Task<Result<UserDto>> RegisterAsync(RegisterDto registerDto)
         {
@@ -41,7 +41,7 @@ namespace Application.Common.Services.Implementations
                 return Result<UserDto>.ValidationFailure(validationResult.ToDictionary());
             }
 
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == registerDto.CompanyId);
+            var company = await _uof.CompanyRepository.GetByIdAsync(registerDto.CompanyId.Value);
 
             if (company == null) 
                 return Result<UserDto>.Failure("Вказаної компанії немає серед зареєстрованих компаній на платформі");

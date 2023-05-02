@@ -6,7 +6,7 @@ using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Proposals
 {
@@ -17,24 +17,19 @@ namespace Application.Proposals
 
     public class ChooseProposalCommandHandler : IRequestHandler<ChooseProposalCommand, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
         private readonly IDocumentGeneratorService _documentService;
         private readonly IEmailService _emailService;
-        public ChooseProposalCommandHandler(DataContext context, IMapper mapper, IDocumentGeneratorService documentService, IEmailService emailService) {
-            _context = context;
+        public ChooseProposalCommandHandler(IUnitOfWork uof, IMapper mapper, IDocumentGeneratorService documentService, IEmailService emailService) {
+            _uof = uof;
             _mapper = mapper;
             _documentService = documentService;
             _emailService = emailService;
         }
         public async Task<Result<Unit>> Handle(ChooseProposalCommand command, CancellationToken cancellationToken)
         {   
-            var proposal = await _context.Proposals
-                .Include(p => p.Order)
-                .ThenInclude(o => o.Requests)
-                .Include(p => p.Order)
-                .ThenInclude(o => o.Proposals)
-                .FirstOrDefaultAsync(p => p.Id == command.ProposalId);
+            var proposal = await _uof.ProposalRepository.GetProposalByIdWithRelationsAsync(command.ProposalId);
 
             if (proposal == null) return Result<Unit>.Failure("Пропозиції з таким ідентифікатором немає");
 
@@ -49,13 +44,13 @@ namespace Application.Proposals
             order.Requests.ToList().ForEach(r => r.Status = RequestStatus.Processed);
             order.Proposals.ToList().ForEach(p => p.Status = ProposalStatus.Processed);
 
-            _context.Orders.Update(order);
+            _uof.OrderRepository.Update(order);
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _uof.Complete();
 
             if (!result) return Result<Unit>.Failure("Не вдалось подати пропозицію. Спробуйте, будь ласка, пізніше");
 
-            var orderDto = await _context.Orders
+            var orderDto = await _uof.OrderRepository.GetAll()
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(o => o.Id == proposal.OrderId);
 

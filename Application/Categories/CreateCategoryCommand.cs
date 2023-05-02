@@ -2,7 +2,7 @@ using Application.Common.Helpers;
 using AutoMapper;
 using Domain;
 using MediatR;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Categories
 {
@@ -14,10 +14,10 @@ namespace Application.Categories
 
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
-        public CreateCategoryCommandHandler(DataContext context, IMapper mapper) {
-            _context = context;
+        public CreateCategoryCommandHandler(IUnitOfWork uof, IMapper mapper) {
+            _uof = uof;
             _mapper = mapper;
         }
         public async Task<Result<Unit>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
@@ -26,10 +26,10 @@ namespace Application.Categories
                 Title = request.Title,
                 Type = (CategoryType)Enum.Parse(typeof(CategoryType), request.Type)
             };
+            
+            _uof.CategoryRepository.Add(category);
 
-            _context.Categories.Add(category);
-
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _uof.Complete();
 
             if (!result) return Result<Unit>.Failure("Не вдалось створити категорію. Спробуйте, будь ласка, пізніше");
 

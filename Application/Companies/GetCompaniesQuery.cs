@@ -1,10 +1,8 @@
 using Application.Common.Helpers;
 using Application.Dtos;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
+using Infrastructure.Interfaces;
 
 namespace Application.Companies
 {
@@ -14,21 +12,19 @@ namespace Application.Companies
 
     public class GetCompaniesQueryHandler : IRequestHandler<GetCompaniesQuery, Result<List<CompanyDto>>>
     {
-        private readonly DataContext _context;
+        private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
 
-        public GetCompaniesQueryHandler(DataContext context, IMapper mapper)
+        public GetCompaniesQueryHandler(IUnitOfWork uof, IMapper mapper)
         {
-            _context = context; 
+            _uof = uof; 
             _mapper = mapper;
         }
 
         public async Task<Result<List<CompanyDto>>> Handle(GetCompaniesQuery request, CancellationToken cancellationToken)
         {
-            var companies = await _context.Companies
-                .ProjectTo<CompanyDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-            return Result<List<CompanyDto>>.Success(companies);
+            var companies = await _uof.CompanyRepository.GetAllCompaniesWithRelationsAsync();
+            return Result<List<CompanyDto>>.Success(_mapper.Map<List<CompanyDto>>(companies));
         }
     }
 }
