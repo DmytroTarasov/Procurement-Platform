@@ -42,7 +42,7 @@ namespace Application.Proposals
                 proposal.TransporterSum = null;
                 proposal.TransporterAdditionalInfo = null;
 
-                await _uof.ProposalRepository.DeleteOtherSupplierProposalsAsync(proposal.Id, proposal.SupplierId);
+                await _uof.ProposalRepository.DeleteOtherSupplierProposalsAsync(proposal.OrderId, proposal.Id, proposal.SupplierId);
             }
             _uof.ProposalRepository.Update(proposal);
 

@@ -60,7 +60,7 @@ namespace Application.Proposals
 
                 if (proposal == null) return Result<Unit>.Failure("Не вдалось подати пропозицію. Спробуйте, будь ласка, пізніше");
 
-                var anotherSupplierProposal = await _uof.ProposalRepository.GetAnotherSupplierProposalAsync(proposal.Id, proposal.SupplierId);
+                var anotherSupplierProposal = await _uof.ProposalRepository.GetAnotherSupplierProposalAsync(proposal.OrderId, proposal.Id, proposal.SupplierId);
                 
                 if (proposal.TransporterId == null || anotherSupplierProposal != null) {
                     var proposalToUpdate = proposal.TransporterId == null ? proposal : anotherSupplierProposal;

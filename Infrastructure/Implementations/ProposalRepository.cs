@@ -18,17 +18,18 @@ namespace Infrastructure.Implementations
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<Proposal> GetAnotherSupplierProposalAsync(int proposalId, int supplierId)
+        public async Task<Proposal> GetAnotherSupplierProposalAsync(int orderId, int proposalId, int supplierId)
         {
             return await GetAll()
-                    .FirstOrDefaultAsync(p => p.SupplierId == supplierId && p.TransporterId == null && 
-                    p.Id != proposalId);
+                    .FirstOrDefaultAsync(p => p.SupplierId == supplierId && p.TransporterId == null 
+                    && p.Id != proposalId && p.Status == ProposalStatus.Active && p.OrderId == orderId);
         }
         
-        public async Task DeleteOtherSupplierProposalsAsync(int proposalId, int supplierId)
+        public async Task DeleteOtherSupplierProposalsAsync(int orderId, int proposalId, int supplierId)
         {
             await GetAll()
-                    .Where(p => p.SupplierId == supplierId && p.TransporterId == null && p.Id != proposalId)
+                    .Where(p => p.SupplierId == supplierId && p.TransporterId == null 
+                        && p.Id != proposalId && p.Status == ProposalStatus.Active && p.OrderId == orderId)
                     .ForEachAsync(p => Context.Proposals.Remove(p));
         }
 
