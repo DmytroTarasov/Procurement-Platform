@@ -1,4 +1,4 @@
-<app-modal-container [width]="'450px'" [title]="'Створення заявки'" [showClose]="true">
+<app-modal-container [size]="['w-auto', 'sm:w-[450px]', 'h-auto']" [title]="'Створення заявки'" [showClose]="true">
   <div mat-dialog-content>
     <form class="w-full mt-3" [formGroup]="requestForm" (ngSubmit)="onSubmit()">
       <app-textarea label="Опис" [control]="getFormControl('description')"></app-textarea>
@@ -20,7 +20,7 @@
 
       <app-input label="Бюджет (грн.)" [control]="getFormControl('budget')"></app-input>
       <p class="text-center italic"><span class="text-red-600">*</span> позначені обов'язкові поля</p>
-      <p class="mt-2 text-center text-red-600 h-[20px]">{{(error$ | async) ?? ''}}</p>
+      <p class="mt-2 text-center text-red-600 h-auto min-h-[20px] break-words">{{(error$ | async) ?? ''}}</p>
       <div class="flex justify-center">
         <app-button text="Створити" [disabled]="!requestForm.valid" type="submit"
           [classList]="['mt-3', 'h-[45px]', 'w-[155px]']"></app-button>

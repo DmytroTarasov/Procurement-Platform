@@ -24,5 +24,6 @@ export const authReducer = createReducer(
   on(AuthActions.setCompanies, (state, { companies }) => ({ ...state, companies: [...companies] })),
   on(AuthActions.registerSuccess, AuthActions.loginSuccess, (state, { user }) => ({ ...state, user: {...user}, error: null })),
   on(AuthActions.logout, (state) => ({ ...initialState })),
+  on(AuthActions.clearError, (state) => ({ ...state, error: null })),
   on(AuthActions.failure, (state, { error }) => ({ ...state, error }))
 );

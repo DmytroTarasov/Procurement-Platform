@@ -1,9 +1,9 @@
-<div class="mt-16">
+<div class="mt-0 sm:mt-2">
   <app-dropdown label="Статус" [control]="getFormControl('status')" [displayProps]="['value']" [items]="orderStatuses" [optionValueProp]="'key'" [required]="false" [emitSelectionChangeEvent]="true" (onSelectionChange)="setOrderParamsStatus($event)">
   </app-dropdown>
 
   <div *ngIf="(user$ | async) as user">
-    <app-checkbox *ngIf="user.role === Roles.Applicant || user.role === Roles.Customer" label="Лише замовлення власної компанії" (onChange)="onChange($event)"></app-checkbox>
+    <app-checkbox *ngIf="user.role === Roles.Applicant || user.role === Roles.Customer" label="Замовлення власної компанії" (onChange)="onChange($event)"></app-checkbox>
   </div>
 </div>
 

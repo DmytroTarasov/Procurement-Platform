@@ -1,20 +1,21 @@
-<div class="w-full bg-white rounded-xl shadow-gray-400 p-6 mb-4">
-  <div class="grid grid-cols-[50%_15%_1fr] gap-x-4">
+<div class="mb-4 relative w-full bg-white rounded-xl shadow-gray-400 p-6">
+  <div class="xl:grid xl:grid-cols-[50%_15%_1fr] xl:gap-x-4 mb-8">
     <div>
-      <h3 class="font-semibold text-xl text-[#2FCB80]">{{request.procurementItem.title}} <span *ngIf="CategoryTypes[request.procurementItem.categoryType] === CategoryTypes.Goods">({{request.quantity}} {{getShortenMeasurementUnit(request.measurementUnit)}})</span></h3>
+      <h3 class="sm:w-[70%] xl:w-full font-semibold text-xl text-[#2FCB80]">{{request.procurementItem.title}} <span *ngIf="CategoryTypes[request.procurementItem.categoryType] === CategoryTypes.Goods">({{request.quantity}} {{getShortenMeasurementUnit(request.measurementUnit)}})</span></h3>
+      <p [ngClass]="['mt-2', 'md:hidden', StatusesColors[request.status]]">{{RequestStatuses[request.status]}}</p>
       <p class="mt-2">{{request.subdivision.title}} ({{subdivisionAddress}})</p>
       <p class="mt-3">Категорія: <span class="underline">{{ request.procurementItem.categoryTitle }}</span></p>
       <p class="mt-3 italic text-[#A9A9A9]">{{request.description}}</p>
       <p class="mt-3">Бюджет: {{request.budget}} (грн.)</p>
     </div>
-    <span [ngClass]="['h-fit', 'text-center', StatusesColors[request.status]]">{{RequestStatuses[request.status]}}</span>
-    <div class="grid grid-flow-row grid-rows-[auto_1fr] gap-y-3">
-      <p class="text-right italic text-[#A9A9A9] text-sm">Створена {{request.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA'}}</p>
+    <span [ngClass]="['hidden', 'md:inline-block', 'h-fit', 'text-center', 'md:absolute', 'md:right-6', 'md:top-6', 'xl:static', StatusesColors[request.status]]">{{RequestStatuses[request.status]}}</span>
+    <div class="xl:grid xl:grid-flow-row xl:grid-rows-[auto_1fr] xl:gap-y-3">
+      <p class="absolute right-6 bottom-6 xl:static text-right italic text-[#A9A9A9] text-sm">Створена {{request.createdAt | date:'HH:mm:ss dd MMMM y':'uk-UA'}}</p>
 
-      <div class="grid justify-center items-center" *ngIf="(user$ | async) as user">
-        <div class="grid justify-center" *ngIf="user.subdivisionId === request.subdivision?.id && RequestStatuses[request.status] === RequestStatuses.Active && user.role === Roles.Applicant">
+      <div class="mt-5 xl:mt-0 grid justify-center items-center" *ngIf="(user$ | async) as user">
+        <div class="grid gap-y-2 sm:grid-cols-2 sm:gap-y-0 sm:gap-x-4 xl:grid-cols-1 xl:gap-x-0 justify-center" *ngIf="user.subdivisionId === request.subdivision?.id && RequestStatuses[request.status] === RequestStatuses.Active && user.role === Roles.Applicant">
           <app-button text="Редагувати" type="button" [classList]="['h-[45px]', 'w-[155px]']" (click)="openEditRequestDialog()"></app-button>
-          <app-button text="Скасувати" type="button" [classList]="['mt-2', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[155px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelRequest()"></app-button>
+          <app-button text="Скасувати" type="button" [classList]="['xl:mt-2', 'border', 'border-[#E74C3C]', 'h-[45px]', 'w-[155px]']" [colors]="['bg-transparent', 'text-[#E74C3C]']" (click)="cancelRequest()"></app-button>
         </div>
         <div *ngIf="user.role === Roles.Customer">
           <app-button *ngIf="!(orderRequests$ | async)?.includes(request.id); else removeFromOrderBtn" text="Додати до замовлення" type="button" [classList]="['h-[45px]', 'w-[210px]']" (click)="addRequestToOrder()"></app-button>

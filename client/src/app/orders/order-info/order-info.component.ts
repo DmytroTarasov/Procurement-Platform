@@ -13,6 +13,8 @@ export class OrderInfoComponent {
   @Input() shipmentAddress?: Address;
   @Input() additionalInfo?: string;
   @Input() price?: number;
+  @Input() proposalStatus?: string;
+  @Input() proposalStatusColor?: string;
   @Input() showCompanyAddress = false;
   @Input() tranformCompanyAddress: (address: Address) => string;
   @Input() getFullName: (person: ContactPerson) => string;

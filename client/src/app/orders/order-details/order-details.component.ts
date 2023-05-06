@@ -95,6 +95,14 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     return ProposalStatuses[proposal.status] === ProposalStatuses.Active;
   }
 
+  isAllowedToSubmitTransportProposal(order: Order, proposal: Proposal) {
+    return (this.user?.role === Roles.Transporter || proposal.supplierContactPerson.id === this.user?.id) && this.isProposalStatusActive(proposal) && !this.anyTransporterProposals(order, proposal.supplierContactPerson.companyId) && this.isCategoryTypeGoods(order);
+  }
+
+  isAllowedToChooseProposal(order: Order, proposal: Proposal) {
+    return this.user?.role === Roles.Customer && this.isProposalStatusActive(proposal) && (proposal.transporterContactPerson || (proposal.supplierContactPerson && !this.isCategoryTypeGoods(order)));
+  }
+
   showProposalPrice(order: Order, proposal: Proposal, isSupplierProposal: boolean) {
     return ((this.user?.role === Roles.Applicant || this.user?.role === Roles.Customer)
       && order.buyerContactPerson.companyId === this.user?.companyId)

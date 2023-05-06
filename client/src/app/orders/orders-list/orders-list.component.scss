@@ -7,3 +7,11 @@
   background-color: #5FCFF7 !important;
   border-radius: 4px;
 }
+
+@media (max-width: 639px) {
+  ::ng-deep .pagination {
+    &-previous, &-next {
+      display: none !important;
+    }
+  }
+}

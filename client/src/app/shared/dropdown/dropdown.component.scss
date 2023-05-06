@@ -2,36 +2,31 @@
   margin-top: 8px;
   height: 40px;
   width: 100%;
-}
-
-::ng-deep .mat-form-field-wrapper, ::ng-deep .mat-form-field-flex {
-  height: 100%;
-  padding: 0;
-}
-
-::ng-deep .mat-form-field-flex {
-  padding-top: 8px !important;
-  background-color: #FFFFFF !important;
-}
-
-::ng-deep .mat-form-field-infix {
-  height: 100%;
-  border: none;
+  &-wrapper, &-flex {
+    height: 100%;
+    padding: 0;
+  }
+  &-flex {
+    padding-top: 8px !important;
+    background-color: #FFFFFF !important;
+  }
+  &-infix {
+    height: 100%;
+    border: none;
+  }
+  &-underline {
+    bottom: 0;
+    display: none;
+  }
 }
 
 ::ng-deep .mat-error {
   margin-top: 4px;
   font-size: 14px;
   color: #DC2626;
-  height: 20px;
-  // #F44336
+  min-height: 20px;
 }
 
 ::ng-deep .mat-select-arrow-wrapper {
   margin-top: 12px;
-}
-
-::ng-deep .mat-form-field-underline {
-  bottom: 0;
-  display: none;
 }

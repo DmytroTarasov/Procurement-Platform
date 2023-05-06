@@ -27,6 +27,7 @@ export class RegistrationComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
+    this.store.dispatch(AuthActions.clearError());
     this.store.dispatch(AuthActions.getRoles());
     this.store.dispatch(AuthActions.getCompanies());
 

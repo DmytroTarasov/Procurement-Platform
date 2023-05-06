@@ -5,3 +5,20 @@
 ::ng-deep .mat-dialog-container {
   background-color: #F2F4F8;
 }
+
+@media (max-width: 639px) {
+  ::ng-deep .mat-dialog {
+    &-container {
+      padding: 10px;
+    }
+    &-title {
+      padding: 10px 30px;
+    }
+    &-content {
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+

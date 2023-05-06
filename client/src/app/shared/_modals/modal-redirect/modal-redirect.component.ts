@@ -9,8 +9,6 @@ export interface ModalRedirectButton {
 export interface ModalRedirectData {
   title?: string;
   text: string;
-  width?: string;
-  height?: string;
   primaryBtn: ModalRedirectButton;
   secondaryBtn?: ModalRedirectButton;
   successfull?: boolean;

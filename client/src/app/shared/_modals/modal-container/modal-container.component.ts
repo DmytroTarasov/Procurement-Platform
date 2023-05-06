@@ -10,8 +10,7 @@ import * as DialogActions from 'src/app/store/actions/dialog.actions';
   styleUrls: ['./modal-container.component.scss']
 })
 export class ModalContainerComponent {
-  @Input() width = '300px';
-  @Input() height = 'auto';
+  @Input() size = ['w-[300px]', 'h-auto'];
   @Input() showClose = true;
   @Input() title?: string;
 

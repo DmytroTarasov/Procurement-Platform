@@ -1,4 +1,4 @@
-<div class="relative mb-6" [style.width]="width" [style.height]="height">
+<div [ngClass]="size.concat(['relative', 'mb-6'])">
   <div class="absolute top-0 right-0" (click)="close()" *ngIf="showClose">
     <mat-icon>close</mat-icon>
   </div>

@@ -54,6 +54,7 @@ export const loginSuccess = createAction(
 );
 export const autoLogin = createAction('[Auth] Auto Login');
 export const logout = createAction('[Auth] Logout');
+export const clearError = createAction('[Auth] Clear Error');
 export const failure = createAction(
   '[Auth] Failure',
   props<{ error: string }>()

@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
+    this.store.dispatch(AuthActions.clearError());
     this.loginForm = new FormGroup({
       email: new FormControl('', [
         Validators.required,
