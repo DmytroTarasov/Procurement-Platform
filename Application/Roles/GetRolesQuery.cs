@@ -1,9 +1,7 @@
 using Application.Common.Helpers;
 using Application.Dtos;
 using AutoMapper;
-using Domain;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Infrastructure.Interfaces;
 
 namespace Application.Roles
@@ -25,7 +23,7 @@ namespace Application.Roles
 
         public async Task<Result<List<RoleDto>>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
         {
-            var roles = await _uof.RoleRepository.GetByCondition(r => r.Name != UserRoles.Administrator).ToListAsync();
+            var roles = await _uof.RoleRepository.GetRolesAsync();
             return Result<List<RoleDto>>.Success(_mapper.Map<List<RoleDto>>(roles));
         }
     }

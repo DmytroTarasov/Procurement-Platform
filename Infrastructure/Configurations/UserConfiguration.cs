@@ -9,6 +9,10 @@ namespace Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.Property(u => u.SubdivisionId).IsRequired(false);
+            builder.Property(u => u.FirstName).HasMaxLength(25);
+            builder.Property(u => u.LastName).HasMaxLength(25);
+            builder.Property(u => u.MiddleName).HasMaxLength(25);
+            builder.Property(u => u.Email).HasMaxLength(25);
             
             builder
                 .HasMany(u => u.UserRoles)

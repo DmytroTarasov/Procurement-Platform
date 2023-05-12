@@ -8,7 +8,7 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Subdivision> builder)
         {
-            builder.Property(s => s.Title).IsRequired();
+            builder.Property(s => s.Title).IsRequired().HasMaxLength(100);
 
             builder
                 .HasMany(s => s.Users)

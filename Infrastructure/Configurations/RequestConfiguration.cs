@@ -14,10 +14,12 @@ namespace Infrastructure.Configurations
             builder.Property(r => r.MeasurementUnit).IsRequired(false);
 
             builder.Property(r => r.MeasurementUnit)
-                .HasConversion(mu => mu.ToString(), s => (MeasurementUnit)Enum.Parse(typeof(MeasurementUnit), s));
+                .HasConversion(mu => mu.ToString(), s => (MeasurementUnit)Enum.Parse(typeof(MeasurementUnit), s))
+                .HasMaxLength(25);
             
             builder.Property(r => r.Status)
-                .HasConversion(rs => rs.ToString(), s => (RequestStatus)Enum.Parse(typeof(RequestStatus), s));
+                .HasConversion(rs => rs.ToString(), s => (RequestStatus)Enum.Parse(typeof(RequestStatus), s))
+                .HasMaxLength(25);
         }
     }
 }

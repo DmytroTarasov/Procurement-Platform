@@ -8,10 +8,11 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.Property(c => c.Title).IsRequired();
+            builder.Property(c => c.Title).IsRequired().HasMaxLength(50);
 
             builder.Property(c => c.Type)
-                .HasConversion(ct => ct.ToString(), s => (CategoryType)Enum.Parse(typeof(CategoryType), s));
+                .HasConversion(ct => ct.ToString(), s => (CategoryType)Enum.Parse(typeof(CategoryType), s))
+                .HasMaxLength(25);
             
             builder 
                 .HasMany(c => c.ProcurementItems)

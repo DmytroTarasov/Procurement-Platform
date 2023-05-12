@@ -292,12 +292,9 @@ namespace Infrastructure
                         }
                     },
                     new Category {
-                        Title = "Одяг та взуття",
+                        Title = "Одяг",
                         Type = CategoryType.Goods,
                         ProcurementItems = new List<ProcurementItem> {
-                            new ProcurementItem {
-                                Title = "Кросівки"
-                            },
                             new ProcurementItem {
                                 Title = "Робочий комбінезон"
                             },
@@ -306,9 +303,6 @@ namespace Infrastructure
                             },
                             new ProcurementItem {
                                 Title = "Футболка"
-                            },
-                            new ProcurementItem {
-                                Title = "Туфлі"
                             }
                         }
                     },
@@ -387,7 +381,8 @@ namespace Infrastructure
                         ProcurementItemId = 1,
                         Quantity = 2,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 7200
+                        Budget = 7200,
+                        CreatedAt = DateTime.UtcNow.AddDays(-10).AddHours(-2)
                     },
                     new Request {
                         Description = "Потрібен багатофункціональний принтер. Бажано чорного кольору.",
@@ -395,7 +390,8 @@ namespace Infrastructure
                         ProcurementItemId = 4,
                         Quantity = 1,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 3400
+                        Budget = 3400,
+                        CreatedAt = DateTime.UtcNow.AddDays(-9).AddHours(-1)
                     },
                     new Request {
                         Description = "Потрібні дротові клавіатури, з гарантією. Мова розкладки - українська та англійська.",
@@ -403,7 +399,8 @@ namespace Infrastructure
                         ProcurementItemId = 2,
                         Quantity = 15,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 10000
+                        Budget = 10000,
+                        CreatedAt = DateTime.UtcNow.AddDays(-8).AddHours(-4)
                     },
                     new Request {
                         Description = "Потрібні монітори. 23.8 дюймів. Роздільна здатність 1920x1080.",
@@ -411,31 +408,35 @@ namespace Infrastructure
                         ProcurementItemId = 3,
                         Quantity = 20,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 100000
+                        Budget = 100000,
+                        CreatedAt = DateTime.UtcNow.AddDays(-7).AddHours(-5)
                     },
                     new Request {
                         Description = "Потрібні робочі комбінезони. Бажано синього кольору.",
                         SubdivisionId = 3,
-                        ProcurementItemId = 7,
+                        ProcurementItemId = 6,
                         Quantity = 100,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 100000
+                        Budget = 100000,
+                        CreatedAt = DateTime.UtcNow.AddDays(-6).AddHours(-6)
                     },
                     new Request {
                         Description = "Потрібні футболки зеленого кольору. Розмір 46-52.",
                         SubdivisionId = 3,
-                        ProcurementItemId = 9,
+                        ProcurementItemId = 8,
                         Quantity = 100,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 20000
+                        Budget = 20000,
+                        CreatedAt = DateTime.UtcNow.AddDays(-5).AddHours(2)
                     },
                     new Request {
                         Description = "Необхідні сорочки білого кольору. Розмір 46-52.",
                         SubdivisionId = 4,
-                        ProcurementItemId = 8,
+                        ProcurementItemId = 7,
                         Quantity = 50,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 15000
+                        Budget = 15000,
+                        CreatedAt = DateTime.UtcNow.AddDays(-4).AddHours(3)
                     },
                     // new Request {
                     //     Description = "Необхідні комп'ютерні столи, ширина - 140см, із заокругленими кутами.",
@@ -448,32 +449,35 @@ namespace Infrastructure
                     new Request {
                         Description = "Потрібні офісні крісла, матеріал - шкіра, чорного кольору, з посиленою основою.",
                         SubdivisionId = 5,
-                        ProcurementItemId = 12,
+                        ProcurementItemId = 10,
                         Quantity = 40,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 200000
+                        Budget = 200000,
+                        CreatedAt = DateTime.UtcNow.AddDays(-3).AddHours(1)
                     },
                     new Request {
                         Description = "Потрібні літні шини 235/65R17 108H",
                         SubdivisionId = 5,
-                        ProcurementItemId = 17,
+                        ProcurementItemId = 15,
                         Quantity = 10,
                         MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 57000
+                        Budget = 57000,
+                        CreatedAt = DateTime.UtcNow.AddDays(-2).AddHours(7)
                     },
                     
                     new Request {
                         Description = "Послуги медичного страхування працівників (100 осіб)",
                         SubdivisionId = 3,
-                        ProcurementItemId = 18,
+                        ProcurementItemId = 16,
                         Quantity = 1,
                         MeasurementUnit = MeasurementUnit.Service,
-                        Budget = 16000
+                        Budget = 16000,
+                        CreatedAt = DateTime.UtcNow.AddDays(-1).AddHours(8)
                     },
                     new Request {
                         Description = "Цілодобова охорона приміщення з 01-06-2023 до 31-12-2023.",
                         SubdivisionId = 6,
-                        ProcurementItemId = 21,
+                        ProcurementItemId = 19,
                         Quantity = 1,
                         MeasurementUnit = MeasurementUnit.Service,
                         Budget = 56000

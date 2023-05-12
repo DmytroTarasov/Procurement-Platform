@@ -8,7 +8,7 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
-            builder.Property(o => o.Title).IsRequired();
+            builder.Property(o => o.Title).IsRequired().HasMaxLength(100);
             builder.Property(o => o.BuyerContactPersonId).IsRequired();
             builder.Property(o => o.SupplierContactPersonId).IsRequired(false);
             builder.Property(o => o.TransporterContactPersonId).IsRequired(false);
@@ -16,7 +16,8 @@ namespace Infrastructure.Configurations
             builder.Property(o => o.SupplierPrice).IsRequired(false);
             builder.Property(o => o.TransporterSum).IsRequired(false);
             builder.Property(o => o.Status)
-                .HasConversion(os => os.ToString(), s => (OrderStatus)Enum.Parse(typeof(OrderStatus), s));
+                .HasConversion(os => os.ToString(), s => (OrderStatus)Enum.Parse(typeof(OrderStatus), s))
+                .HasMaxLength(25);
 
             builder
                 .HasMany(o => o.Proposals)

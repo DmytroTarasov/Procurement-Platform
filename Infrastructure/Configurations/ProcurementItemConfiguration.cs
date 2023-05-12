@@ -8,7 +8,7 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<ProcurementItem> builder)
         {
-            builder.Property(p => p.Title).IsRequired();
+            builder.Property(p => p.Title).IsRequired().HasMaxLength(100);
         }
     }
 }

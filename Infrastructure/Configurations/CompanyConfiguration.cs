@@ -8,9 +8,9 @@ namespace Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Company> builder)
         {
-            builder.Property(c => c.Title).IsRequired();
-            builder.Property(c => c.Edrpou).IsRequired();
-            builder.Property(c => c.Email).IsRequired();
+            builder.Property(c => c.Title).IsRequired().HasMaxLength(100);
+            builder.Property(c => c.Edrpou).IsRequired().HasMaxLength(8);
+            builder.Property(c => c.Email).IsRequired().HasMaxLength(25);
 
             builder
                 .HasMany(c => c.Subdivisions)
