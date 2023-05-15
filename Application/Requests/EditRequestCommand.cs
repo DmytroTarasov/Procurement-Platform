@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using Application.Common.Helpers;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Infrastructure.Interfaces;
@@ -18,11 +17,9 @@ namespace Application.Requests
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUnitOfWork _uof;
-        private readonly IMapper _mapper;
-        public EditRequestCommandHandler(IHttpContextAccessor httpContextAccessor, IUnitOfWork uof, IMapper mapper) {
+        public EditRequestCommandHandler(IHttpContextAccessor httpContextAccessor, IUnitOfWork uof) {
             _httpContextAccessor = httpContextAccessor;
             _uof = uof;
-            _mapper = mapper;
         }
         public async Task<Result<Unit>> Handle(EditRequestCommand command, CancellationToken cancellationToken)
         {

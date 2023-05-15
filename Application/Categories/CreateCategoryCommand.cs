@@ -1,5 +1,4 @@
 using Application.Common.Helpers;
-using AutoMapper;
 using Domain;
 using MediatR;
 using Infrastructure.Interfaces;
@@ -15,10 +14,8 @@ namespace Application.Categories
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result<Unit>>
     {
         private readonly IUnitOfWork _uof;
-        private readonly IMapper _mapper;
-        public CreateCategoryCommandHandler(IUnitOfWork uof, IMapper mapper) {
+        public CreateCategoryCommandHandler(IUnitOfWork uof) {
             _uof = uof;
-            _mapper = mapper;
         }
         public async Task<Result<Unit>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {   

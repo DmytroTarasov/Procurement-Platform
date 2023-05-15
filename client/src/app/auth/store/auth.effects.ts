@@ -131,7 +131,6 @@ export class AuthEffects {
       switchMap(() => {
         return this.authService.getCurrentUser().pipe(
           map((user) => {
-            // localStorage.setItem('token', user.token);
             return AuthActions.loginSuccess({ user, redirect: false });
           }),
           catchError((errorRes) => {

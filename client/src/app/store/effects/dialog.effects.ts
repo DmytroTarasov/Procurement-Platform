@@ -1,6 +1,6 @@
 import { ApplicationRef, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, tap, withLatestFrom } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs';
 import * as DialogActions from '../actions/dialog.actions';
 import * as fromApp from '../../store/app.reducer';
 import { Store, select } from '@ngrx/store';

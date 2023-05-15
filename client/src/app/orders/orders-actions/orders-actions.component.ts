@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import * as fromApp from 'src/app/store/app.reducer';
 import * as OrdersActions from '../store/orders.actions';
-import { Observable, Subscription, map } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { User } from 'src/app/_models/user.model';
 import { OrderStatuses } from 'src/app/core/resources/statuses';

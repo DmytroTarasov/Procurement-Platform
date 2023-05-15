@@ -71,7 +71,6 @@ export class CreateRequestModalComponent implements OnInit {
     for (const controlName in controlsToUpdate) {
       const control = this.getFormControl(controlName);
       control.setValidators(controlsToUpdate[controlName]);
-      // control.setValue(control.value);
       control.updateValueAndValidity();
     }
 

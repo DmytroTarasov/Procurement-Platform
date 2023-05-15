@@ -64,7 +64,6 @@ export class RegistrationComponent implements OnInit {
   onSubmit() {
     if (!this.userForm.valid) return;
 
-    // const { companyId, ...user } = this.userForm.value;
     this.store.dispatch(AuthActions.register({ user: this.userForm.value }));
   }
 

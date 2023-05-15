@@ -13,14 +13,6 @@ export class DashboardComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-    // this.store.pipe(
-    //   select(selectUser),
-    //   take(1),
-    //   tap((user) => {
-    //     console.log(user);
-    //     if (!user) this.store.dispatch(AuthActions.autoLogin());
-    //   })
-    // );
     this.store.dispatch(AuthActions.autoLogin());
   }
 }

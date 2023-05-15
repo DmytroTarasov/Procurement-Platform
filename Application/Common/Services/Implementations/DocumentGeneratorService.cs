@@ -5,7 +5,6 @@ using iText.IO.Font;
 using iText.Kernel.Colors;
 using iText.Kernel.Font;
 using iText.Kernel.Pdf;
-using iText.Kernel.Pdf.Canvas.Draw;
 using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
@@ -31,7 +30,6 @@ namespace Application.Common.Services.Implementations
 
                     var color = new DeviceRgb(47, 203, 128);
 
-                    // document.Add(new Paragraph("Адреса доставки: " + TransformAddress(order.DeliveryAddress)).SetMargin(2));
                     document.Add(new Paragraph($"{(order.TransporterContactPerson != null ? "Адреса доставки" : "Адреса постачання")}: {TransformAddress(order.DeliveryAddress)}").SetMargin(2));
 
                     if (order.ShipmentAddress != null) {
@@ -54,11 +52,7 @@ namespace Application.Common.Services.Implementations
 
                     for (int i = 0; i < requests.Count; i++) {
                         document.Add(new Paragraph($"{i+1}. {requests[i].ProcurementItemTitle}").SetMargin(2));  
-                        // document.Add(new Paragraph(requests[i].SubdivisionTitle));
-                        // document.Add(new Paragraph($"Кількість: {requests[i].Quantity}"));
                     }   
-
-                    // document.Add(new LineSeparator(new SolidLine()));
 
                     document.Add(GeneratePriceTable(order.SupplierPrice, order.TransporterSum));
                 } catch (Exception) {
@@ -70,7 +64,7 @@ namespace Application.Common.Services.Implementations
             }
         }   
 
-        private Table GenerateCompanyTable(ContactPersonDto person) {
+        private static Table GenerateCompanyTable(ContactPersonDto person) {
             var table = new Table(UnitValue.CreatePercentArray(new float[] {7.5f, 5.5f}));
             table.SetWidth(UnitValue.CreatePercentValue(100));
             table.SetTextAlignment(TextAlignment.LEFT);
@@ -85,7 +79,7 @@ namespace Application.Common.Services.Implementations
             return table;
         }   
 
-        private Table GeneratePriceTable(decimal? supplierPrice, decimal? transporterSum) {
+        private static Table GeneratePriceTable(decimal? supplierPrice, decimal? transporterSum) {
             var table = new Table(UnitValue.CreatePercentArray(new float[] {4, 3}));
             table.SetWidth(UnitValue.CreatePercentValue(60));
             table.SetTextAlignment(TextAlignment.LEFT);
@@ -101,7 +95,7 @@ namespace Application.Common.Services.Implementations
             return table;
         }
 
-        private string TransformAddress(AddressDto address) {
+        private static string TransformAddress(AddressDto address) {
             var data = new List<string> { address.City, address.Street, address.ZipCode };
             if (address.Region != null) {
                 data.Insert(1, $"{address.Region} область");
@@ -111,7 +105,7 @@ namespace Application.Common.Services.Implementations
             }
             return String.Join(", ", data);
         }     
-        private string getFullName(ContactPersonDto person) {
+        private static string getFullName(ContactPersonDto person) {
             return $"{person.LastName} {person.FirstName} {person.MiddleName}";
         }
     }

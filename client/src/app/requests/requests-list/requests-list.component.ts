@@ -3,11 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as fromApp from 'src/app/store/app.reducer';
 import * as RequestsActions from '../store/requests.actions';
 import { Store, select } from '@ngrx/store';
-import { selectCompanyRequests } from '../store/requests.selectors';
+import { selectCompanyRequests, selectPagination } from '../store/requests.selectors';
 import { Observable, Subscription } from 'rxjs';
 import { RequestModel } from 'src/app/_models/request.model';
 import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
-import { selectPagination } from '../store/requests.selectors';
 import { Pagination } from 'src/app/_models/pagination.model';
 
 @Component({

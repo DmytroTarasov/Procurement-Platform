@@ -80,7 +80,7 @@ namespace Application.Proposals
             return Result<Unit>.Success(Unit.Value);
         }
 
-        private Proposal CreateProposal(Proposal proposal, int transporterId, 
+        private static Proposal CreateProposal(Proposal proposal, int transporterId, 
             decimal? transporterSum, string transporterAdditionalInfo) {
             return new Proposal {
                 OrderId = proposal.OrderId,

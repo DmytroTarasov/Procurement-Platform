@@ -3,8 +3,6 @@ using Application.Common.Services.Implementations;
 using Application.Common.Services.Interfaces;
 using Application.Companies;
 using Application.Common.Helpers;
-using Application.Users;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure;
@@ -19,7 +17,6 @@ namespace API.Extensions
         {
             services.AddDbContext<DataContext>(opt => 
             {
-                // opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
                 opt.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
 
@@ -30,8 +27,6 @@ namespace API.Extensions
             services.AddScoped(typeof(IDocumentGeneratorService), typeof(DocumentGeneratorService));
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddMediatR(typeof(CreateCompanyCommandHandler).Assembly);
-
-            services.AddValidatorsFromAssembly(typeof(RegisterUserDtoValidator).Assembly);
 
             services.AddOptions<EmailOptions>().Bind(config.GetSection("EmailOptions"));
 

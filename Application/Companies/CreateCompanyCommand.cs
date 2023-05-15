@@ -2,7 +2,6 @@ using Application.Common.Helpers;
 using Application.Dtos;
 using AutoMapper;
 using Domain;
-using FluentValidation;
 using MediatR;
 using Infrastructure.Interfaces;
 
@@ -15,22 +14,13 @@ namespace Application.Companies
     public class CreateCompanyCommandHandler : IRequestHandler<CreateCompanyCommand, Result<Unit>>
     {
         private readonly IUnitOfWork _uof;
-        private readonly IValidator<CompanyDto> _validator;
         private readonly IMapper _mapper;
-        public CreateCompanyCommandHandler(IUnitOfWork uof, IValidator<CompanyDto> validator, IMapper mapper) {
+        public CreateCompanyCommandHandler(IUnitOfWork uof, IMapper mapper) {
             _uof = uof;
-            _validator = validator;
             _mapper = mapper;
         }
         public async Task<Result<Unit>> Handle(CreateCompanyCommand request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request.Company);
-
-            if (!validationResult.IsValid) 
-            {
-                return Result<Unit>.ValidationFailure(validationResult.ToDictionary());
-            }
-
             var company = _mapper.Map<Company>(request.Company);
 
             _uof.CompanyRepository.Add(company);

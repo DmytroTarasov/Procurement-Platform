@@ -4,7 +4,6 @@ using Application.Common.Services.Interfaces;
 using Application.Dtos;
 using AutoMapper;
 using Domain;
-using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,28 +18,19 @@ namespace Application.Common.Services.Implementations
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
-        private readonly IValidator<RegisterDto> _validator;
         private readonly IUnitOfWork _uof;
         public AuthService(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager, SignInManager<User> signInManager, 
-            ITokenService tokenService, IMapper mapper, IValidator<RegisterDto> validator, IUnitOfWork uof)
+            ITokenService tokenService, IMapper mapper, IUnitOfWork uof)
         {
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
             _mapper = mapper;
-            _validator = validator;
             _uof = uof;
         }
         public async Task<Result<UserDto>> RegisterAsync(RegisterDto registerDto)
         {
-            var validationResult = await _validator.ValidateAsync(registerDto);
-
-            if (!validationResult.IsValid) 
-            {
-                return Result<UserDto>.ValidationFailure(validationResult.ToDictionary());
-            }
-
             var company = await _uof.CompanyRepository.GetByIdAsync(registerDto.CompanyId.Value);
 
             if (company == null) 

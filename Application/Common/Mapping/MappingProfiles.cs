@@ -35,12 +35,5 @@ namespace Application.Common.Mapping
                 .ForMember(pd => pd.SupplierContactPerson, o => o.MapFrom(p => p.Supplier))
                 .ForMember(pd => pd.TransporterContactPerson, o => o.MapFrom(p => p.Transporter));  
         }
-
-        // private static string GetCompanyAddress(User u)
-        // {
-        //     return string.IsNullOrEmpty(u.Subdivision.Company.Apartment)
-        //         ? $"{u.Subdivision.Company.City}, ${u.Subdivision.Company.Street}"
-        //         : $"{u.Subdivision.Company.City}, ${u.Subdivision.Company.Street}, ${u.Subdivision.Company.Apartment}";
-        // }
     }
 }

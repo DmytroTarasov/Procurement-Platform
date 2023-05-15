@@ -18,11 +18,8 @@ namespace API.Controllers
                 return Ok(result.Value);
             if (result.IsSuccess && result.Value == null)
                 return NotFound();
-            if (!result.IsSuccess && result.ValidationErrors != null)
-                return BadRequest(result.ValidationErrors);
             if (!result.IsSuccess && result.IsForbidden) 
                 return Forbid();
-                // return Forbid(result.Error);
             return BadRequest(result.Error);
         }
     }

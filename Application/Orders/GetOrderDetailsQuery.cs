@@ -3,7 +3,6 @@ using Application.Dtos;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Interfaces;
 
@@ -19,13 +18,11 @@ namespace Application.Orders
     {
         private readonly IUnitOfWork _uof;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public GetOrderDetailsQueryHandler(IUnitOfWork uof, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public GetOrderDetailsQueryHandler(IUnitOfWork uof, IMapper mapper)
         {
             _uof = uof; 
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Result<OrderDto>> Handle(GetOrderDetailsQuery request, CancellationToken cancellationToken)

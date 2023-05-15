@@ -463,3 +463,4 @@ ssl/
 
 sonar-project.properties
 .scannerwork
+.sonarqube

@@ -7,13 +7,12 @@ import { selectLoading } from 'src/app/store/selectors/spinner.selectors';
 import { selectOrder } from '../store/orders.selectors';
 import { Observable, Subscription } from 'rxjs';
 import { ContactPerson, Order } from 'src/app/_models/order.model';
-import { OrderStatuses } from 'src/app/core/resources/statuses';
+import { OrderStatuses, ProposalStatuses, StatusesColors } from 'src/app/core/resources/statuses';
 import { getShortenMeasurementUnit } from 'src/app/core/resources/measurement-units';
 import { Address } from 'src/app/_models/address.model';
 import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
-import { ProposalStatuses, StatusesColors } from 'src/app/core/resources/statuses';
 import { Roles } from 'src/app/core/resources/roles';
 import { Proposal } from 'src/app/_models/proposal.model';
 import { CategoryTypes } from 'src/app/core/resources/category-types';
@@ -108,8 +107,6 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       && order.buyerContactPerson.companyId === this.user?.companyId)
       || (this.user?.role === Roles.Supplier && proposal.supplierContactPerson.id === this.user?.id && isSupplierProposal)
       || (this.user?.role === Roles.Transporter && proposal.transporterContactPerson?.id === this.user?.id && !isSupplierProposal);
-      // || ((this.user?.role === Roles.Supplier || this.user?.role === Roles.Transporter)
-      // && (proposal.supplierContactPerson.id === this.user?.id || proposal.transporterContactPerson?.id === this.user?.id));
   }
 
   chooseProposal(id: number) {

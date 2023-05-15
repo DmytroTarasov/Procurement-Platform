@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
-    public class SeedData
+    public static class SeedData
     {
         public static async Task SeedAsync(DataContext context, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
@@ -438,14 +438,6 @@ namespace Infrastructure
                         Budget = 15000,
                         CreatedAt = DateTime.UtcNow.AddDays(-4).AddHours(3)
                     },
-                    // new Request {
-                    //     Description = "Необхідні комп'ютерні столи, ширина - 140см, із заокругленими кутами.",
-                    //     SubdivisionId = 6,
-                    //     ProcurementItemId = 11,
-                    //     Quantity = 40,
-                    //     MeasurementUnit = MeasurementUnit.Pieces,
-                    //     Budget = 120000
-                    // },
                     new Request {
                         Description = "Потрібні офісні крісла, матеріал - шкіра, чорного кольору, з посиленою основою.",
                         SubdivisionId = 5,

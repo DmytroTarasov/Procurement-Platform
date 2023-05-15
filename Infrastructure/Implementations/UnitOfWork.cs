@@ -5,7 +5,7 @@ namespace Infrastructure.Implementations
     public class UnitOfWork : IUnitOfWork
     {
         private bool _disposed = false;
-        private DataContext _context;
+        private readonly DataContext _context;
         public ICategoryRepository CategoryRepository { get; }
         public ICompanyRepository CompanyRepository { get; }
         public IAddressRepository AddressRepository { get; }
@@ -46,14 +46,11 @@ namespace Infrastructure.Implementations
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this._disposed)
+            if (!this._disposed && disposing)
             {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
+                _context.Dispose();   
+                this._disposed = true;  
             }
-            this._disposed = true;
         }
     }
 }
