@@ -9,9 +9,11 @@
     [class.is-invalid]="control?.touched && control?.invalid"
     type={{type}}
     name={{label}}
+    id={{label}}
     placeholder={{placeholder}}
     [formControl]="control"
-    #inputEl>
+    #inputEl
+    autocomplete="on">
 
   <input
     *ngIf="!control"
@@ -21,7 +23,8 @@
     name={{label}}
     placeholder={{placeholder}}
     [ngModel]="model"
-    #inputEl>
+    #inputEl
+    autocomplete="on">
 
     <mat-icon *ngIf="type === 'password' && !visible" (click)="toggleVisibility($event)">visibility</mat-icon>
     <mat-icon *ngIf="type === 'password' && visible" (click)="toggleVisibility($event)">visibility_off</mat-icon>

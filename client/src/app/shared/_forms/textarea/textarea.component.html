@@ -5,6 +5,7 @@
     [ngClass]="classList.concat(['w-full', 'resize-none', 'p-2', 'mt-2', 'rounded'])"
     [class.is-invalid]="control?.touched && control?.invalid"
     name={{label}}
+    id={{label}}
     placeholder={{placeholder}}
     [formControl]="control"
     [rows]="rows">
