@@ -39,7 +39,7 @@ namespace Application.Orders
             }
 
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var requests = await _uof.RequestRepository.GetByCondition(r => command.RequestIds.Contains(r.Id)).ToListAsync();
+            var requests = await _uof.RequestRepository.GetByCondition(r => command.RequestIds.Contains(r.Id)).ToListAsync(cancellationToken);
 
             if (requests.Count == 0) 
                 return Result<Unit>.Failure("Замовлення не може бути створене, оскільки до нього не входить жодна заявка");

@@ -29,7 +29,7 @@ namespace Application.Orders
         {   
             var order = await _uof.OrderRepository.GetAll()
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(o => o.Id == request.Id);
+                .FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
             
             if (order == null) return Result<OrderDto>.Failure("Замовлення з таким ідентифікатором немає");
         

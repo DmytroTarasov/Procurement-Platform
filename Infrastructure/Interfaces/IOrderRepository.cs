@@ -6,6 +6,6 @@ namespace Infrastructure.Interfaces
     {
         Task<IEnumerable<Address>> GetCustomerDeliveryAddressesByOrdersAsync(int companyId);      
         Task<Order> GetOrderByIdWithRequestsAsync(int id);       
-        IQueryable<Order> GetOrdersQuery(string companyId, string role, string orderStatus, bool companyOrders);
+        IQueryable<Order> GetOrdersQuery(string company, string role, string orderStatus, bool companyOrders);
     }
 }
