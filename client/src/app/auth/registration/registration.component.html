@@ -32,7 +32,9 @@
         <p class="text-base italic">Вже маєте акаунт?
           <a [routerLink]="['../login']" class="underline text-[#2CA9D5] cursor-pointer">Увійти</a>
         </p>
-        <app-button text="Зареєструватись" [disabled]="!userForm.valid" type="submit"
+
+        <app-checkbox label="Даю згоду на обробку персональних даних" (onChange)="onChange($event)"></app-checkbox>
+        <app-button text="Зареєструватись" [disabled]="!userForm.valid || !checked" type="submit"
           [classList]="['mt-3', 'h-[45px]', 'w-[155px]']"></app-button>
       </div>
     </form>

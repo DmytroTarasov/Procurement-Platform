@@ -32,7 +32,6 @@ namespace Application.Common.Services.Implementations
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                // new Claim("subdivisionId", user.SubdivisionId.HasValue ? user.SubdivisionId.Value.ToString() : null)
                 new Claim("subdivisionId", subdivision != null ? subdivision.Id.ToString() : ""),
                 new Claim("companyId", subdivision != null ? subdivision.CompanyId.ToString() : "")
             };

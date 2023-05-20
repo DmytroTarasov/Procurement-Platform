@@ -24,6 +24,7 @@ export class RegistrationComponent implements OnInit {
   subdivisions$: Observable<Subdivision[]>;
   search: string;
   registrationError$: Observable<string>;
+  checked = false;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
@@ -73,5 +74,9 @@ export class RegistrationComponent implements OnInit {
     if (companyIdControl.valid) {
       this.store.dispatch(DialogActions.openCreateSubdivisionDialog({ companyId: companyIdControl.value }));
     }
+  }
+
+  onChange(checked: boolean) {
+    this.checked = checked;
   }
 }

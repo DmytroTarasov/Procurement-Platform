@@ -19,8 +19,8 @@ namespace Application.Common.Services.Implementations
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _uof;
-        public AuthService(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager, SignInManager<User> signInManager, 
-            ITokenService tokenService, IMapper mapper, IUnitOfWork uof)
+        public AuthService(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager, 
+            SignInManager<User> signInManager, ITokenService tokenService, IMapper mapper, IUnitOfWork uof)
         {
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
