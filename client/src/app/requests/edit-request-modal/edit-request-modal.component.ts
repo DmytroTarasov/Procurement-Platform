@@ -7,11 +7,12 @@ import { RequestModel } from 'src/app/_models/request.model';
 import * as fromApp from 'src/app/store/app.reducer';
 import { selectError } from '../store/requests.selectors';
 import * as RequestsActions from '../store/requests.actions';
+import { customPatternValidator, getRequestQuantityValidators } from 'src/app/core/resources/validators';
 
 @Component({
   selector: 'app-edit-request-modal',
   templateUrl: './edit-request-modal.component.html',
-  styleUrls: ['./edit-request-modal.component.scss'],
+  styleUrls: ['./edit-request-modal.component.scss']
 })
 export class EditRequestModalComponent implements OnInit, OnDestroy {
   requestForm: FormGroup;
@@ -19,16 +20,16 @@ export class EditRequestModalComponent implements OnInit, OnDestroy {
   requestChanged = false;
   subsription: Subscription;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public request: RequestModel,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public request: RequestModel, private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.requestForm = new FormGroup({
       description: new FormControl(this.request.description, Validators.required),
-      quantity: new FormControl(this.request.quantity, Validators.required),
-      budget: new FormControl(this.request.budget, Validators.required),
+      quantity: new FormControl(this.request.quantity, getRequestQuantityValidators()),
+      budget: new FormControl(this.request.budget, [
+        Validators.required,
+        customPatternValidator('^\\d+(\\.\\d{1,2})?$', 'Бюджет може бути лише цілим або десятковим числом')
+      ])
     });
 
     this.error$ = this.store.pipe(select(selectError));

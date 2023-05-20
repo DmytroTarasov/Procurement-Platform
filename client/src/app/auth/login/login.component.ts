@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromApp from 'src/app/store/app.reducer';
 import { selectError } from '../store/auth.selectors';
 import * as AuthActions from '../store/auth.actions';
+import { getEmailValidators, getPasswordValidators } from 'src/app/core/resources/validators';
 
 @Component({
   selector: 'app-login',
@@ -21,14 +22,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(AuthActions.clearError());
     this.loginForm = new FormGroup({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9]+\\.[a-z]{2,4}$')
-      ]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
-      ])
+      email: new FormControl('', getEmailValidators()),
+      password: new FormControl('', getPasswordValidators())
     });
 
     this.error$ = this.store.pipe(select(selectError));

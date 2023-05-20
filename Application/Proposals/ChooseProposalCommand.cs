@@ -52,7 +52,7 @@ namespace Application.Proposals
 
             var orderDto = await _uof.OrderRepository.GetAll()
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(o => o.Id == proposal.OrderId, cancellationToken);
+                .FirstOrDefaultAsync(o => o.Id == proposal.OrderId);
 
             var documentResult = _documentService.GenerateDocument(orderDto);
 

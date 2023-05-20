@@ -10,6 +10,7 @@ import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../store/auth.actions';
 import * as DialogActions from 'src/app/store/actions/dialog.actions';
 import { selectRoles, selectCompanies, selectCompanySubdivisions, selectError } from '../store/auth.selectors';
+import { getEmailValidators, getPasswordValidators, getUserDataValidators } from 'src/app/core/resources/validators';
 
 @Component({
   selector: 'app-registration',
@@ -32,20 +33,14 @@ export class RegistrationComponent implements OnInit {
     this.store.dispatch(AuthActions.getCompanies());
 
     this.userForm = new FormGroup({
-      lastName: new FormControl('', Validators.required),
-      firstName: new FormControl('', Validators.required),
-      middleName: new FormControl('', Validators.required),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9]+\\.[a-z]{2,4}$')
-      ]),
+      lastName: new FormControl('', getUserDataValidators()),
+      firstName: new FormControl('', getUserDataValidators()),
+      middleName: new FormControl('', getUserDataValidators()),
+      email: new FormControl('', getEmailValidators()),
       role: new FormControl('', Validators.required),
       companyId: new FormControl('', Validators.required),
       subdivisionId: new FormControl('', Validators.required),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
-      ])
+      password: new FormControl('', getPasswordValidators())
     });
 
     this.roles$ = this.store.pipe(select(selectRoles));

@@ -23,7 +23,12 @@ export class CreateCategoryModalComponent implements OnInit {
 
   ngOnInit() {
     this.categoryForm = new FormGroup({
-      title: new FormControl('', Validators.required),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(50),
+        Validators.pattern('[А-ЩЮЯІЇЄҐа-щьюяіїєґ\' -]+')
+      ]),
       categoryType: new FormControl(this.categoryTypes[0].value, Validators.required)
     });
 

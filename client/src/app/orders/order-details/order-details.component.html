@@ -69,7 +69,7 @@
                 <p>{{ i+1 }}. <span class="font-semibold text-[#2FCB80]">Інформація про постачальника</span></p>
               </app-order-info>
 
-              <p [ngClass]="['hidden', 'xl:absolute', 'xl:right-3', 'xl:top-3', StatusesColors[proposal.status]]">{{ ProposalStatuses[proposal.status] }}</p>
+              <p [ngClass]="['hidden', 'xl:block', 'xl:absolute', 'xl:right-3', 'xl:top-3', StatusesColors[proposal.status]]">{{ ProposalStatuses[proposal.status] }}</p>
 
               <div class="2xl:w-auto 2xl:absolute 2xl:bottom-3 2xl:right-3 grid grid-flow-row gap-y-2 sm:grid-flow-col gap-x-4 2xl:grid-flow-row 2xl:grid-cols-1 min-w-[175px] mx-auto justify-center w-auto" [ngClass]="user?.id === proposal.supplierContactPerson.id && isProposalStatusActive(proposal) && isAllowedToSubmitTransportProposal(order, proposal) ? 'grid-cols-1 sm:grid-cols-2 w-[90%] xl:w-[80%]': 'grid-cols-1 me-0'">
                 <app-button *ngIf="isAllowedToSubmitTransportProposal(order, proposal)" text="Подати пропозицію" type="button" [classList]="['border', 'border-[#2FCB80]', 'h-[45px]', 'w-[210px]', 'sm:w-full']" [colors]="['bg-transparent', 'text-[#2FCB80]']" (click)="openSubmitProposalDialog(order.categoryType, proposal.id)"></app-button>

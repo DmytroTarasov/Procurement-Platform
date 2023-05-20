@@ -13,6 +13,13 @@ import { User } from 'src/app/_models/user.model';
 import { selectUser } from 'src/app/auth/store/auth.selectors';
 import { Roles } from 'src/app/core/resources/roles';
 import { CategoryTypes } from 'src/app/core/resources/category-types';
+import {
+  customPatternValidator,
+  getCityValidators,
+  getRegionValidators,
+  getStreetValidators,
+  getZipCodeValidators
+} from 'src/app/core/resources/validators';
 
 export interface SubmitProposalData {
   userRole: string;
@@ -44,13 +51,16 @@ export class SubmitProposalModalComponent implements OnInit {
     this.proposalForm = new FormGroup({
       shipmentAddressId: new FormControl(null, (this.shipmentAddressExists && this.data.userRole === Roles.Supplier &&
         !this.data.proposalId && CategoryTypes[this.data.orderCategoryType] === CategoryTypes.Goods) ? Validators.required : null),
-      price: new FormControl('', Validators.required),
+      price: new FormControl('', [
+        Validators.required,
+        customPatternValidator('^\\d+(\\.\\d{1,2})?$', 'Ціна може бути лише цілим або десятковим числом')
+      ]),
       additionalInfo: new FormControl(null),
-      city: new FormControl('', !this.shipmentAddressExists ? Validators.required : null),
-      region: new FormControl(null),
-      street: new FormControl('', !this.shipmentAddressExists ? Validators.required : null),
-      buildingNumber: new FormControl(null),
-      zipCode: new FormControl('', !this.shipmentAddressExists ? Validators.required : null),
+      city: new FormControl('', !this.shipmentAddressExists ? getCityValidators() : null),
+      region: new FormControl(null, !this.shipmentAddressExists ? getRegionValidators() : null),
+      street: new FormControl('', !this.shipmentAddressExists ? getStreetValidators() : null),
+      buildingNumber: new FormControl(null, Validators.maxLength(5)),
+      zipCode: new FormControl('', !this.shipmentAddressExists ? getZipCodeValidators() : null)
     });
 
     this.addresses$ = this.store.pipe(select(selectCompanyOrderAddresses));
@@ -82,9 +92,10 @@ export class SubmitProposalModalComponent implements OnInit {
 
     const controlsToUpdate = {
       shipmentAddressId: this.shipmentAddressExists ? [Validators.required] : [],
-      city: this.shipmentAddressExists ? [] : [Validators.required],
-      street: this.shipmentAddressExists ? [] : [Validators.required],
-      zipCode: this.shipmentAddressExists ? [] : [Validators.required],
+      city: this.shipmentAddressExists ? [] : getCityValidators(),
+      region: this.shipmentAddressExists ? [] : getRegionValidators(),
+      street: this.shipmentAddressExists ? [] : getStreetValidators(),
+      zipCode: this.shipmentAddressExists ? [] : getZipCodeValidators()
     };
 
     for (const controlName in controlsToUpdate) {

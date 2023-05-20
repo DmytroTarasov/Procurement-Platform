@@ -49,7 +49,7 @@ namespace Infrastructure
                         Email = "kashtan@gmail.com",
                         Address = new Address {
                             City = "Київ",
-                            Street = "Вул. Петра Сагайдачного",
+                            Street = "вул. Петра Сагайдачного",
                             BuildingNumber = "11/1",
                             ZipCode = "04124"
                         },
@@ -58,7 +58,7 @@ namespace Infrastructure
                                 Title = "Черкаська Філія",
                                 Address = new Address {
                                     City = "Черкаси",
-                                    Street = "Вул. Івана Мазепи",
+                                    Street = "вул. Івана Мазепи",
                                     BuildingNumber = "28",
                                     ZipCode = "18000"
                                 }
@@ -67,7 +67,7 @@ namespace Infrastructure
                                 Title = "Чернівецька Філія",
                                 Address = new Address {
                                     City = "Чернівці",
-                                    Street = "Вул. Ярослава Мудрого",
+                                    Street = "вул. Ярослава Мудрого",
                                     BuildingNumber = "12",
                                     ZipCode = "58000"
                                 }
@@ -80,7 +80,7 @@ namespace Infrastructure
                         Email = "lvivmarket@ukr.net",
                         Address = new Address {
                             City = "Львів",
-                            Street = "Вул. Івана Богуна",
+                            Street = "вул. Івана Богуна",
                             BuildingNumber = "15",
                             ZipCode = "79000"
                         },
@@ -89,7 +89,7 @@ namespace Infrastructure
                                 Title = "Магазин №5",
                                 Address = new Address {
                                     City = "Львів",
-                                    Street = "Вул. Шевченка",
+                                    Street = "вул. Шевченка",
                                     BuildingNumber = "10",
                                     ZipCode = "79000"
                                 }
@@ -98,7 +98,7 @@ namespace Infrastructure
                                 Title = "Магазин №12",
                                 Address = new Address {
                                     City = "Львів",
-                                    Street = "Вул. Трускавецька",
+                                    Street = "вул. Трускавецька",
                                     BuildingNumber = "24",
                                     ZipCode = "79000"
                                 }
@@ -111,7 +111,7 @@ namespace Infrastructure
                         Email = "standart@gmail.com",
                         Address = new Address {
                             City = "Івано-Франківськ",
-                            Street = "Вул. Дмитра Вітовського",
+                            Street = "вул. Дмитра Вітовського",
                             BuildingNumber = "13А",
                             ZipCode = "76018"
                         },
@@ -120,7 +120,7 @@ namespace Infrastructure
                                 Title = "Івано-Франківська Філія №1",
                                 Address = new Address {
                                     City = "Івано-Франківськ",
-                                    Street = "Вул. В'ячеслава Чорновола",
+                                    Street = "вул. В'ячеслава Чорновола",
                                     BuildingNumber = "79",
                                     ZipCode = "77528"
                                 }
@@ -129,7 +129,7 @@ namespace Infrastructure
                                 Title = "Івано-Франківська Філія №2",
                                 Address = new Address {
                                     City = "Івано-Франківськ",
-                                    Street = "Вул. Павла Тичини",
+                                    Street = "вул. Павла Тичини",
                                     BuildingNumber = "46",
                                     ZipCode = "76054"
                                 }
@@ -138,7 +138,7 @@ namespace Infrastructure
                                 Title = "Хмельницька Філія",
                                 Address = new Address {
                                     City = "Хмельницький",
-                                    Street = "Вул. Івана Франка",
+                                    Street = "вул. Івана Франка",
                                     BuildingNumber = "55",
                                     ZipCode = "29000"
                                 }
@@ -151,7 +151,7 @@ namespace Infrastructure
                         Email = "compteh@ukr.net",
                         Address = new Address {
                             City = "Вінниця",
-                            Street = "Вул. Академіка Янгеля",
+                            Street = "вул. Академіка Янгеля",
                             BuildingNumber = "61",
                             ZipCode = "21000"
                         },
@@ -160,7 +160,7 @@ namespace Infrastructure
                                 Title = "Житомирська Філія",
                                 Address = new Address {
                                     City = "Житомир",
-                                    Street = "Вул. Князів Острозьких",
+                                    Street = "вул. Князів Острозьких",
                                     BuildingNumber = "88",
                                     ZipCode = "10001"
                                 }
@@ -169,7 +169,7 @@ namespace Infrastructure
                                 Title = "Полтавська Філія",
                                 Address = new Address {
                                     City = "Полтава",
-                                    Street = "Вул. Пилипа Орлика",
+                                    Street = "вул. Пилипа Орлика",
                                     BuildingNumber = "31",
                                     ZipCode = "36000"
                                 }
@@ -182,7 +182,7 @@ namespace Infrastructure
                         Email = "transexpress@gmail.com",
                         Address = new Address {
                             City = "Дніпро",
-                            Street = "Вул. Михайла Грушевського",
+                            Street = "вул. Михайла Грушевського",
                             BuildingNumber = "40",
                             ZipCode = "49000"
                         },
@@ -191,7 +191,7 @@ namespace Infrastructure
                                 Title = "Відділ перевезень",
                                 Address = new Address {
                                     City = "Дніпро",
-                                    Street = "Вул. Михайла Грушевського",
+                                    Street = "вул. Михайла Грушевського",
                                     BuildingNumber = "40",
                                     ZipCode = "49000"
                                 }
@@ -204,7 +204,7 @@ namespace Infrastructure
                         Email = "smereka@gmail.com",
                         Address = new Address {
                             City = "Луцьк",
-                            Street = "Вул. Кривий Вал",
+                            Street = "вул. Кривий Вал",
                             BuildingNumber = "51",
                             ZipCode = "43000"
                         },
@@ -214,7 +214,7 @@ namespace Infrastructure
                                 Address = new Address {
                                     City = "Біла Церква",
                                     Region = "Київська",
-                                    Street = "Вул. Лесі Українки",
+                                    Street = "вул. Лесі Українки",
                                     BuildingNumber = "32",
                                     ZipCode = "09100"
                                 },
@@ -223,7 +223,7 @@ namespace Infrastructure
                                 Title = "Вінницька Філія",
                                 Address = new Address {
                                     City = "Вінниця",
-                                    Street = "Вул. Соборна",
+                                    Street = "вул. Соборна",
                                     BuildingNumber = "24",
                                     ZipCode = "21000"
                                 },
@@ -236,7 +236,7 @@ namespace Infrastructure
                         Email = "nadzakhyst@ukr.net",
                         Address = new Address {
                             City = "Тернопіль",
-                            Street = "Вул. Вільхова",
+                            Street = "вул. Вільхова",
                             BuildingNumber = "39",
                             ZipCode = "46001"
                         },
@@ -245,7 +245,7 @@ namespace Infrastructure
                                 Title = "Чернівецька Філія",
                                 Address = new Address {
                                     City = "Чернівці",
-                                    Street = "Вул. Григорія Сковороди",
+                                    Street = "вул. Григорія Сковороди",
                                     BuildingNumber = "10",
                                     ZipCode = "58000"
                                 },
@@ -254,7 +254,7 @@ namespace Infrastructure
                                 Title = "Одеська Філія",
                                 Address = new Address {
                                     City = "Одеса",
-                                    Street = "Вул. Космонавтів",
+                                    Street = "вул. Космонавтів",
                                     BuildingNumber = "4",
                                     ZipCode = "65000"
                                 },
@@ -386,7 +386,7 @@ namespace Infrastructure
                     },
                     new Request {
                         Description = "Потрібен багатофункціональний принтер. Бажано чорного кольору.",
-                        SubdivisionId = 6,
+                        SubdivisionId = 7,
                         ProcurementItemId = 4,
                         Quantity = 1,
                         MeasurementUnit = MeasurementUnit.Pieces,
@@ -395,21 +395,12 @@ namespace Infrastructure
                     },
                     new Request {
                         Description = "Потрібні дротові клавіатури, з гарантією. Мова розкладки - українська та англійська.",
-                        SubdivisionId = 7,
+                        SubdivisionId = 6,
                         ProcurementItemId = 2,
                         Quantity = 15,
                         MeasurementUnit = MeasurementUnit.Pieces,
                         Budget = 10000,
                         CreatedAt = DateTime.UtcNow.AddDays(-8).AddHours(-4)
-                    },
-                    new Request {
-                        Description = "Потрібні монітори. 23.8 дюймів. Роздільна здатність 1920x1080.",
-                        SubdivisionId = 7,
-                        ProcurementItemId = 3,
-                        Quantity = 20,
-                        MeasurementUnit = MeasurementUnit.Pieces,
-                        Budget = 100000,
-                        CreatedAt = DateTime.UtcNow.AddDays(-7).AddHours(-5)
                     },
                     new Request {
                         Description = "Потрібні робочі комбінезони. Бажано синього кольору.",
@@ -437,6 +428,15 @@ namespace Infrastructure
                         MeasurementUnit = MeasurementUnit.Pieces,
                         Budget = 15000,
                         CreatedAt = DateTime.UtcNow.AddDays(-4).AddHours(3)
+                    },
+                    new Request {
+                        Description = "Необхідні комп'ютерні столи, ширина - 140см, із заокругленими кутами.",
+                        SubdivisionId = 7,
+                        ProcurementItemId = 9,
+                        Quantity = 40,
+                        MeasurementUnit = MeasurementUnit.Pieces,
+                        Budget = 120000,
+                        CreatedAt = DateTime.UtcNow.AddDays(-11).AddHours(-3)
                     },
                     new Request {
                         Description = "Потрібні офісні крісла, матеріал - шкіра, чорного кольору, з посиленою основою.",
@@ -472,7 +472,7 @@ namespace Infrastructure
                         ProcurementItemId = 19,
                         Quantity = 1,
                         MeasurementUnit = MeasurementUnit.Service,
-                        Budget = 56000
+                        Budget = 105000
                     },
                 };
 

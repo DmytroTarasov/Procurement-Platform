@@ -1,9 +1,10 @@
-<div class="w-full h-14 bg-[#5FCFF7] text-white text-base flex items-center px-4 sm:px-8 font-medium">
-  <div class="w-[20%] sm:w-2/5">
-
+<div class="w-full h-14 bg-[#5FCFF7] text-white text-base items-center px-4 sm:px-8 font-medium grid sm:grid-cols-[40%_1fr] grid-rows-[100%]">
+  <div class="hidden sm:flex items-center justify-center h-full gap-x-6">
+    <img class="max-h-[80%] object-cover" src="assets/images/logo.jpg" alt="logo">
+    <p class="text-xl md:text-2xl font-medium uppercase">Перевага</p>
   </div>
-  <div class="w-full h-full grid grid-cols-[75%_1fr] sm:grid-cols-[60%_1fr]" *ngIf="(user$ | async) as user">
-    <div class="flex justify-around sm:justify-center sm:gap-x-24 items-center">
+  <div class="h-full grid grid-cols-[70%_1fr] md:grid-cols-[60%_1fr] lg:grid-cols-[50%_1fr]" *ngIf="(user$ | async) as user">
+    <div class="flex justify-around md:justify-center md:gap-x-24 items-center">
       <a [routerLink]="['categories']" class="cursor-pointer" *ngIf="user.role === Roles.Administrator">Категорії</a>
       <a [routerLink]="['requests']" class="cursor-pointer" *ngIf="user.role === Roles.Applicant || user.role === Roles.Customer">Заявки</a>
       <a [routerLink]="['orders']" class="cursor-pointer">Замовлення</a>

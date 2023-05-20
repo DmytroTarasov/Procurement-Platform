@@ -19,22 +19,26 @@ export class InputComponent {
   visible = false;
 
   getErrorMessage() {
-    if (this.control?.errors?.required && this.control?.touched)
-      return "Дане поле має бути заповнене"
-    else if (this.control?.errors?.pattern && this.control?.touched && this.type !== 'password')
-      return "Формат введених даних є неправильним"
-    else if (this.control?.errors?.pattern && this.control?.touched && this.type === 'password')
-      return "Слабкий пароль"
-    else if (this.control?.errors?.minlength && this.control?.touched)
-      return `${this.label} має бути мінімум ${this.control?.errors?.minlength['requiredLength']} символів у довжину`
-    else if (this.control?.errors?.maxlength && this.control?.touched)
-      return `${this.label} має бути максимум ${this.control?.errors?.maxlength['requiredLength']} символів у довжину`
-    // else return 'Дане поле не проходить валідацію'
+    if (!this.control || !this.control?.touched) return;
+    if (this.control.errors?.required)
+      return 'Дане поле має бути заповнене';
+    else if (this.control.errors?.minlength)
+      return `${this.label} має бути мінімум ${this.control.errors?.minlength['requiredLength']} символів у довжину`;
+    else if (this.control.errors?.maxlength)
+      return `${this.label} має бути максимум ${this.control.errors?.maxlength['requiredLength']} символів у довжину`;
+    else if (this.control.errors?.message)
+      return this.control.errors?.message;
+    else if (this.control.errors?.pattern && this.type !== 'password')
+      return 'Формат введених даних є неправильним';
+    else if (this.control.errors?.pattern && this.type === 'password')
+      return 'Слабкий пароль';
+    // else return 'Дане поле не проходить валідацію';
+    else return '';
   }
 
   toggleVisibility($event: any) {
     this.visible = !this.visible;
     const native = this.input?.nativeElement as HTMLInputElement;
-    native.type = (native.type == 'text' ? 'password' : 'text');
+    native.type = native.type == 'text' ? 'password' : 'text';
   }
 }

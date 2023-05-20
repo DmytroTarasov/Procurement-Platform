@@ -32,9 +32,8 @@ export class OrdersActionsComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
-
     this.actionsForm = new FormGroup({
-      status: new FormControl(''),
+      status: new FormControl('')
     });
 
     this.user$ = this.store.pipe(select(selectUser));

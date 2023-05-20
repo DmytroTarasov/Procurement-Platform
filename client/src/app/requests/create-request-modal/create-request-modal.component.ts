@@ -11,6 +11,11 @@ import { selectProcurementItems, selectCategories } from 'src/app/categories/sto
 import { Category } from 'src/app/_models/category.model';
 import { measurementUnits } from 'src/app/core/resources/measurement-units';
 import * as CategoriesActions from 'src/app/categories/store/categories.actions';
+import {
+  customPatternValidator,
+  getProcurementItemTitleValidators,
+  getRequestQuantityValidators
+} from 'src/app/core/resources/validators';
 
 @Component({
   selector: 'app-create-request-modal',
@@ -33,11 +38,14 @@ export class CreateRequestModalComponent implements OnInit {
     this.requestForm = new FormGroup({
       description: new FormControl('', Validators.required),
       procurementItemId: new FormControl('', this.procurementItemExists ? Validators.required : null),
-      title: new FormControl('', !this.procurementItemExists ? Validators.required : null),
+      title: new FormControl('', !this.procurementItemExists ? getProcurementItemTitleValidators() : null),
       categoryId: new FormControl('', !this.procurementItemExists ? Validators.required : null),
-      quantity: new FormControl('', Validators.required),
+      quantity: new FormControl('', getRequestQuantityValidators()),
       measurementUnit: new FormControl('', Validators.required),
-      budget: new FormControl('', Validators.required),
+      budget: new FormControl('', [
+        Validators.required,
+        customPatternValidator('^\\d+(\\.\\d{1,2})?$', 'Бюджет може бути лише цілим або десятковим числом')
+      ])
     });
 
     this.procurementItems$ = this.store.pipe(select(selectProcurementItems));
@@ -63,7 +71,7 @@ export class CreateRequestModalComponent implements OnInit {
     this.procurementItemExists = !this.procurementItemExists;
 
     const controlsToUpdate = {
-      title: this.procurementItemExists ? [] : [Validators.required],
+      title: this.procurementItemExists ? [] : getProcurementItemTitleValidators(),
       categoryId: this.procurementItemExists ? [] : [Validators.required],
       procurementItemId: this.procurementItemExists ? [Validators.required] : []
     };

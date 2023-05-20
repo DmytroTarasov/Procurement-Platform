@@ -8,6 +8,12 @@ import * as fromApp from 'src/app/store/app.reducer';
 import * as OrdersActions from 'src/app/orders/store/orders.actions';
 import { Address } from 'src/app/_models/address.model';
 import { CreateOrder } from 'src/app/_models/create-order.model';
+import {
+  getCityValidators,
+  getRegionValidators,
+  getStreetValidators,
+  getZipCodeValidators
+} from 'src/app/core/resources/validators';
 
 @Component({
   selector: 'app-create-order-modal',
@@ -26,13 +32,16 @@ export class CreateOrderModalComponent implements OnInit {
     this.store.dispatch(OrdersActions.getCompanyOrderAddresses());
 
     this.orderForm = new FormGroup({
-      title: new FormControl('', Validators.required),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(100)
+      ]),
       deliveryAddressId: new FormControl('', this.deliveryAddressExists ? Validators.required : null),
-      city: new FormControl('', !this.deliveryAddressExists ? Validators.required : null),
-      region: new FormControl(null),
-      street: new FormControl('', !this.deliveryAddressExists ? Validators.required : null),
-      buildingNumber: new FormControl(null),
-      zipCode: new FormControl('', !this.deliveryAddressExists ? Validators.required : null),
+      city: new FormControl('', !this.deliveryAddressExists ? getCityValidators() : null),
+      region: new FormControl(null, !this.deliveryAddressExists ? getRegionValidators() : null),
+      street: new FormControl('', !this.deliveryAddressExists ? getStreetValidators() : null),
+      buildingNumber: new FormControl(null, Validators.maxLength(5)),
+      zipCode: new FormControl('', !this.deliveryAddressExists ? getZipCodeValidators() : null)
     });
 
     this.addresses$ = this.store.pipe(select(selectCompanyOrderAddresses));
@@ -59,9 +68,10 @@ export class CreateOrderModalComponent implements OnInit {
 
     const controlsToUpdate = {
       deliveryAddressId: this.deliveryAddressExists ? [Validators.required] : [],
-      city: this.deliveryAddressExists ? [] : [Validators.required],
-      street: this.deliveryAddressExists ? [] : [Validators.required],
-      zipCode: this.deliveryAddressExists ? [] : [Validators.required],
+      city: this.deliveryAddressExists ? [] : getCityValidators(),
+      region: this.deliveryAddressExists ? [] : getRegionValidators(),
+      street: this.deliveryAddressExists ? [] : getStreetValidators(),
+      zipCode: this.deliveryAddressExists ? [] : getZipCodeValidators()
     };
 
     for (const controlName in controlsToUpdate) {
