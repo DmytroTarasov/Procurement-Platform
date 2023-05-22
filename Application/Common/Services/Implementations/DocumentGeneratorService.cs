@@ -22,7 +22,7 @@ namespace Application.Common.Services.Implementations
                 var document = new Document(pdf);
 
                 try {
-                    var font = PdfFontFactory.CreateFont("../API/wwwroot/fonts/OpenSans-Regular.ttf", 
+                    var font = PdfFontFactory.CreateFont("../Application/Common/Fonts/OpenSans-Regular.ttf", 
                         PdfEncodings.IDENTITY_H, EmbeddingStrategy.FORCE_EMBEDDED);
                     document.SetFont(font);
 

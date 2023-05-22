@@ -31,34 +31,9 @@
   </div>
 
   <div
-    class="h-[20px] text-sm mt-1 text-red-600">
+    class="min-h-[20px] text-sm mt-1 text-red-600">
     {{getErrorMessage()}}
   </div>
-
-  <!-- <div
-    class="text-sm mt-1 text-red-600"
-    *ngIf="control?.errors?.pattern && control?.touched && type !== 'password'">
-    Формат введених даних є неправильним
-  </div>
-
-  <div
-    class="text-sm mt-1 text-red-600"
-    *ngIf="control?.errors?.pattern && control?.touched && type === 'password'">
-    Слабкий пароль
-  </div>
-
-  <div
-    class="text-sm mt-1 text-red-600"
-    *ngIf="control?.errors?.minlength && control?.touched">
-    {{label}} має бути мінімум {{control?.errors?.minlength['requiredLength']}} символів у довжину
-  </div>
-
-  <div
-    class="text-sm mt-1 text-red-600"
-    *ngIf="control?.errors?.maxlength && control?.touched">
-    {{label}} має бути максимум {{control?.errors?.maxlength['requiredLength']}} символів у довжину
-  </div> -->
-
 </div>
 
 
