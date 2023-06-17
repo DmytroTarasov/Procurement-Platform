@@ -63,7 +63,7 @@ namespace Application.Common.Services.Implementations
 
                     document.Add(CreatePriceTable(order.SupplierPrice, order.TransporterSum));
                 } catch (Exception) {
-                    return Result<byte[]>.Failure("Не вдалось згенерувати PDF-файл");
+                    return Result<byte[]>.Failure("Не вдалось створити PDF-файл");
                 } finally {
                     document.Close();
                 }

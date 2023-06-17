@@ -27,7 +27,7 @@ namespace Application.Common.Services.Implementations
                 HtmlContent = email.HtmlContent
             };
 
-            message.AddTos(email.Receivers.Select(re => new EmailAddress(re)).ToList());
+            message.AddTos(email.Receivers.Where(re => re != null).Select(re => new EmailAddress(re)).ToList());
 
             message.AddAttachment("order.pdf", Convert.ToBase64String(email.FileStream));
 

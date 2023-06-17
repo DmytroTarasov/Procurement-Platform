@@ -33,21 +33,21 @@ namespace Application.Common.Services.Implementations
         {
             var company = await _uof.CompanyRepository.GetByIdAsync(registerDto.CompanyId.Value);
 
-            if (company == null) 
+            if (company == null)
                 return Result<UserDto>.Failure("Вказаної компанії немає серед зареєстрованих компаній на платформі");
 
             if (company.Email.Split("@")[1] != registerDto.Email.Split("@")[1]) 
-                return Result<UserDto>.Failure("Назва домену у пошті не співпадає з назвою домену у пошті компанії");
+                return Result<UserDto>.Failure("Назва домену у електронній пошті не співпадає з назвою домену у електронній пошті компанії");
 
             if (await _userManager.FindByEmailAsync(registerDto.Email) != null) 
-                return Result<UserDto>.Failure("Дана пошта зайнята");
+                return Result<UserDto>.Failure("Дана електронна пошта зайнята");
 
             var user = _mapper.Map<User>(registerDto);
 
             user.UserName = user.Email.Split("@")[0].ToLower();
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
-            if (!result.Succeeded) 
+            if (!result.Succeeded)
                 return Result<UserDto>.Failure("Виникла помилка під час реєстрації. Спробуйте, будь ласка, пізніше");
 
             var roleResult = await _userManager.AddToRoleAsync(user, registerDto.Role);
@@ -61,7 +61,7 @@ namespace Application.Common.Services.Implementations
         {
             var user = await _userManager.Users.Include(u => u.Subdivision).FirstOrDefaultAsync(u => u.Email == loginDto.Email);
 
-            if (user == null) return Result<UserDto>.Failure("Невірна пошта");
+            if (user == null) return Result<UserDto>.Failure("Невірна електронна пошта");
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
             if (result.Succeeded) {

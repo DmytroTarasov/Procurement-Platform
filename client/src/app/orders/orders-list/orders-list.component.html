@@ -1,5 +1,5 @@
 <div class="h-full w-full flex justify-center relative">
-  <div class="flex flex-col justify-center items-center" *ngIf="!(loading$ | async) && orders">
+  <div class="mt-3 sm:mt-0 flex flex-col justify-center items-center" *ngIf="!(loading$ | async) && orders">
     <div class="flex flex-col items-center" *ngIf="orders.length === 0">
       <mat-icon>content_paste_search</mat-icon>
       <span class="mt-3 text-[#898E96] font-semibold">Замовлень немає</span>

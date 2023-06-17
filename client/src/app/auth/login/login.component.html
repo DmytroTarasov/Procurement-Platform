@@ -2,7 +2,7 @@
   <div class="w-[90%] sm:w-[55%] md:w-[45%] lg:w-[35%] xl:w-[30%]">
     <h1 class="text-2xl text-center font-medium">Вхід</h1>
     <form class="w-full mt-5" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <app-input label="Пошта" [control]="getFormControl('email')"></app-input>
+      <app-input label="Електронна пошта" [control]="getFormControl('email')"></app-input>
       <app-input label="Пароль" type="password" [control]="getFormControl('password')"></app-input>
       <p class="mt-2 text-center text-red-600 h-auto min-h-[20px]">{{(error$ | async) ?? ''}}</p>
       <div class="flex flex-col justify-center items-center">

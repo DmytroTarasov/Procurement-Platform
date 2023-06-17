@@ -49,7 +49,7 @@ namespace Application.Proposals
 
             var result = await _uof.Complete();
 
-            if (!result) return Result<Unit>.Failure("Не вдалось подати пропозицію. Спробуйте, будь ласка, пізніше");
+            if (!result) return Result<Unit>.Failure("Не вдалось обрати пропозицію. Спробуйте, будь ласка, пізніше");
 
             var orderDto = await _uof.OrderRepository.GetAll()
                 .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
@@ -61,8 +61,7 @@ namespace Application.Proposals
 
             var email = new EmailDto {
                 Subject = $"Замовлення №{order.Id}", 
-                // Receivers = new List<string> { order.SupplierContactPerson.Email, order.TransporterContactPerson?.Email },
-                Receivers = new List<string> { "dtarasov892@gmail.com" },
+                Receivers = new List<string> { orderDto.SupplierContactPerson.Email, orderDto.TransporterContactPerson?.Email },
                 HtmlContent = $"Вітаємо! <br> Вашу пропозицію на замовлення №{order.Id} «{order.Title}» було обрано замовником." + 
                     "<br> Деталі Ви можете переглянути у вкладеному файлі.",
                 FileStream = documentResult.Value

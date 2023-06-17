@@ -13,7 +13,7 @@
     placeholder={{placeholder}}
     [formControl]="control"
     #inputEl
-    autocomplete="on">
+    autocomplete="off">
 
   <input
     *ngIf="!control"
@@ -24,7 +24,7 @@
     placeholder={{placeholder}}
     [ngModel]="model"
     #inputEl
-    autocomplete="on">
+    autocomplete="off">
 
     <mat-icon *ngIf="type === 'password' && !visible" (click)="toggleVisibility($event)">visibility</mat-icon>
     <mat-icon *ngIf="type === 'password' && visible" (click)="toggleVisibility($event)">visibility_off</mat-icon>

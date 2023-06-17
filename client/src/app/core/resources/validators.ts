@@ -42,7 +42,7 @@ export const getRequestQuantityValidators = (): ValidatorFn[] =>
   getValidators({ minLength: null, maxLength: 10, pattern: '\\d+' });
 
 export const getEmailValidators = (): ValidatorFn[] =>
-  getValidators({ minLength: null, maxLength: 25, pattern: '^[a-z0-9]{3,}@[a-z]+\\.[a-z]{2,4}' });
+  getValidators({ minLength: null, maxLength: 25, pattern: '^[a-z0-9.]{3,}@[a-z]+\\.[a-z]{2,4}' });
 
 export const getPasswordValidators = (): ValidatorFn[] =>
   getValidators({ minLength: 8, maxLength: 32, pattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$' });

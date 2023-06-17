@@ -467,13 +467,13 @@ namespace Infrastructure
                         CreatedAt = DateTime.UtcNow.AddDays(-1).AddHours(8)
                     },
                     new Request {
-                        Description = "Цілодобова охорона приміщення з 01-06-2023 до 31-12-2023.",
+                        Description = "Цілодобова охорона приміщення з 01-07-2023 до 31-12-2023.",
                         SubdivisionId = 6,
                         ProcurementItemId = 19,
                         Quantity = 1,
                         MeasurementUnit = MeasurementUnit.Service,
                         Budget = 105000
-                    },
+                    }
                 };
 
                 context.Requests.AddRange(requests);
